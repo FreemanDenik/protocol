@@ -92,7 +92,7 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
         token = jwtProvider.generateToken(account.getEmail());
         log.debug("Успешная авторизация id: {},  email: {},  JWT: {}", account.getId(), account.getEmail(), token);
 
-        httpServletResponse.sendRedirect("/loginByGoogle");
+        httpServletResponse.sendRedirect("/loginByJwt");
     }
 
     public static String getToken() {

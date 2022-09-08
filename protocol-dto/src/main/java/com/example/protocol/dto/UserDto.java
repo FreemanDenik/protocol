@@ -7,5 +7,6 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder
 @NoArgsConstructor
-public class UserDto {
+public class UserDto extends AccountDto{
+    public Long age;
 }
