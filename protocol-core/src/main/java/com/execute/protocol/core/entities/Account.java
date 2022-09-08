@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,9 +14,11 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 @NoArgsConstructor
+@SuperBuilder
 @Entity
 @Getter
 @Setter
+@Table(name = "ACCOUNTS")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Account implements UserDetails {
     @Id
@@ -35,7 +38,7 @@ public class Account implements UserDetails {
     private String lastName;
     @Column(length = 128, nullable = false)
     private String username;
-    @Column(nullable = false)
+    @Column
     private String password;
     @Column(nullable = false)
     private String email;
@@ -65,21 +68,21 @@ public class Account implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

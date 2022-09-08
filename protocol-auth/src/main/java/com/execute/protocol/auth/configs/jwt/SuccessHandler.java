@@ -81,9 +81,11 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
                 user.setFirstName(customOAuth2User.getName());
                 user.setLastName(customOAuth2User.getLastName());
                 //user.setCity(customOAuth2User.getCity());
+                //user.setPassword("sdsdasdasd");
                 user.setUsername(customOAuth2User.getName());
                 user.setBirthday(JavaDateConverter.parserToLocalDate(customOAuth2User.getBirthday()));
                 userRepository.save(user);
+
                 account = (Account) userService.loadUserByUsername(user.getEmail());
             }
         }

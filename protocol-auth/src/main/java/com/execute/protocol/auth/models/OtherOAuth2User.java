@@ -11,25 +11,14 @@ import java.util.Map;
 
 public class OtherOAuth2User extends AbstractProvider implements OAuth2User {
 
-    private final OAuth2User oAuth2User;
-    @Autowired
-    private OtherOAuth2ProviderService otherOAuth2ProviderService;
-    ;
+    private OAuth2User oAuth2User;
 
-    /**
-     * Отправляем полученные данные провайдера OAuth2User и название провайдера EnumProviders
-     * в сервисе OAuth2ProviderService для корректного получения данных провайдера (last_name, email и т.д.),
-     * принимает и хранит данные AbstractProvider от которого расширяется данный класс
-     *
-     * @param oAuth2User
-     * @param providers
-     */
 
     public OtherOAuth2User(
             OAuth2User oAuth2User,
-            EnumProviders providers) {
+            AbstractProvider provider) {
         // Передаем данные в родительский конструктор AbstractProvider
-        this.setParameters(oAuth2User, otherOAuth2ProviderService.getAttributes(providers));
+        this.setParameters(oAuth2User, provider);
         this.oAuth2User = oAuth2User;
     }
 
