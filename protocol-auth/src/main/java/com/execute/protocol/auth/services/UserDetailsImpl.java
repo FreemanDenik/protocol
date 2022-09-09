@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service("userDetailsImpl")
+@Service
 @Slf4j
 public class UserDetailsImpl implements UserDetailsService {
 
@@ -30,7 +30,6 @@ public class UserDetailsImpl implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Account userDetailsAccount = accountRepository.findByEmail(email);
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         log.info("Account authorization:{}", email);
         if (userDetailsAccount == null) {
             throw new UsernameNotFoundException("userDetailsAccount is null");
@@ -39,7 +38,5 @@ public class UserDetailsImpl implements UserDetailsService {
             return userDetailsAccount;
         }
     }
-    public boolean existsByEmail(String email){
-        return accountRepository.existsByEmail(email);
-    }
+
 }

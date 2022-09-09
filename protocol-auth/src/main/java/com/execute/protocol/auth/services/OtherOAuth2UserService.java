@@ -75,6 +75,7 @@ public class OtherOAuth2UserService extends DefaultOAuth2UserService {
         headers.add("Authorization", oAuth2UserRequest.getAccessToken().getTokenType().getValue() + " " + oAuth2UserRequest.getAccessToken().getTokenValue());
         HttpEntity<?> httpRequest = new HttpEntity(headers);
         String uri = oAuth2UserRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUri();
+        String uri1 = oAuth2UserRequest.getAccessToken().getTokenType().getValue() + " " + oAuth2UserRequest.getAccessToken().getTokenValue();
 
         // Получаем по токену краткую инфо пользователя сервиса через которую идет регистрация
         ResponseEntity<Map> entity = restTemplate.exchange(uri, HttpMethod.GET, httpRequest, Map.class);

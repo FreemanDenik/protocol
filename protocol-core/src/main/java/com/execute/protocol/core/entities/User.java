@@ -25,4 +25,6 @@ public class User extends Account{
 
     @Column
     private LocalDate birthday;
+    @Column
+    private String city;
 }

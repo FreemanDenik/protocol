@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="cookie.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1 th:text="${login}"></h1>
+
+<button id="send">ads</button>
+<a th:href="@{/user}">Users</a>
+<textarea th:text="${token}" ></textarea>
+</body>
+</html>
+<script>
+    $(function () {
+        let TOKEN = $.cookie('token');
+
+        $('#send').on('click', async function (even) {
+            even.preventDefault();
+
+            let data = await fetch("/user", {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': 'Bearer_' + TOKEN
+                },
+            });
+            let text = await data.text();
+            console.log(text);
+
+        })
+    })
+</script>

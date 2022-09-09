@@ -1,9 +1,10 @@
 package com.execute.protocol.auth.configs;
 
 import com.execute.protocol.auth.configs.jwt.JwtFilter;
-import com.execute.protocol.auth.configs.jwt.SuccessHandler;
+import com.execute.protocol.auth.configs.jwt.AuthSuccessHandler;
 import com.execute.protocol.auth.converters.OtherTokenResponseConverter;
 import com.execute.protocol.auth.services.OtherOAuth2UserService;
+import com.execute.protocol.auth.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,8 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCo
 import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -33,26 +36,26 @@ import java.util.Arrays;
 @SuppressWarnings("deprecation")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsImpl userDetailsImpl;
     private final JwtFilter jwtFilter;
     private final OtherOAuth2UserService otherOAuth2UserService;
 
-    private final SuccessHandler successHandler;
+    private final AuthSuccessHandler authSuccessHandler;
 
     @Autowired
     public WebSecurityConfig(
-            @Qualifier("userDetailsImpl") UserDetailsService userDetailsService,
+            UserDetailsImpl userDetailsImpl,
             JwtFilter jwtFilter,
-            OtherOAuth2UserService otherOAuth2UserService, SuccessHandler successHandler) {
-        this.userDetailsService = userDetailsService;
+            OtherOAuth2UserService otherOAuth2UserService, AuthSuccessHandler authSuccessHandler) {
+        this.userDetailsImpl = userDetailsImpl;
         this.jwtFilter = jwtFilter;
         this.otherOAuth2UserService = otherOAuth2UserService;
-        this.successHandler = successHandler;
+        this.authSuccessHandler = authSuccessHandler;
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsImpl);
     }
 
     @Override
@@ -62,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/**").authenticated()
+                .antMatchers("/api/**", "/user").authenticated()
                 .antMatchers("/", "/login").permitAll()
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -72,13 +75,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .userInfoEndpoint().userService(otherOAuth2UserService)
                 .and()
-                .successHandler(successHandler);
+                .successHandler(authSuccessHandler);
 
-//        http.logout()//URL выхода из системы безопасности Spring - только POST. Вы можете поддержать выход из системы
-//                // без POST, изменив конфигурацию Java
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))//выход из системы гет запрос на /logout
-//                .logoutSuccessUrl("/")//успешный выход из системы
-//                .and().csrf().disable();
+        http
+
+                .logout()//URL выхода из системы безопасности Spring - только POST. Вы можете поддержать выход из системы
+                         //без POST, изменив конфигурацию Java
+
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))//выход из системы гет запрос на /logout
+                .deleteCookies().deleteCookies("token")
+                .logoutSuccessUrl("/")//успешный выход из системы
+                .and().csrf().disable();
     }
 
     @Bean

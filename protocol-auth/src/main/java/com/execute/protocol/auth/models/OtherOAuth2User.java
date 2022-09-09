@@ -1,8 +1,5 @@
 package com.execute.protocol.auth.models;
 
-import com.execute.protocol.auth.enums.EnumProviders;
-import com.execute.protocol.auth.services.OtherOAuth2ProviderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
