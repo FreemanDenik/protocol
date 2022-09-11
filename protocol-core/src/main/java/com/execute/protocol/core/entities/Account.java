@@ -1,5 +1,6 @@
 package com.execute.protocol.core.entities;
 
+import com.execute.protocol.core.enums.EnumProviders;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +45,9 @@ public class Account implements UserDetails {
     private String email;
     @Column
     private Role role;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private EnumProviders provider;
     /**
      * Время создания аккаунта
      */

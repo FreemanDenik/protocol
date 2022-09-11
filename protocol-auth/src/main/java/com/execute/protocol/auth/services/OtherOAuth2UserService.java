@@ -1,7 +1,7 @@
 package com.execute.protocol.auth.services;
 
 
-import com.execute.protocol.auth.enums.EnumProviders;
+import com.execute.protocol.core.enums.EnumProviders;
 import com.execute.protocol.auth.models.OtherOAuth2User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -19,6 +19,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -80,10 +81,36 @@ public class OtherOAuth2UserService extends DefaultOAuth2UserService {
         // Получаем по токену краткую инфо пользователя сервиса через которую идет регистрация
         ResponseEntity<Map> entity = restTemplate.exchange(uri, HttpMethod.GET, httpRequest, Map.class);
         Map<String, Object> response = entity.getBody();
+        response.put("provider", EnumProviders.YANDEX);
         Set<GrantedAuthority> authorities = Collections.singleton(new OAuth2UserAuthority(response));
-        return new DefaultOAuth2User(authorities, response, "default_email");
+        return new DefaultOAuth2User(authorities, response, "id");
     }
+    /**
+     * Метод авторизации получения токена и краткой инфы по пользователю в VK
+     *
+     * @param oAuth2UserRequest
+     * @return OAuth2User
+     */
     private OAuth2User loadVkUser(OAuth2UserRequest oAuth2UserRequest) {
-        return null;
+
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap();
+        headers.add("Content-Type", "application/json");
+        HttpEntity<?> httpRequest = new HttpEntity(headers);
+        var userId = oAuth2UserRequest.getAdditionalParameters().get("user_id").toString();
+        var token = oAuth2UserRequest.getAccessToken().getTokenValue();
+
+        String uri = oAuth2UserRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUri()
+                .replace("<user_id>", userId)
+                .replace("<token>", token);
+
+        // Получаем по токену краткую инфо пользователя сервиса через которую идет регистрация
+        ResponseEntity<Map> entity = restTemplate.exchange(uri, HttpMethod.GET, httpRequest, Map.class);
+        ArrayList list = (ArrayList) entity.getBody().get("response");
+        Map<String, Object>  userInfo = (Map) list.get(0);
+        userInfo.put("email", userInfo.get("first_name"));
+        userInfo.put("provider", EnumProviders.VKONTAKTE);
+        Set<GrantedAuthority> authorities = Collections.singleton(new OAuth2UserAuthority(userInfo));
+        return new DefaultOAuth2User(authorities, userInfo, "id");
     }
+
 }

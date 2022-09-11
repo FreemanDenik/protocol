@@ -1,6 +1,6 @@
 package com.execute.protocol.auth.services;
 
-import com.execute.protocol.auth.enums.EnumProviders;
+import com.execute.protocol.core.enums.EnumProviders;
 import com.execute.protocol.auth.models.AbstractProvider;
 import com.execute.protocol.auth.models.Vkontakte;
 import com.execute.protocol.auth.models.Yandex;

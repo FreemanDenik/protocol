@@ -4,9 +4,9 @@ import com.execute.protocol.auth.configs.jwt.JwtFilter;
 import com.execute.protocol.auth.configs.jwt.AuthSuccessHandler;
 import com.execute.protocol.auth.converters.OtherTokenResponseConverter;
 import com.execute.protocol.auth.services.OtherOAuth2UserService;
-import com.execute.protocol.auth.services.UserDetailsImpl;
+import com.execute.protocol.auth.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.FormHttpMessageConverter;
@@ -16,7 +16,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
@@ -25,7 +24,6 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCo
 import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.client.RestTemplate;
 
@@ -35,8 +33,10 @@ import java.util.Arrays;
 @EnableWebSecurity
 @SuppressWarnings("deprecation")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private final UserDetailsImpl userDetailsImpl;
+    // jwt cookie
+    @Value("${jwt.token.cookie.name}")
+    private String jwtCookieName;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final JwtFilter jwtFilter;
     private final OtherOAuth2UserService otherOAuth2UserService;
 
@@ -44,10 +44,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public WebSecurityConfig(
-            UserDetailsImpl userDetailsImpl,
+            UserDetailsServiceImpl userDetailsServiceImpl,
             JwtFilter jwtFilter,
             OtherOAuth2UserService otherOAuth2UserService, AuthSuccessHandler authSuccessHandler) {
-        this.userDetailsImpl = userDetailsImpl;
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.jwtFilter = jwtFilter;
         this.otherOAuth2UserService = otherOAuth2UserService;
         this.authSuccessHandler = authSuccessHandler;
@@ -55,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsImpl);
+        auth.userDetailsService(userDetailsServiceImpl);
     }
 
     @Override
@@ -79,13 +79,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
 
-                .logout()//URL выхода из системы безопасности Spring - только POST. Вы можете поддержать выход из системы
-                         //без POST, изменив конфигурацию Java
-
+                .logout()//URL выхода из системы безопасности Spring - только POST.
+                // Вы можете поддержать выход из системы без POST, изменив конфигурацию Java
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))//выход из системы гет запрос на /logout
-                .deleteCookies().deleteCookies("token")
+                .deleteCookies(jwtCookieName) // Удаляем куки токен
                 .logoutSuccessUrl("/")//успешный выход из системы
-                .and().csrf().disable();
+                .and()
+                .csrf()
+                .disable();
     }
 
     @Bean

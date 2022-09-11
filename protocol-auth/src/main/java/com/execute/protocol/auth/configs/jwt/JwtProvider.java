@@ -38,7 +38,7 @@ public class JwtProvider {
     }
 
     public String generateToken(String login){
-       return generateToken(login, EnumCookie.NOT_COOKE);
+       return generateToken(login, EnumCookie.NO_SET_COOKE);
     }
     public String generateToken(String login, EnumCookie enumCookie) {
         Date date = new Date(System.currentTimeMillis() + jwtExpiredTimeInMinutes * 60 * 1000);
@@ -47,7 +47,7 @@ public class JwtProvider {
                 .setExpiration(date)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
-        // Устанавливаем токен в куки в момент создания
+        // Устанавливаем токен в куки сразу после создания
         if (EnumCookie.SET_COOKIE == enumCookie) {
             Cookie cookie = new Cookie(jwtCookieName, token);
             cookie.setPath(jwtCookiePath);

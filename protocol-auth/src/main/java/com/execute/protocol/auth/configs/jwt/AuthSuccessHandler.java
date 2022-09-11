@@ -2,8 +2,8 @@ package com.execute.protocol.auth.configs.jwt;
 
 
 import com.execute.protocol.auth.enums.EnumCookie;
+import com.execute.protocol.core.enums.EnumProviders;
 import com.execute.protocol.auth.models.OtherOAuth2User;
-import com.execute.protocol.auth.services.UserDetailsImpl;
 import com.execute.protocol.core.converters.JavaDateConverter;
 import com.execute.protocol.core.entities.Account;
 import com.execute.protocol.core.entities.Role;
@@ -19,7 +19,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -49,7 +48,9 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
                                         HttpServletResponse httpServletResponse,
                                         Authentication authentication) throws IOException, ServletException {
 
-        String email = ((OtherOAuth2User) authentication.getPrincipal()).getEmail();
+        OtherOAuth2User otherOAuth2User = (OtherOAuth2User)authentication.getPrincipal();
+
+        String email = otherOAuth2User.getEmail();
         Account account = null;
 
         if (userRepository.existsByEmail(email)) {
@@ -66,17 +67,18 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
             }
         } else {
-            OtherOAuth2User customOAuth2User = (OtherOAuth2User) authentication.getPrincipal();
+            //OtherOAuth2User customOAuth2User = (OtherOAuth2User) authentication.getPrincipal();
             account = userRepository.findByEmail(email);
             if (account == null) {
-
+                EnumProviders provider = otherOAuth2User.getOAuth2User().getAttribute("provider");
                 User user = User.builder()
-                        .firstName(customOAuth2User.getFirstName())
-                        .lastName(customOAuth2User.getLastName())
-                        .username(customOAuth2User.getName())
+                        .firstName(otherOAuth2User.getFirstName())
+                        .lastName(otherOAuth2User.getLastName())
+                        .username(otherOAuth2User.getName())
                         .role(Role.ROLE_USER)
-                        .email(customOAuth2User.getEmail())
-                        .birthday(JavaDateConverter.parserToLocalDate(customOAuth2User.getBirthday()))
+                        .provider(provider)
+                        .email(otherOAuth2User.getEmail())
+                        .birthday(JavaDateConverter.parserToLocalDate(otherOAuth2User.getBirthday()))
                         .accountCreatedTime(LocalDate.now())
                         .lastAccountActivity(LocalDateTime.now())
                         .build();

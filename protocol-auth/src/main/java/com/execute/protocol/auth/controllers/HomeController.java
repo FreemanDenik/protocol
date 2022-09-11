@@ -3,7 +3,7 @@ package com.execute.protocol.auth.controllers;
 import com.example.protocol.dto.UserDto;
 import com.execute.protocol.auth.configs.jwt.JwtProvider;
 import com.execute.protocol.auth.services.TokenService;
-import com.execute.protocol.auth.services.UserDetailsImpl;
+import com.execute.protocol.auth.services.UserDetailsServiceImpl;
 import com.execute.protocol.core.entities.Account;
 import com.execute.protocol.core.entities.User;
 import com.execute.protocol.core.mappers.UserMapper;
@@ -23,13 +23,13 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class HomeController {
 
-    private final UserDetailsImpl userDetails;
+    private final UserDetailsServiceImpl userDetails;
     private final JwtProvider jwtProvider;
     private final UserDetailsService userDetailsService;
     public final UserRepository userRepository;
     private final TokenService tokenService;
     @Autowired
-    public HomeController(UserDetailsImpl userDetails, JwtProvider jwtProvider, UserDetailsService userDetailsService, UserRepository userRepository, TokenService tokenService) {
+    public HomeController(UserDetailsServiceImpl userDetails, JwtProvider jwtProvider, UserDetailsService userDetailsService, UserRepository userRepository, TokenService tokenService) {
         this.userDetails = userDetails;
         this.jwtProvider = jwtProvider;
         this.userDetailsService = userDetailsService;

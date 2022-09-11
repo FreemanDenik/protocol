@@ -2,5 +2,5 @@ package com.execute.protocol.auth.enums;
 
 public enum EnumCookie {
     SET_COOKIE,
-    NOT_COOKE
+    NO_SET_COOKE
 }

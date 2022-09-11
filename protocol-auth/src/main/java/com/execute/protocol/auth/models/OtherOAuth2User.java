@@ -10,6 +10,9 @@ public class OtherOAuth2User extends AbstractProvider implements OAuth2User {
 
     private OAuth2User oAuth2User;
 
+    public OAuth2User getOAuth2User() {
+        return oAuth2User;
+    }
 
     public OtherOAuth2User(
             OAuth2User oAuth2User,
