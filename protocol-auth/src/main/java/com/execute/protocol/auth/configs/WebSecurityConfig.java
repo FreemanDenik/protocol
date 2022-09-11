@@ -2,6 +2,7 @@ package com.execute.protocol.auth.configs;
 
 import com.execute.protocol.auth.configs.jwt.JwtFilter;
 import com.execute.protocol.auth.configs.jwt.AuthSuccessHandler;
+import com.execute.protocol.auth.configs.jwt.OutSuccessHandler;
 import com.execute.protocol.auth.converters.OtherTokenResponseConverter;
 import com.execute.protocol.auth.services.OtherOAuth2UserService;
 import com.execute.protocol.auth.services.UserDetailsServiceImpl;
@@ -41,16 +42,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final OtherOAuth2UserService otherOAuth2UserService;
 
     private final AuthSuccessHandler authSuccessHandler;
-
+    private final OutSuccessHandler outSuccessHandler;
     @Autowired
     public WebSecurityConfig(
             UserDetailsServiceImpl userDetailsServiceImpl,
             JwtFilter jwtFilter,
-            OtherOAuth2UserService otherOAuth2UserService, AuthSuccessHandler authSuccessHandler) {
+            OtherOAuth2UserService otherOAuth2UserService, AuthSuccessHandler authSuccessHandler, OutSuccessHandler outSuccessHandler) {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.jwtFilter = jwtFilter;
         this.otherOAuth2UserService = otherOAuth2UserService;
         this.authSuccessHandler = authSuccessHandler;
+        this.outSuccessHandler = outSuccessHandler;
     }
 
     @Override
@@ -83,7 +85,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Вы можете поддержать выход из системы без POST, изменив конфигурацию Java
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))//выход из системы гет запрос на /logout
                 .deleteCookies(jwtCookieName) // Удаляем куки токен
-                .logoutSuccessUrl("/")//успешный выход из системы
+                //.logoutSuccessUrl("/")//успешный выход из системы
+                .logoutSuccessHandler(outSuccessHandler)
                 .and()
                 .csrf()
                 .disable();

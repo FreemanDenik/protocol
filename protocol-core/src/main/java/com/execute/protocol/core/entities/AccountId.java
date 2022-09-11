@@ -1,6 +1,9 @@
 package com.execute.protocol.core.entities;
 
 import com.execute.protocol.core.enums.EnumProviders;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -8,6 +11,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.io.Serializable;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 @Embeddable
 public class AccountId implements Serializable {
     private static final long serialVersionUID = 3004441549811525440L;
@@ -17,28 +23,13 @@ public class AccountId implements Serializable {
     @Enumerated(EnumType.STRING)
     private EnumProviders provider;
 
-    public AccountId(Long clientId, EnumProviders provider) {
-        this.clientId = clientId;
-        this.provider = provider;
+    public String toString(){
+        return clientId + "." + provider.name();
     }
-
-    public AccountId() {
-
-    }
-
-    public long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(long clientId) {
-        this.clientId = clientId;
-    }
-
-    public EnumProviders getProvider() {
-        return provider;
-    }
-
-    public void setProvider(EnumProviders provider) {
-        this.provider = provider;
+    public AccountId stringTo(String str){
+        String[] arr = str.split("\\.");
+        clientId = Long.parseLong(arr[0]);
+        provider = EnumProviders.valueOf(arr[1]);
+        return this;
     }
 }

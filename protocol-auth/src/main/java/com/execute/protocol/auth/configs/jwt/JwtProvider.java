@@ -2,6 +2,8 @@ package com.execute.protocol.auth.configs.jwt;
 
 
 import com.execute.protocol.auth.enums.EnumCookie;
+import com.execute.protocol.core.entities.AccountId;
+import com.execute.protocol.core.enums.EnumProviders;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.Optional;
 
 @Component
 @Slf4j
@@ -37,13 +40,13 @@ public class JwtProvider {
         this.httpServletResponse = httpServletResponse;
     }
 
-    public String generateToken(String login){
-       return generateToken(login, EnumCookie.NO_SET_COOKE);
+    public String generateToken(String email){
+       return generateToken(email, EnumCookie.NO_SET_COOKE);
     }
-    public String generateToken(String login, EnumCookie enumCookie) {
+    public String generateToken(String email, EnumCookie enumCookie) {
         Date date = new Date(System.currentTimeMillis() + jwtExpiredTimeInMinutes * 60 * 1000);
         String token = Jwts.builder()
-                .setSubject(login)
+                .setSubject(email)
                 .setExpiration(date)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
@@ -79,4 +82,11 @@ public class JwtProvider {
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
         return claims.getSubject();
     }
+//    public AccountId getAccountIdFromToken(String token) {
+//        Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+//
+//
+//
+//        return new AccountId().stringTo(claims.getSubject());
+//    }
 }

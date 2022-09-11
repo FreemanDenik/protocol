@@ -50,12 +50,11 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
                                         HttpServletResponse httpServletResponse,
-                                        Authentication authentication) throws IOException, ServletException {
+                                        Authentication authentication) throws IOException {
 
         OtherOAuth2User otherOAuth2User = (OtherOAuth2User) authentication.getPrincipal();
-        // Получаем составной ключ
+        // формируем составной ключ
         AccountId accountId = new AccountId(otherOAuth2User.getClientId(), otherOAuth2User.getProviderName());
-
         Account account = null;
 
         if (userRepository.existsAccountByAccountId(accountId)) {
@@ -92,7 +91,8 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
             }
         }
         // Создание помещение в куки токена
-        jwtProvider.generateToken(account.getEmail(), EnumCookie.SET_COOKIE);
+        //jwtProvider.generateToken(account.getEmail(), EnumCookie.SET_COOKIE);
+        jwtProvider.generateToken(accountId.toString(), EnumCookie.SET_COOKIE);
 
         //token = jwtProvider.generateToken(account.getEmail());
         //log.debug("Успешная авторизация id: {},  email: {},  JWT: {}", account.getId(), account.getEmail(), token);
