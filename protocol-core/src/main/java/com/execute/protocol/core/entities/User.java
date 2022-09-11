@@ -22,9 +22,10 @@ import java.time.LocalDate;
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
 public class User extends Account{
+    public User(AccountId accountId) {
+        super(accountId);
+    }
 
     @Column
     private LocalDate birthday;
-    @Column
-    private String city;
 }

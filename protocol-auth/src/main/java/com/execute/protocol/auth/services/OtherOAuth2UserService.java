@@ -52,20 +52,17 @@ public class OtherOAuth2UserService extends DefaultOAuth2UserService {
                 return new OtherOAuth2User(
                         loadVkUser(oAuth2UserRequest),
                         // Конвертируем атрибуты провайдера vkontakte
-                        otherOAuth2ProviderService.getAttributes(EnumProviders.VKONTAKTE),
-                        EnumProviders.VKONTAKTE);
+                        otherOAuth2ProviderService.getAttributes(EnumProviders.VKONTAKTE));
             case "yandex":
                 return new OtherOAuth2User(
                         loadYandexUser(oAuth2UserRequest),
                         // Конвертируем атрибуты провайдера yandex
-                        otherOAuth2ProviderService.getAttributes(EnumProviders.YANDEX),
-                        EnumProviders.YANDEX);
+                        otherOAuth2ProviderService.getAttributes(EnumProviders.YANDEX));
             case "mail":
                 return new OtherOAuth2User(
                         loadMailUser(oAuth2UserRequest),
                         // Конвертируем атрибуты провайдера yandex
-                        otherOAuth2ProviderService.getAttributes(EnumProviders.MAIL),
-                        EnumProviders.MAIL);
+                        otherOAuth2ProviderService.getAttributes(EnumProviders.MAIL));
             default:
                 throw new OAuth2AuthenticationException("Не определен поставщик аккаунта");
         }
@@ -79,12 +76,14 @@ public class OtherOAuth2UserService extends DefaultOAuth2UserService {
      */
     private OAuth2User loadYandexUser(OAuth2UserRequest oAuth2UserRequest) {
         // Формируем строку токена для заголовка
-        String tokenValue =
+        String tokenValue = new StringBuilder()
                 // Bear
-                oAuth2UserRequest.getAccessToken().getTokenType().getValue()
-                        + " " +
-                        // Token
-                        oAuth2UserRequest.getAccessToken().getTokenValue();
+                .append(oAuth2UserRequest.getAccessToken().getTokenType().getValue())
+                // Пробел между ними
+                .append(" ")
+                // Token
+                .append(oAuth2UserRequest.getAccessToken().getTokenValue()).toString();
+
         // Формируем путь uri запроса данных пользователя
         String uri = oAuth2UserRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUri();
 
@@ -154,8 +153,9 @@ public class OtherOAuth2UserService extends DefaultOAuth2UserService {
         // Добавляем header'ы если таковы были переданы
         addHeaders.forEach(headers::add);
         HttpEntity<?> httpRequest = new HttpEntity(headers);
-        // Непосредственно сам запрос в сервис
+
         try {
+            // Непосредственно сам запрос в сервис
             ResponseEntity<Map> entity = restTemplate.exchange(uri, HttpMethod.GET, httpRequest, Map.class);
             return entity.getBody();
         } catch (RestClientResponseException e) {

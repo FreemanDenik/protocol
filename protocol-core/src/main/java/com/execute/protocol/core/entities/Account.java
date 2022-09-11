@@ -22,16 +22,23 @@ import java.util.Collections;
 @Table(name = "ACCOUNTS")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Account implements UserDetails {
-    @Id
+//    @Id
+//    @EqualsAndHashCode.Include
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
+
     @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private AccountId accountId;
+    @Column(nullable = false)
     /**
      * Имя
      */
-
-    @Column(nullable = false)
     private String firstName;
+
+    public Account(AccountId accountId) {
+        this.accountId = accountId;
+    }
 
     /**
      * Фамилия
@@ -46,9 +53,9 @@ public class Account implements UserDetails {
     private String email;
     @Column
     private Role role;
-    @Column
-    @Enumerated(EnumType.STRING)
-    private EnumProviders provider;
+//    @Column
+//    @Enumerated(EnumType.STRING)
+//    private EnumProviders provider;
     /**
      * Время создания аккаунта
      */
