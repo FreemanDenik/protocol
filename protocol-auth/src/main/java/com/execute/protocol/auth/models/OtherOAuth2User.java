@@ -1,5 +1,6 @@
 package com.execute.protocol.auth.models;
 
+import com.execute.protocol.core.enums.EnumProviders;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -10,15 +11,13 @@ public class OtherOAuth2User extends AbstractProvider implements OAuth2User {
 
     private OAuth2User oAuth2User;
 
-    public OAuth2User getOAuth2User() {
-        return oAuth2User;
-    }
 
     public OtherOAuth2User(
             OAuth2User oAuth2User,
-            AbstractProvider provider) {
+            AbstractProvider provider,
+            EnumProviders providerName) {
         // Передаем данные в родительский конструктор AbstractProvider
-        this.setParameters(oAuth2User, provider);
+        this.setParameters(oAuth2User, provider, providerName);
         this.oAuth2User = oAuth2User;
     }
 

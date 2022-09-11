@@ -1,5 +1,6 @@
 package com.execute.protocol.auth.services;
 
+import com.execute.protocol.auth.models.Mail;
 import com.execute.protocol.core.enums.EnumProviders;
 import com.execute.protocol.auth.models.AbstractProvider;
 import com.execute.protocol.auth.models.Vkontakte;
@@ -21,11 +22,12 @@ public class OtherOAuth2ProviderService {
     private final Map<EnumProviders, AbstractProvider> mapAttributes;
     // заполнение карты данными провайдеров
     @Autowired
-    private OtherOAuth2ProviderService(Yandex yandex, Vkontakte vkontakte) {
+    private OtherOAuth2ProviderService(Yandex yandex, Vkontakte vkontakte, Mail mail) {
 
         mapAttributes = new HashMap<>();
         mapAttributes.put(EnumProviders.YANDEX, yandex);
         mapAttributes.put(EnumProviders.VKONTAKTE, vkontakte);
+        mapAttributes.put(EnumProviders.MAIL, mail);
     }
 
     // заполнение карты данными провайдеров

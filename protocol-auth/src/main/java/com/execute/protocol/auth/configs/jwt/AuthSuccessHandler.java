@@ -26,6 +26,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
+/**
+ * Handler успешной авторизации/аутентификации
+ */
 @Slf4j
 @Component
 public class AuthSuccessHandler implements AuthenticationSuccessHandler {
@@ -67,16 +70,15 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
             }
         } else {
-            //OtherOAuth2User customOAuth2User = (OtherOAuth2User) authentication.getPrincipal();
             account = userRepository.findByEmail(email);
             if (account == null) {
-                EnumProviders provider = otherOAuth2User.getOAuth2User().getAttribute("provider");
+
                 User user = User.builder()
                         .firstName(otherOAuth2User.getFirstName())
                         .lastName(otherOAuth2User.getLastName())
                         .username(otherOAuth2User.getName())
                         .role(Role.ROLE_USER)
-                        .provider(provider)
+                        .provider(otherOAuth2User.getProviderName())
                         .email(otherOAuth2User.getEmail())
                         .birthday(JavaDateConverter.parserToLocalDate(otherOAuth2User.getBirthday()))
                         .accountCreatedTime(LocalDate.now())

@@ -1,5 +1,8 @@
 package com.execute.protocol.app;
 
+import com.execute.protocol.auth.models.AbstractProvider;
+import com.execute.protocol.auth.models.Vkontakte;
+import com.execute.protocol.auth.models.Yandex;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,11 +14,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Optional;
+
 @SpringBootTest
 class ProtocolAppApplicationTests {
 
     @Autowired
-    RestTemplate restTemplate;
+    Yandex yandex ;
     @Test
     void contextLoads() {
 
@@ -33,6 +38,15 @@ class ProtocolAppApplicationTests {
 //        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
 //        ResponseEntity<String> result = restTemplate.getForEntity("https://login.yandex.ru/info?format=json&jwt_secret=imdenikandiwantmanymanymoney&with_openid_identity=1", String.class, httpEntity);
 
+        var tt = test23(Optional.ofNullable(yandex));
+    }
+    public String test23(Optional<? extends AbstractProvider> provider) {
+        if (provider.get() instanceof Yandex){
+            return "y";
+        }else if (provider.get() instanceof Vkontakte) {
+            return "V";
+        }
+        return null;
     }
 
 }
