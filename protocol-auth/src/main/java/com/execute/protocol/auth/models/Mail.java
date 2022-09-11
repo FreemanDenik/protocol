@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * Bean который подтягивает yandex данные из properties
+ * Bean который подтягивает mail данные из properties
  */
 @Component
 @ConfigurationProperties(prefix = "mail")

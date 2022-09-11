@@ -21,8 +21,10 @@ public abstract class AbstractProvider {
     }
     void setParameters(OAuth2User oAuth2User, AbstractProvider provider, EnumProviders providerName) {
         // Получаем из property название провайдера без конвертации
-
         this.providerName = providerName;
+        /*
+         * Все остальное конвертируем
+         */
         firstName = oAuth2User.getAttribute(provider.getFirstName());
         lastName = oAuth2User.getAttribute(provider.getLastName());
         birthday = oAuth2User.getAttribute(provider.getBirthday());

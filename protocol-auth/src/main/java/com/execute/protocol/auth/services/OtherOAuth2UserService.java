@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -36,6 +37,7 @@ public class OtherOAuth2UserService extends DefaultOAuth2UserService {
      * передаем их в соответствущий метод для получения сформированного
      * соответствущих данных класса OAuth2User.
      * Так же передаем конвертер который на ходу получает необходимые для конверта данные провайдер-атрибутов
+     * из auth.jwt.attr.properties файла
      *
      * @param oAuth2UserRequest
      * @return OAuth2User
@@ -43,6 +45,7 @@ public class OtherOAuth2UserService extends DefaultOAuth2UserService {
      */
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
+
         // Определяем провайдера
         switch (oAuth2UserRequest.getClientRegistration().getRegistrationId()) {
             case "vkontakte":
@@ -75,14 +78,14 @@ public class OtherOAuth2UserService extends DefaultOAuth2UserService {
      * @return OAuth2User
      */
     private OAuth2User loadYandexUser(OAuth2UserRequest oAuth2UserRequest) {
-        // Формируем строку токена
+        // Формируем строку токена для заголовка
         String tokenValue =
                 // Bear
                 oAuth2UserRequest.getAccessToken().getTokenType().getValue()
-                + " " +
-                // Token
-                oAuth2UserRequest.getAccessToken().getTokenValue();
-        // Формируем строку запроса данных пользователя
+                        + " " +
+                        // Token
+                        oAuth2UserRequest.getAccessToken().getTokenValue();
+        // Формируем путь uri запроса данных пользователя
         String uri = oAuth2UserRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUri();
 
         // Передаем строку токена и получаем краткую инфо пользователя сервиса yandex
@@ -102,7 +105,7 @@ public class OtherOAuth2UserService extends DefaultOAuth2UserService {
         var userId = oAuth2UserRequest.getAdditionalParameters().get("user_id").toString();
         // Получаем токен
         var token = oAuth2UserRequest.getAccessToken().getTokenValue();
-        // Формируем строку запроса данных пользователя подставляя в указанные места <***>, id приложения и токен
+        // Формируем путь uri запроса данных пользователя подставляя в указанные места <***>, id приложения и токен
         String uri = oAuth2UserRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUri()
                 .replace("<user_id>", userId)
                 .replace("<token>", token);
@@ -110,8 +113,8 @@ public class OtherOAuth2UserService extends DefaultOAuth2UserService {
         // Получаем по токену краткую инфо пользователя сервиса vkontakte
         Map<String, Object> response = (Map<String, Object>) ((ArrayList) getUserInfo(uri).get("response")).get(0);
         // У сервиса vkontake нет поля email, там вроде на номер телефона перешли, но и его сервис не предоставляет
-        // и дабы поле не оставалось пустым заполняем его чем то, в данном случаи first_name
-        response.put("email", response.get("first_name"));
+        // и дабы поле не оставалось пустым заполняем его чем то, в данном случаи first_name + id
+        response.put("email", response.get("first_name") + "" + response.get("id"));
         Set<GrantedAuthority> authorities = Collections.singleton(new OAuth2UserAuthority(response));
         return new DefaultOAuth2User(authorities, response, "id");
     }
@@ -123,7 +126,7 @@ public class OtherOAuth2UserService extends DefaultOAuth2UserService {
      * @return OAuth2User
      */
     private OAuth2User loadMailUser(OAuth2UserRequest oAuth2UserRequest) {
-        // Формируем строку запроса данных пользователя подставляя в указанное место <***> токен
+        // Формируем путь uri запроса данных пользователя подставляя в указанное место <***> токен
         String uri = oAuth2UserRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUri()
                 .replace("<token>", oAuth2UserRequest.getAccessToken().getTokenValue());
 
@@ -132,25 +135,32 @@ public class OtherOAuth2UserService extends DefaultOAuth2UserService {
         Set<GrantedAuthority> authorities = Collections.singleton(new OAuth2UserAuthority(response));
         return new DefaultOAuth2User(authorities, response, "id");
     }
+
     /**
      * Метод для отправки запроса у казанные в uri пути сервиса, и получения краткой информации о пользователе
+     *
      * @param uri
      * @return
      */
     private Map<String, Object> getUserInfo(String uri) {
         return getUserInfo(uri, new HashMap<>());
     }
+
     // Проброс вышеуказанного метода
     private Map<String, Object> getUserInfo(String uri, Map<String, String> addHeaders) {
 
         MultiValueMap<String, String> headers = new LinkedMultiValueMap();
         headers.add("Content-Type", "application/json");
         // Добавляем header'ы если таковы были переданы
-        addHeaders.forEach((k, v) -> headers.add(k, v));
+        addHeaders.forEach(headers::add);
         HttpEntity<?> httpRequest = new HttpEntity(headers);
         // Непосредственно сам запрос в сервис
-        ResponseEntity<Map> entity = restTemplate.exchange(uri, HttpMethod.GET, httpRequest, Map.class);
-
-        return entity.getBody();
+        try {
+            ResponseEntity<Map> entity = restTemplate.exchange(uri, HttpMethod.GET, httpRequest, Map.class);
+            return entity.getBody();
+        } catch (RestClientResponseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
