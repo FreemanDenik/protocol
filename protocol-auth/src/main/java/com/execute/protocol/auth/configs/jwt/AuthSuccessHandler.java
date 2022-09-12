@@ -57,10 +57,10 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
                 otherOAuth2User.getEmail() != null ?
                 otherOAuth2User.getEmail() :
                 otherOAuth2User.getProviderName() + "." + otherOAuth2User.getClientId();
-        Account account = null;
+
         if (userRepository.existsByEmail(email)) {
             try {
-                account = userRepository.findByEmail(email);
+                Account account = userRepository.findByEmail(email);
 
                 SecurityContextHolder.getContext().setAuthentication(
                         new UsernamePasswordAuthenticationToken(
@@ -72,7 +72,7 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
             }
         } else {
-            account = userRepository.findByEmail(email);
+            Account account = userRepository.findByEmail(email);
             if (account == null) {
 
                 User user = User.builder()
