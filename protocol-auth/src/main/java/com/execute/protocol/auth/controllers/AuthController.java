@@ -1,6 +1,7 @@
-package com.execute.protocol.auth.controllers.rest;
+package com.execute.protocol.auth.controllers;
 import com.example.protocol.dto.UserDto;
 import com.execute.protocol.auth.configs.jwt.*;
+import com.execute.protocol.auth.services.TokenService;
 import com.execute.protocol.core.entities.Account;
 import com.execute.protocol.core.entities.User;
 import com.execute.protocol.core.mappers.UserMapper;
@@ -10,24 +11,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 
 @RestController
 public class AuthController {
     private final JwtProvider jwtProvider;
     private final UserDetailsService userDetailsService;
+    private final TokenService tokenService;
     @Autowired
-    public AuthController(JwtProvider jwtProvider, UserDetailsService userDetailsService) {
+    public AuthController(JwtProvider jwtProvider, UserDetailsService userDetailsService, TokenService tokenService) {
         this.jwtProvider = jwtProvider;
         this.userDetailsService = userDetailsService;
+        this.tokenService = tokenService;
     }
 
 
     @GetMapping("/loginByJwt")
     public AuthResponse loginByJwt(HttpServletRequest request){
-        String token = Arrays.stream(request.getCookies()).filter(w->w.getName().equals("token")).findFirst().get().getValue();
+        String token = tokenService.getToken();
         //String token = AuthSuccessHandler.getToken();
-        String login = jwtProvider.getLoginFromToken(token);
+        String login = jwtProvider.getEmailFromToken(token);
         Account account = (Account) userDetailsService.loadUserByUsername(login);
         UserDto userDto = UserMapper.INSTANCE.mapUserToDto((User) account);
 

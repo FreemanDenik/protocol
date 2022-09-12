@@ -33,10 +33,11 @@ public class Account implements UserDetails {
     @Column
     @Enumerated(EnumType.STRING)
     private EnumProviders provider;
-    @Column(nullable = false)
+
     /**
      * Имя
      */
+    @Column(nullable = false)
     private String firstName;
 
     /**
@@ -48,7 +49,7 @@ public class Account implements UserDetails {
     private String username;
     @Column
     private String password;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
     @Column
     private Role role;

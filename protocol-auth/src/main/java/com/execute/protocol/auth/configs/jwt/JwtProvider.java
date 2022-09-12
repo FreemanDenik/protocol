@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.Optional;
 
 @Component
 @Slf4j
@@ -32,6 +31,7 @@ public class JwtProvider {
     @Value("${jwt.token.cookie.age}")
     private int jwtCookieAge;
     private final HttpServletResponse httpServletResponse;
+
 
     @Autowired
     public JwtProvider(HttpServletResponse httpServletResponse) {
@@ -76,7 +76,7 @@ public class JwtProvider {
         return false;
     }
 
-    public String getLoginFromToken(String token) {
+    public String getEmailFromToken(String token) {
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
         return claims.getSubject();
     }

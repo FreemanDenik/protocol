@@ -1,4 +1,4 @@
-package com.execute.protocol.auth.controllers;
+package com.execute.protocol.app.controllers;
 
 import com.example.protocol.dto.UserDto;
 import com.execute.protocol.auth.configs.jwt.JwtProvider;
@@ -9,6 +9,7 @@ import com.execute.protocol.core.entities.User;
 import com.execute.protocol.core.mappers.UserMapper;
 import com.execute.protocol.core.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +17,7 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,32 +38,30 @@ public class HomeController {
         this.userRepository = userRepository;
         this.tokenService = tokenService;
     }
-
+    @GetMapping("/")
+    public String indexPage(){
+        return "index";
+    }
     @GetMapping("/login")
     public String loginPage(){
         return "login";
     }
 
     @GetMapping("/user")
-    public String userPage(Model module){
-        module.addAttribute("loggedUser", getCurrentAccount());
-        return "user";
+    @ResponseBody
+    public Account userPage(){
+        Account account = getCurrentAccount();
+        return account;
     }
     @GetMapping("/enter")
     public String enter(HttpServletResponse response, HttpServletRequest request, Model model){
-        String token = tokenService.getToken();
 
-        String email = jwtProvider.getLoginFromToken(token);
+        String email = jwtProvider.getEmailFromToken(tokenService.getToken());
         Account account = userRepository.findByEmail(email);
-        UserDto userDto = UserMapper.INSTANCE.mapUserToDto((User) account);
-        model.addAttribute("email", email);
-        model.addAttribute("token", token);
 
-//        Cookie cookie = new Cookie("token", token);
-//        cookie.setPath("/");
-//        cookie.setMaxAge(512);
-//        response.addCookie(cookie);
-//        response.addHeader("Authorization", "Bearer_" + token);
+        model.addAttribute("email", email);
+
+
         return "enter";
     }
     private Account getCurrentAccount() {
@@ -71,8 +71,9 @@ public class HomeController {
         } else {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             Account account = (Account) auth.getPrincipal();
-            email =account.getEmail();
+            email = account.getEmail();
         }
+
         return (Account) userDetails.loadUserByUsername(email);
     }
 }

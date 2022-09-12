@@ -23,13 +23,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.accountRepository = accountRepository;
     }
 
+    /**
+     * Поиск выполняется по email хоть и написано, что по логину
+     * @param email
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Account account = accountRepository.findByEmail(email);
         log.info("Account authorization: {}", email);
         if (account == null) {
-            throw new UsernameNotFoundException("userDetailsAccount is null");
+            throw new UsernameNotFoundException("userDetailsAccount is null, not found ");
         } else {
             account.setLastAccountActivity(LocalDateTime.now());
             return account;

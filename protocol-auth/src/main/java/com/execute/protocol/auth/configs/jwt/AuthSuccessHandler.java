@@ -53,6 +53,7 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
         OtherOAuth2User otherOAuth2User = (OtherOAuth2User) authentication.getPrincipal();
         // Если атрибут mail пуст формируем уникальную строку из имени провайдера и id клиента в этом сервисе
+        // Уникальная строка в поле mail формируется потому что, из mail'а формируется токен и по mail'у, происходит поиск пользователя
         String email =
                 otherOAuth2User.getEmail() != null ?
                 otherOAuth2User.getEmail() :
@@ -67,7 +68,10 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
                                 SecurityContextHolder.getContext().getAuthentication().getPrincipal(),
                                 SecurityContextHolder.getContext().getAuthentication().getCredentials(),
                                 Collections.singleton(account.getRole())));
+                log.info("Пользователь {} прошел авторизацию", email );
             } catch (UsernameNotFoundException e) {
+                // В случаи ошибки при авторизации пользователя перенаправляем пользователя сюда (надо допилить)
+                log.warn("Пользователь {} не прошел авторизацию и перенаправляется на стандартную страницу регистрации", email );
                 httpServletResponse.sendRedirect("/oauth2reg");
 
             }
@@ -89,11 +93,9 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
                         .build();
 
                 userRepository.save(user);
-                account = user;
             }
         }
-        // Создание помещение в куки токена
-        //jwtProvider.generateToken(account.getEmail(), EnumCookie.SET_COOKIE);
+        // Создание и помещение в куки токена
         jwtProvider.generateToken(email, EnumCookie.SET_COOKIE);
 
         //token = jwtProvider.generateToken(account.getEmail());

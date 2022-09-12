@@ -113,8 +113,6 @@ public class OtherOAuth2UserService extends DefaultOAuth2UserService {
         Map<String, Object> response = (Map<String, Object>) ((ArrayList) getUserInfo(uri).get("response")).get(0);
 
         // У сервиса vkontake нет поля email, там вроде на номер телефона перешли, но и его сервис не предоставляет
-        // и дабы поле не оставалось пустым заполняем его чем то, в данном случаи first_name + id
-        //response.put("email", response.get("first_name") + "" + response.get("id"));
 
         Set<GrantedAuthority> authorities = Collections.singleton(new OAuth2UserAuthority(response));
         return new DefaultOAuth2User(authorities, response, "id");
@@ -127,7 +125,7 @@ public class OtherOAuth2UserService extends DefaultOAuth2UserService {
      * @return OAuth2User
      */
     private OAuth2User loadMailUser(OAuth2UserRequest oAuth2UserRequest) {
-        // Формируем путь uri запроса данных пользователя подставляя в указанное место <***> токен
+        // Формируем путь uri запроса данных пользователя, подставляя в указанное место <***> токен
         String uri = oAuth2UserRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUri()
                 .replace("<token>", oAuth2UserRequest.getAccessToken().getTokenValue());
 
