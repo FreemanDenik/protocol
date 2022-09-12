@@ -2,8 +2,6 @@ package com.execute.protocol.auth.configs.jwt;
 
 
 import com.execute.protocol.auth.enums.EnumCookie;
-import com.execute.protocol.core.entities.AccountId;
-import com.execute.protocol.core.enums.EnumProviders;
 import com.execute.protocol.auth.models.OtherOAuth2User;
 import com.execute.protocol.core.converters.JavaDateConverter;
 import com.execute.protocol.core.entities.Account;
@@ -26,6 +24,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Optional;
 
 /**
  * Handler успешной авторизации/аутентификации
@@ -53,13 +52,15 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException {
 
         OtherOAuth2User otherOAuth2User = (OtherOAuth2User) authentication.getPrincipal();
-        // формируем составной ключ
-        AccountId accountId = new AccountId(otherOAuth2User.getClientId(), otherOAuth2User.getProviderName());
+        // Если атрибут mail пуст формируем уникальную строку из имени провайдера и id клиента в этом сервисе
+        String email =
+                otherOAuth2User.getEmail() != null ?
+                otherOAuth2User.getEmail() :
+                otherOAuth2User.getProviderName() + "." + otherOAuth2User.getClientId();
         Account account = null;
-
-        if (userRepository.existsAccountByAccountId(accountId)) {
+        if (userRepository.existsByEmail(email)) {
             try {
-                account = userRepository.findAccountByAccountId(accountId);
+                account = userRepository.findByEmail(email);
 
                 SecurityContextHolder.getContext().setAuthentication(
                         new UsernamePasswordAuthenticationToken(
@@ -71,16 +72,17 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
             }
         } else {
-            account = userRepository.findAccountByAccountId(accountId);
+            account = userRepository.findByEmail(email);
             if (account == null) {
 
                 User user = User.builder()
-                        .accountId(accountId)
                         .firstName(otherOAuth2User.getFirstName())
                         .lastName(otherOAuth2User.getLastName())
                         .username(otherOAuth2User.getName())
                         .role(Role.ROLE_USER)
-                        .email(otherOAuth2User.getEmail())
+                        .clientId(otherOAuth2User.getClientId())
+                        .provider(otherOAuth2User.getProviderName())
+                        .email(email)
                         .birthday(JavaDateConverter.parserToLocalDate(otherOAuth2User.getBirthday()))
                         .accountCreatedTime(LocalDate.now())
                         .lastAccountActivity(LocalDateTime.now())
@@ -92,7 +94,7 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
         }
         // Создание помещение в куки токена
         //jwtProvider.generateToken(account.getEmail(), EnumCookie.SET_COOKIE);
-        jwtProvider.generateToken(accountId.toString(), EnumCookie.SET_COOKIE);
+        jwtProvider.generateToken(email, EnumCookie.SET_COOKIE);
 
         //token = jwtProvider.generateToken(account.getEmail());
         //log.debug("Успешная авторизация id: {},  email: {},  JWT: {}", account.getId(), account.getEmail(), token);

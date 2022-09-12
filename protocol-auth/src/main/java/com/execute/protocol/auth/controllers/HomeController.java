@@ -5,7 +5,6 @@ import com.execute.protocol.auth.configs.jwt.JwtProvider;
 import com.execute.protocol.auth.services.TokenService;
 import com.execute.protocol.auth.services.UserDetailsServiceImpl;
 import com.execute.protocol.core.entities.Account;
-import com.execute.protocol.core.entities.AccountId;
 import com.execute.protocol.core.entities.User;
 import com.execute.protocol.core.mappers.UserMapper;
 import com.execute.protocol.core.repositories.UserRepository;
@@ -50,15 +49,12 @@ public class HomeController {
     }
     @GetMapping("/enter")
     public String enter(HttpServletResponse response, HttpServletRequest request, Model model){
-        String token = JwtProvider.token;
+        String token = tokenService.getToken();
 
-      // String email = jwtProvider.getLoginFromToken(token);
-        AccountId accountId = jwtProvider.getAccountIdFromToken();
-
-        Account account = userRepository.findAccountByAccountId(accountId);
-        //Account account = userRepository.findByEmail(email);
+        String email = jwtProvider.getLoginFromToken(token);
+        Account account = userRepository.findByEmail(email);
         UserDto userDto = UserMapper.INSTANCE.mapUserToDto((User) account);
-        model.addAttribute("email", account.getEmail());
+        model.addAttribute("email", email);
         model.addAttribute("token", token);
 
 //        Cookie cookie = new Cookie("token", token);

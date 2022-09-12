@@ -111,9 +111,11 @@ public class OtherOAuth2UserService extends DefaultOAuth2UserService {
 
         // Получаем по токену краткую инфо пользователя сервиса vkontakte
         Map<String, Object> response = (Map<String, Object>) ((ArrayList) getUserInfo(uri).get("response")).get(0);
+
         // У сервиса vkontake нет поля email, там вроде на номер телефона перешли, но и его сервис не предоставляет
         // и дабы поле не оставалось пустым заполняем его чем то, в данном случаи first_name + id
-        response.put("email", response.get("first_name") + "" + response.get("id"));
+        //response.put("email", response.get("first_name") + "" + response.get("id"));
+
         Set<GrantedAuthority> authorities = Collections.singleton(new OAuth2UserAuthority(response));
         return new DefaultOAuth2User(authorities, response, "id");
     }

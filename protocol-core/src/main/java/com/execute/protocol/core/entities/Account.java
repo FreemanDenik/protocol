@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
+
 @NoArgsConstructor
 @SuperBuilder
 @Entity
@@ -22,23 +23,21 @@ import java.util.Collections;
 @Table(name = "ACCOUNTS")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Account implements UserDetails {
-//    @Id
-//    @EqualsAndHashCode.Include
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-
+    @Id
     @EqualsAndHashCode.Include
-    @EmbeddedId
-    private AccountId accountId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column
+    private Long clientId;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private EnumProviders provider;
     @Column(nullable = false)
     /**
      * Имя
      */
     private String firstName;
-
-    public Account(AccountId accountId) {
-        this.accountId = accountId;
-    }
 
     /**
      * Фамилия
@@ -65,7 +64,7 @@ public class Account implements UserDetails {
     /**
      * Время последней активности
      */
-    @Column( nullable = false)
+    @Column(nullable = false)
     private LocalDateTime lastAccountActivity;
 
     @Override

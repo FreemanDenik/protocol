@@ -2,8 +2,6 @@ package com.execute.protocol.auth.configs.jwt;
 
 
 import com.execute.protocol.auth.enums.EnumCookie;
-import com.execute.protocol.core.entities.AccountId;
-import com.execute.protocol.core.enums.EnumProviders;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,11 +80,5 @@ public class JwtProvider {
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
         return claims.getSubject();
     }
-//    public AccountId getAccountIdFromToken(String token) {
-//        Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-//
-//
-//
-//        return new AccountId().stringTo(claims.getSubject());
-//    }
+
 }
