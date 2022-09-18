@@ -16,6 +16,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "classpath:core.properties",
         "classpath:auth.properties",
         "classpath:auth.jwt.attr.properties",
+        "classpath:admin.properties",
 })
 @Slf4j
 public class ProtocolAppApplication {

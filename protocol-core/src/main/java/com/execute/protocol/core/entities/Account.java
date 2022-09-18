@@ -62,6 +62,7 @@ public class Account implements UserDetails {
     @Column(nullable = false)
     private LocalDate accountCreatedTime;
 
+
     /**
      * Время последней активности
      */

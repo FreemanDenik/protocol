@@ -1,4 +1,4 @@
-package com.execute.protocol.core.converters;
+package com.execute.protocol.auth.configs.converters;
 
 
 import com.execute.protocol.core.exeptions.DateConvertException;

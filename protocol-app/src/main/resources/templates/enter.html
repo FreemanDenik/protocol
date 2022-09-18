@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="cookie.js"></script>
@@ -8,29 +10,76 @@
     <title>Title</title>
 </head>
 <body>
-<h1 th:text="${email}"></h1>
+<div class="container">
 
-<button id="send">ads</button>
-<a th:href="@{/user}">Users</a>
+    <h1 th:text="${firstName}"></h1>
+    <br>
+    <table class="table">
+        <tr>
+            <td>Бюджет</td>
+            <td>Загрязнение</td>
+        </tr>
+        <tr>
+            <td>
+                <div id="money"></div>
+            </td>
+            <td>
+                <div id="pollution"></div>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <h3 id="question"></h3>
+    <hr/>
+    <div id="answers">
 
+    </div>
+
+</div>
 </body>
 </html>
 <script>
+
+    let TOKEN;
     $(function () {
-        let TOKEN = $.cookie('token');
-
-        $('#send').on('click', async function (even) {
-            even.preventDefault();
-
-            let data = await fetch("/user", {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Authorization': 'Bearer_' + TOKEN
-                },
-            });
-            let text = await data.text();
-            console.log(text);
-
-        })
+        TOKEN = $.cookie('token');
+        send("initializer");
     })
+    async function send(url, eventId, answerId) {
+        console.log(url, eventId, answerId);
+        const formData = new FormData()
+        formData.append('event', eventId);
+        formData.append('answer', answerId);
+
+
+        let data = await fetch("/api/" + url, {
+            method: 'POST',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer_' + TOKEN,
+            body: formData,
+
+        });
+
+        let json = await data.json();
+        console.log(json);
+        let target = json.first;
+        let event = json.second;
+
+        $('#money').text(target.money);
+        $('#pollution').text(target.pollution);
+
+        $('#question').text(event.question);
+        $('#answers').empty();
+        $.each(event.answers, function (e, i) {
+            let button = $('<button/>', {
+                text: i.text,
+                'class':'btn btn-primary',
+                'style':'border-radius: 0',
+                click: async function () {
+                   await send('game', event.id, i.id);
+                }
+            });
+            $('#answers').append(button).append('<br /><br />');
+        });
+    }
 </script>

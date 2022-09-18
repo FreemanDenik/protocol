@@ -3,10 +3,12 @@ package com.execute.protocol.auth.configs.jwt;
 
 import com.execute.protocol.auth.enums.EnumCookie;
 import com.execute.protocol.auth.models.OtherOAuth2User;
-import com.execute.protocol.core.converters.JavaDateConverter;
+import com.execute.protocol.auth.configs.converters.JavaDateConverter;
 import com.execute.protocol.core.entities.Account;
 import com.execute.protocol.core.entities.Role;
+import com.execute.protocol.core.entities.Target;
 import com.execute.protocol.core.entities.User;
+import com.execute.protocol.core.repositories.TargetRepository;
 import com.execute.protocol.core.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +19,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.Optional;
 
 /**
  * Handler успешной авторизации/аутентификации
@@ -34,6 +34,7 @@ import java.util.Optional;
 public class AuthSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
+    private final TargetRepository targetRepository;
 
 
 //    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
@@ -41,9 +42,10 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
     @Autowired
     public AuthSuccessHandler(
             JwtProvider jwtProvider,
-            UserRepository userRepository) {
+            UserRepository userRepository, TargetRepository targetRepository) {
         this.jwtProvider = jwtProvider;
         this.userRepository = userRepository;
+        this.targetRepository = targetRepository;
     }
 
     @Override
@@ -90,8 +92,8 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
                         .birthday(JavaDateConverter.parserToLocalDate(otherOAuth2User.getBirthday()))
                         .accountCreatedTime(LocalDate.now())
                         .lastAccountActivity(LocalDateTime.now())
+                        .target(Target.builder().money(5).pollution(5).build())
                         .build();
-
                 userRepository.save(user);
             }
         }

@@ -62,13 +62,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .cors()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+        http.cors().and()
+                //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                //.and()
+                //.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/**", "/user").authenticated()
+                .antMatchers("/api/admin/**").hasRole("ADMIN")
+                .antMatchers("/api/**").hasRole("USER")
                 .antMatchers("/", "/login").permitAll()
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -84,12 +84,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()//URL выхода из системы безопасности Spring - только POST.
                 // Вы можете поддержать выход из системы без POST, изменив конфигурацию Java
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))//выход из системы гет запрос на /logout
-                .deleteCookies(jwtCookieName) // Удаляем куки токен
+                //.deleteCookies(jwtCookieName) // Удаляем куки токен
                 //.logoutSuccessUrl("/")//успешный выход из системы
                 .logoutSuccessHandler(outSuccessHandler)
-                .and()
-                .csrf()
-                .disable();
+                .and().csrf().disable();
+
     }
 
     @Bean

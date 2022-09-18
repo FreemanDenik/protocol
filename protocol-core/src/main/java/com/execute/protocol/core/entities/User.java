@@ -6,10 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Fetch;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -25,4 +24,10 @@ public class User extends Account{
 
     @Column
     private LocalDate birthday;
+    @OneToOne(cascade = { CascadeType.ALL })
+    @JoinColumn(name = "target_id", referencedColumnName = "id")
+    private Target target;
+    @Column
+    private long actualEvent;
+
 }

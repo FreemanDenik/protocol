@@ -11,15 +11,11 @@
     <packaging>pom</packaging>
     <artifactId>packaging</artifactId>
 
-<!--    <properties>-->
-<!--        <maven.compiler.source>17</maven.compiler.source>-->
-<!--        <maven.compiler.target>17</maven.compiler.target>-->
-<!--    </properties>-->
-
     <dependencies>
+
         <dependency>
             <groupId>com.execute</groupId>
-            <artifactId>protocol-app</artifactId>
+            <artifactId>protocol-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -29,7 +25,7 @@
         </dependency>
         <dependency>
             <groupId>com.execute</groupId>
-            <artifactId>protocol-core</artifactId>
+            <artifactId>protocol-admin</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -37,52 +33,26 @@
             <artifactId>protocol-dto</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.execute</groupId>
+            <artifactId>protocol-app</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-assembly-plugin</artifactId>-->
-<!--                <version>3.3.0</version>-->
-
-<!--                <configuration>-->
-<!--                    &lt;!&ndash;                    <descriptorRefs>&ndash;&gt;-->
-<!--                    &lt;!&ndash;                        <descriptorRef>jar-with-dependencies</descriptorRef>&ndash;&gt;-->
-<!--                    &lt;!&ndash;                    </descriptorRefs>&ndash;&gt;-->
-<!--                    <archive>-->
-<!--                        <manifest>-->
-<!--                            <mainClass>com.execute.protocol.app.ProtocolAppApplication</mainClass>-->
-<!--                        </manifest>-->
-<!--                    </archive>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>build-package</id>-->
-<!--                        <goals>-->
-<!--                            <goal>single</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>package</phase>-->
-<!--                        <configuration>-->
-<!--                            <descriptors>-->
-<!--                                <descriptor>assembly.xml</descriptor>-->
-<!--                            </descriptors>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
     <build>
         <plugins>
+            <!-- Плагин, пакетирует весь проект в один jar файл, который можно легко запустить -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <archive>
                         <manifest>
+                            <!-- Указываем главный исполняемый класс -->
                             <mainClass>com.execute.protocol.app.ProtocolAppApplication</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
+                        <!-- Добавочное имя к файлу jar -->
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                 </configuration>

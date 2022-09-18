@@ -19,6 +19,7 @@
             <groupId>com.execute</groupId>
             <artifactId>protocol-dto</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <!-- spring boot starter -->
         <dependency>

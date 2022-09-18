@@ -15,18 +15,22 @@
 
     <dependencies>
         <!-- модули -->
+
         <dependency>
             <groupId>com.execute</groupId>
             <artifactId>protocol-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.execute</groupId>
             <artifactId>protocol-auth</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.execute</groupId>
+            <artifactId>protocol-admin</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- spring boot starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -68,10 +72,10 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 
