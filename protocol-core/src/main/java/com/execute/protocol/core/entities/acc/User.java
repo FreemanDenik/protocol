@@ -1,12 +1,11 @@
-package com.execute.protocol.core.entities;
+package com.execute.protocol.core.entities.acc;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.execute.protocol.core.entities.Target;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -28,6 +27,6 @@ public class User extends Account{
     @JoinColumn(name = "target_id", referencedColumnName = "id")
     private Target target;
     @Column
-    private long actualEvent;
+    private long currentEvent;
 
 }

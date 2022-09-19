@@ -1,10 +1,9 @@
 package com.execute.protocol.core.initializations;
 
-import com.execute.protocol.core.entities.Admin;
-import com.execute.protocol.core.entities.Role;
+import com.execute.protocol.core.entities.acc.Admin;
+import com.execute.protocol.core.entities.acc.Role;
 import com.execute.protocol.core.enums.EnumProviders;
 import com.execute.protocol.core.repositories.AccountRepository;
-import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCrypt;

@@ -10,16 +10,26 @@
         .container {
             text-align: center;
         }
+        .btn {
+            border-radius: 0;
+            width: 300px;
+        }
     </style>
     <meta charset="UTF-8">
-    <title>Война 3-х армии</title>
+    <title>Глава государства</title>
 </head>
 <body>
 <br/>
 <div class="container">
-    <h1>Главная</h1>
+    <h1>Расследование...</h1>
+    <h2>Вы детектив, </h2>
+    <hr/>
 
-    <a type="button" th:href="@{/auth/login}" class="btn btn-primary">Залогиниться</a>
+    <a type="button" th:href="@{/oauth2/authorization/vkontakte}" class="btn btn-primary">Авторизация с помощью VK</a>
+    <h5></h5>
+    <a type="button" th:href="@{/oauth2/authorization/yandex}" class="btn btn-primary">Авторизация с помощью Yandex</a>
+    <h5></h5>
+    <a type="button" th:href="@{/oauth2/authorization/mail}" class="btn btn-primary">Авторизация с помощью Mail</a>
 </div>
 </body>
 </html>

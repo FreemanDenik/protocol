@@ -4,10 +4,10 @@ package com.execute.protocol.auth.configs.jwt;
 import com.execute.protocol.auth.enums.EnumCookie;
 import com.execute.protocol.auth.models.OtherOAuth2User;
 import com.execute.protocol.auth.configs.converters.JavaDateConverter;
-import com.execute.protocol.core.entities.Account;
-import com.execute.protocol.core.entities.Role;
+import com.execute.protocol.core.entities.acc.Account;
+import com.execute.protocol.core.entities.acc.Role;
 import com.execute.protocol.core.entities.Target;
-import com.execute.protocol.core.entities.User;
+import com.execute.protocol.core.entities.acc.User;
 import com.execute.protocol.core.repositories.TargetRepository;
 import com.execute.protocol.core.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -104,7 +104,8 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
         //log.debug("Успешная авторизация id: {},  email: {},  JWT: {}", account.getId(), account.getEmail(), token);
 
         //httpServletResponse.sendRedirect("/loginByJwt");
-        httpServletResponse.sendRedirect("/enter");
+        //httpServletResponse.setHeader("Authorization","Bearer "+token);
+        httpServletResponse.sendRedirect("/game");
     }
 
 

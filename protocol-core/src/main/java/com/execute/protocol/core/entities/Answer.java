@@ -24,11 +24,12 @@ public class Answer {
     @Column
     private String text;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "doing_id", referencedColumnName = "id")
     private Collection<Doing> doing;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "answer_id", referencedColumnName = "id")
-    private Event event;
+    // Обратная связь
+    //@ManyToOne
+    //@JoinColumn(name = "answer_id", referencedColumnName = "id")
+   //private Event event;
 }

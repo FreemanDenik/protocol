@@ -51,13 +51,11 @@
         formData.append('event', eventId);
         formData.append('answer', answerId);
 
-
-        let data = await fetch("/api/" + url, {
+        let data = await fetch("/api/game/" + url, {
             method: 'POST',
             'Content-Type': 'application/json',
             'Authorization': 'Bearer_' + TOKEN,
             body: formData,
-
         });
 
         let json = await data.json();
@@ -76,7 +74,7 @@
                 'class':'btn btn-primary',
                 'style':'border-radius: 0',
                 click: async function () {
-                   await send('game', event.id, i.id);
+                   await send('go', event.id, i.id);
                 }
             });
             $('#answers').append(button).append('<br /><br />');

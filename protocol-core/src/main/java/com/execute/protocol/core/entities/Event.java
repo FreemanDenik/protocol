@@ -23,7 +23,8 @@ public class Event {
     @Column
     private String question;
 
-    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
+    @OneToMany( cascade = CascadeType.ALL)
+    @JoinColumn(name = "answer_id", referencedColumnName = "id")
     private Collection<Answer> answers;
 
 

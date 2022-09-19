@@ -17,6 +17,4 @@ public abstract class AbstractProvider {
     private String lastName;
     private String birthday;
     private String email;
-
-
 }

@@ -30,12 +30,12 @@
         </dependency>
         <dependency>
             <groupId>com.execute</groupId>
-            <artifactId>protocol-dto</artifactId>
+            <artifactId>protocol-app</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.execute</groupId>
-            <artifactId>protocol-app</artifactId>
+            <artifactId>protocol-dto</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

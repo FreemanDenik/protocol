@@ -1,4 +1,4 @@
-package com.execute.protocol.core.entities;
+package com.execute.protocol.core.entities.acc;
 
 import com.execute.protocol.core.enums.EnumProviders;
 import lombok.EqualsAndHashCode;
@@ -52,6 +52,7 @@ public class Account implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
     @Column
+    @Enumerated(EnumType.STRING)
     private Role role;
 //    @Column
 //    @Enumerated(EnumType.STRING)

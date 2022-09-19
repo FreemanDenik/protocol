@@ -1,7 +1,7 @@
 package com.execute.protocol.core.mappers;
 
 import com.example.protocol.dto.UserDto;
-import com.execute.protocol.core.entities.User;
+import com.execute.protocol.core.entities.acc.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
