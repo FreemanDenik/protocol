@@ -25,7 +25,10 @@ public class GameController {
      * Метод контроллера первый шаг игры
      * @return
      */
-
+    @GetMapping("register")
+    public String login(){
+        return "sdsd";
+    }
     @PostMapping("/initializer")
     public Tuple<Target, Event> initializer() {
 

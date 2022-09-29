@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,29 +20,53 @@ import java.util.Collections;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ACCOUNTS")
-public class Account extends AuthUser {
-
-
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Account implements UserDetails {
+    @Id
+    @EqualsAndHashCode.Include
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     @Column
-    private Long clientId;
+    private String login;
     @Column
+    private String password;
+    @Column(nullable = false, unique = true)
+    private String email;
+    @ElementCollection
+    @CollectionTable(
+            name="roles",
+            joinColumns=@JoinColumn(name="user_id")
+    )
     @Enumerated(EnumType.STRING)
-    private EnumProviders provider;
+    private Set<Role> roles;
 
-    @Column
-    @Enumerated(EnumType.STRING)
-    private Role role;
-    /**
-     * Время создания аккаунта
-     */
-    @Column(nullable = false)
-    private LocalDate accountCreatedTime;
-    /**
-     * Время последней активности
-     */
-    @Column(nullable = false)
-    private LocalDateTime lastAccountActivity;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
 
+    @Override
+    public String getUsername() {
+        return login;
+    }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

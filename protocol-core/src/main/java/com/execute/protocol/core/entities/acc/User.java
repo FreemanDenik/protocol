@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Table(name = "USER_ACCOUNTS")
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
-public class User extends AuthUser{
+public class User extends Account{
 
     @OneToOne(cascade = { CascadeType.ALL })
     @JoinColumn(name = "target_id", referencedColumnName = "id")

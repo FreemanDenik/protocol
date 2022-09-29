@@ -11,7 +11,7 @@ import javax.persistence.*;
 @SuperBuilder
 @NoArgsConstructor
 @Table(name = "ADMIN_ACCOUNTS")
-public class Admin extends AuthUser{
+public class Admin extends Account{
 
 
 }

@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,12 +44,14 @@ public class WebConfig implements WebMvcConfigurer{//implements WebMvcConfigurer
                 .and()
                 .authorizeHttpRequests(
                         authz -> authz
-                                .antMatchers("/api/auth/login").permitAll()
+                                .antMatchers("/api/auth/register").permitAll()
+                                .antMatchers("/api/game").hasAuthority("USER")
                                 .anyRequest().authenticated()
 //                                .and()
 //                                .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 ).build();
     }
+
     @Bean
     public RestTemplate restTemplate(){
         return new RestTemplate();

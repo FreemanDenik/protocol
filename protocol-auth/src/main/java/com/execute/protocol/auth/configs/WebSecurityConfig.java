@@ -1,8 +1,8 @@
 package com.execute.protocol.auth.configs;
 
 
-import com.execute.protocol.auth.converters.OtherTokenResponseConverter;
 
+import org.junit.jupiter.api.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResp
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
 import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.client.RestTemplate;
@@ -28,47 +29,22 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 
 @Configuration
-@EnableWebSecurity
-@SuppressWarnings("deprecation")
-public class WebSecurityConfig /*extends WebSecurityConfigurerAdapter */{
+public class WebSecurityConfig  {
 
-
-
-
-   // @Override
-   // protected void configure(HttpSecurity http) throws Exception {
-
-//        http
-//                .cors().and()
-//                //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                //.and()
-//                //.cors().and().csrf().disable()
-//                .authorizeRequests()
-//                //.antMatchers("/api/**").authenticated()
-//                .antMatchers("/api/admin/**").hasRole("ADMIN")
-//                .antMatchers("/api/game/**").hasRole("USER")
-//                .antMatchers("/", "/login").permitAll()
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        return http
+//                .httpBasic().disable()
+//                .csrf().disable()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 //                .and()
-//                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-//                .oauth2Login()
-//                .loginPage("/login")
-//                .tokenEndpoint().accessTokenResponseClient(accessTokenResponseClient())
-//                .and()
-//                .userInfoEndpoint().userService(otherOAuth2UserService)
-//                .and()
-//                .successHandler(authSuccessHandler);
-//
-//        http
-//                .logout()//URL выхода из системы безопасности Spring - только POST.
-//                // Вы можете поддержать выход из системы без POST, изменив конфигурацию Java
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))//выход из системы гет запрос на /logout
-//                //.deleteCookies(jwtCookieName) // Удаляем куки токен
-//                //.logoutSuccessUrl("/")//успешный выход из системы
-//                .logoutSuccessHandler(outSuccessHandler)
-//                .and().csrf().disable();
-
-   // }
-
-
+//                .authorizeHttpRequests(
+//                        authz -> authz
+//                                .antMatchers("/api/auth/login", "/api/auth/token").permitAll()
+//                                .anyRequest().authenticated()
+//                                //.and()
+//                                //.addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+//                ).build();
+//    }
 
 }
