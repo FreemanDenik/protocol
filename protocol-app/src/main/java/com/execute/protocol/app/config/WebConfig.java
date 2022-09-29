@@ -1,5 +1,6 @@
 package com.execute.protocol.app.config;
 
+import com.execute.protocol.auth.filters.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +30,7 @@ public class WebConfig implements WebMvcConfigurer{//implements WebMvcConfigurer
 
     @Value("${cors.allowed.origins}")
     public String[] allowedOrigins;
+    final private JwtFilter jwtFilter;
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").allowedOrigins(allowedOrigins);
@@ -44,11 +46,13 @@ public class WebConfig implements WebMvcConfigurer{//implements WebMvcConfigurer
                 .and()
                 .authorizeHttpRequests(
                         authz -> authz
-                                .antMatchers("/api/auth/register").permitAll()
-                                .antMatchers("/api/game").hasAuthority("USER")
+                                .antMatchers("/api/auth/register", "/api/auth/login",  "/api/auth/token").permitAll()
+ //                               .antMatchers("/api/game/**").hasAnyAuthority("USER", "ADMIN")
+                                .antMatchers("/api/game/**").hasAuthority("USER")
+//                                .antMatchers("/api/game/go").hasAuthority("ADMIN")
                                 .anyRequest().authenticated()
-//                                .and()
-//                                .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                                .and()
+                                .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 ).build();
     }
 

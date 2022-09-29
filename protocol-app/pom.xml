@@ -15,11 +15,7 @@
 
     <dependencies>
         <!-- модули -->
-        <dependency>
-            <groupId>com.execute-dto</groupId>
-            <artifactId>protocol-dto</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>com.execute</groupId>
             <artifactId>protocol-core</artifactId>

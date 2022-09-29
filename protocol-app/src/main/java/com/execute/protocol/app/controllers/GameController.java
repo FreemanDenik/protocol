@@ -1,16 +1,18 @@
 package com.execute.protocol.app.controllers;
 
 import com.execute.protocol.app.models.Tuple;
+import com.execute.protocol.auth.dto.JwtAuthentication;
 import com.execute.protocol.core.entities.Event;
 import com.execute.protocol.core.entities.Target;
 import com.execute.protocol.core.entities.acc.User;
 import com.execute.protocol.core.repositories.EventRepository;
 import com.execute.protocol.core.repositories.UserRepository;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
-@RequestMapping("/api/game")
+@RequestMapping("api/game")
 public class GameController {
 
     private final UserRepository userRepository;
@@ -25,13 +27,10 @@ public class GameController {
      * Метод контроллера первый шаг игры
      * @return
      */
-    @GetMapping("register")
-    public String login(){
-        return "sdsd";
-    }
-    @PostMapping("/initializer")
-    public Tuple<Target, Event> initializer() {
+    @PostMapping("initializer")
+    public Tuple<Target, Event> initializer(Principal principal) {
 
+        JwtAuthentication tt = (JwtAuthentication)principal;
         Event event = eventRepository.findRandomEvent();
         String email = ""; // get mail
         User user = userRepository.findByEmail( email);
@@ -46,10 +45,10 @@ public class GameController {
      * @param answerId
      * @return
      */
-    @PostMapping("/go")
+    @PostMapping("go")
     public Tuple<Target, Event> go(
-             @RequestParam(name = "event") long eventId,
-             @RequestParam(name = "answer") long answerId) {
+             @RequestParam(name = "event", defaultValue = "0") long eventId,
+             @RequestParam(name = "answer", defaultValue = "0") long answerId) {
         String email = ""; // get mail
         User account = userRepository.findByEmail(email);
         Event e = eventRepository.findById(eventId).get();

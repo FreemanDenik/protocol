@@ -1,4 +1,4 @@
-package com.execute.protocol.app.models;
+package com.execute.protocol.auth.dto;
 
 import lombok.Getter;
 import lombok.Setter;

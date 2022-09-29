@@ -14,7 +14,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("com.execute.protocol.core.repositories")
 @PropertySource({
         "classpath:core.properties",
-       "classpath:auth.properties",
+        "classpath:auth.properties",
 //        "classpath:auth.jwt.attr.properties",
         "classpath:admin.properties",
 })
