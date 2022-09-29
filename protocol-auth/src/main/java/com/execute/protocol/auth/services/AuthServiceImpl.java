@@ -27,7 +27,7 @@ public class AuthServiceImpl implements AuthService{
         if (passwordEncoder.matches(authRequest.getPassword(), account.getPassword())) {
             final String accessToken = jwtProvider.generateAccessToken(account);
             final String refreshToken = jwtProvider.generateRefreshToken(account);
-            refreshStorage.put(account.getEmail(), refreshToken);
+            refreshStorage.put(account.getStringId(), refreshToken);
             return new JwtResponse(accessToken, refreshToken);
         } else {
             throw new AuthException("Неправильный пароль");
@@ -37,10 +37,10 @@ public class AuthServiceImpl implements AuthService{
     public JwtResponse getAccessToken(@NonNull String refreshToken) throws AuthException {
         if (jwtProvider.validateRefreshToken(refreshToken)) {
             final Claims claims = jwtProvider.getRefreshClaims(refreshToken);
-            final String email = claims.getSubject();
-            final String saveRefreshToken = refreshStorage.get(email);
+            final String id = claims.getSubject();
+            final String saveRefreshToken = refreshStorage.get(id);
             if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-                final Account account = accountService.getByEmail(email)
+                final Account account = accountService.getByStringId(id)
                         .orElseThrow(() -> new AuthException("Пользователь не найден"));
                 final String accessToken = jwtProvider.generateAccessToken(account);
                 return new JwtResponse(accessToken, null);
@@ -52,14 +52,14 @@ public class AuthServiceImpl implements AuthService{
     public JwtResponse refresh(@NonNull String refreshToken) throws AuthException {
         if (jwtProvider.validateRefreshToken(refreshToken)) {
             final Claims claims = jwtProvider.getRefreshClaims(refreshToken);
-            final String email = claims.getSubject();
-            final String saveRefreshToken = refreshStorage.get(email);
+            final long id = Long.parseLong(claims.getSubject());
+            final String saveRefreshToken = refreshStorage.get(id);
             if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-                final Account account = accountService.getByEmail(email)
+                final Account account = accountService.getById(id)
                         .orElseThrow(() -> new AuthException("Пользователь не найден"));
                 final String accessToken = jwtProvider.generateAccessToken(account);
                 final String newRefreshToken = jwtProvider.generateRefreshToken(account);
-                refreshStorage.put(account.getEmail(), newRefreshToken);
+                refreshStorage.put(account.getStringId(), newRefreshToken);
                 return new JwtResponse(accessToken, newRefreshToken);
             }
         }

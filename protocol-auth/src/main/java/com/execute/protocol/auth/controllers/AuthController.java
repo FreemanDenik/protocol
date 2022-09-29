@@ -48,15 +48,15 @@ public class AuthController {
 
 
             JwtRequest jwtRequest = JwtRequest.builder().email(email).password(password).build();
-
-            userRepository.save(
-                    User.builder()
-                            .login(name)
-                            .password(passwordEncoder.encode(password))
-                            .email(email)
-                            .roles(Set.of(Role.USER))
-                            .target(Target.builder().money(random.nextInt(1, 7)).pollution(random.nextInt(1, 7)).build())
-                            .build());
+            User user = User.builder()
+                    .login(name)
+                    .password(passwordEncoder.encode(password))
+                    .email(email)
+                    .roles(Set.of(Role.USER))
+                    .target(Target.builder().money(random.nextInt(1, 7)).pollution(random.nextInt(1, 7)).build())
+                    .build();
+            userRepository.save(user);
+            userRepository.setIdInStringId(user.getId());
             return this.login(jwtRequest);
         }else {
 

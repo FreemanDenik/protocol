@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class JwtAuthentication implements Authentication {
 
     private boolean authenticated;
-    private long id;
+    private String id;
     private String login;
     private String email;
     private Set<Role> roles;

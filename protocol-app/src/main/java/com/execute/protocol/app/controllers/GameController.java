@@ -4,12 +4,14 @@ import com.execute.protocol.app.models.Tuple;
 import com.execute.protocol.auth.dto.JwtAuthentication;
 import com.execute.protocol.core.entities.Event;
 import com.execute.protocol.core.entities.Target;
+import com.execute.protocol.core.entities.acc.Account;
 import com.execute.protocol.core.entities.acc.User;
 import com.execute.protocol.core.repositories.EventRepository;
 import com.execute.protocol.core.repositories.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/game")
