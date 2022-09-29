@@ -1,72 +1,70 @@
 package com.execute.protocol.app.controllers;
 
-import com.execute.protocol.auth.configs.jwt.JwtProvider;
-import com.execute.protocol.auth.services.TokenService;
-import com.execute.protocol.core.entities.acc.Account;
-import com.execute.protocol.core.entities.acc.Role;
-import com.execute.protocol.core.repositories.AccountRepository;
+import com.execute.protocol.app.models.Tuple;
+import com.execute.protocol.core.entities.Event;
+import com.execute.protocol.core.entities.Target;
+import com.execute.protocol.core.entities.acc.User;
+import com.execute.protocol.core.repositories.EventRepository;
 import com.execute.protocol.core.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-@Controller
+@RestController
+@RequestMapping("/api/game")
 public class GameController {
 
-    private final JwtProvider jwtProvider;
-    public final UserRepository userRepository;
-    public final AccountRepository accountRepository;
-    private final TokenService tokenService;
-    @Autowired
-    public GameController(JwtProvider jwtProvider, UserRepository userRepository, AccountRepository accountRepository, TokenService tokenService) {
+    private final UserRepository userRepository;
+    private final EventRepository eventRepository;
 
-        this.jwtProvider = jwtProvider;
+    public GameController(UserRepository userRepository, EventRepository eventRepository) {
         this.userRepository = userRepository;
-        this.accountRepository = accountRepository;
-        this.tokenService = tokenService;
-    }
-    @GetMapping("/")
-    public String index(){
-        return "game/index";
+        this.eventRepository = eventRepository;
     }
 
     /**
-     * Метод контроллера входная точка игры
-     * @param response
-     * @param model
+     * Метод контроллера первый шаг игры
      * @return
-     * @throws IOException
      */
-    @GetMapping("/game")
-    public String enter(HttpServletResponse response, Model model) throws IOException {
 
-        String email  = jwtProvider.getEmailFromToken(tokenService.getToken());
-        Account account = accountRepository.findByEmail(email);
-        // Если пользователь не имеет роли USER выпроваживаем его в login
-        if (account.getRole() != Role.ROLE_USER)
-            response.sendRedirect("/login");
+    @PostMapping("/initializer")
+    public Tuple<Target, Event> initializer() {
 
-        model.addAttribute("firstName", account.getFirstName());
-
-        return "game/game";
+        Event event = eventRepository.findRandomEvent();
+        String email = ""; // get mail
+        User user = userRepository.findByEmail( email);
+        user.setCurrentEvent(event.getId());
+        userRepository.save(user);
+       return new Tuple<>(user.getTarget(), event);
     }
 
+    /**
+     * Метод контроллера выполняющий шаг игры
+     * @param eventId
+     * @param answerId
+     * @return
+     */
+    @PostMapping("/go")
+    public Tuple<Target, Event> go(
+             @RequestParam(name = "event") long eventId,
+             @RequestParam(name = "answer") long answerId) {
+        String email = ""; // get mail
+        User account = userRepository.findByEmail(email);
+        Event e = eventRepository.findById(eventId).get();
+        //var e = events.stream().filter(w->w.getId() == eventId).findFirst().get();
+        var a = e.getAnswers().stream().filter(w->w.getId() == answerId).findFirst().get();
+        Target target = account.getTarget();
+        a.getDoing().forEach(w->{
 
-//    private Account getCurrentAccount() {
-//        String email;
-//        var tt = SecurityContextHolder.getContext().getAuthentication().toString();
-//        if (SecurityContextHolder.getContext().getAuthentication().toString().contains("given_name")) {
-//            email = ((DefaultOidcUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmail();
-//        } else {
-//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//            Account account = (Account) auth.getPrincipal();
-//            email = account.getEmail();
-//        }
-//
-//        return (Account) userDetails.loadUserByUsername(email);
-//    }
+            switch (w.getActionTarget()){
+                case MONEY ->  target.setMoney(target.getMoney() + w.getValueTarget());
+                case POLLUTION -> target.setPollution(target.getPollution() + w.getValueTarget());
+
+            }
+        });
+
+        userRepository.save(account);
+        Event event = eventRepository.findRandomEvent();
+       return new Tuple<>(account.getTarget(), eventRepository.findRandomEvent());
+    }
+
 }

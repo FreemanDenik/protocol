@@ -2,39 +2,35 @@ package com.execute.protocol.core.initializations;
 
 import com.execute.protocol.core.entities.acc.Admin;
 import com.execute.protocol.core.entities.acc.Role;
-import com.execute.protocol.core.enums.EnumProviders;
-import com.execute.protocol.core.repositories.AccountRepository;
+import com.execute.protocol.core.repositories.AdminRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Set;
 
 @Component
 @Transactional
+@RequiredArgsConstructor
 public class AdminsDefaultCreator {
-    private final AccountRepository accountRepository;
-
-    @Autowired
-    public AdminsDefaultCreator(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
-
+    private final AdminRepository  adminRepository;
+    private final PasswordEncoder passwordEncoder;
     @Bean("AdminsDefaultCreator")
     public void adminsDefaultCreator() {
-        accountRepository.save(Admin.builder()
-                .firstName("Admin")
-                .lastName("DefaultAdmin")
-                .username("admin")
-                .password(BCrypt.hashpw("2174", BCrypt.gensalt(10)))
-                .accountCreatedTime(LocalDate.now())
-                .lastAccountActivity(LocalDateTime.now())
+        adminRepository.save(Admin.builder()
+                //.firstName("Admin")
+                //.lastName("DefaultAdmin")
+                .login("admin")
+                .password(passwordEncoder.encode("2174"))
+                //.accountCreatedTime(LocalDate.now())
+                //.lastAccountActivity(LocalDateTime.now())
                 .email("denikvy@gmail.com")
-                .provider(EnumProviders.PROTOCOL)
-                .role(Role.ROLE_ADMIN)
+                // .provider(EnumProviders.PROTOCOL)
+                .roles(Set.of(Role.ADMIN))
                 .build());
     }
 }
