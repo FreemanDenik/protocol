@@ -6,7 +6,7 @@ import com.sun.istack.NotNull;
 import java.util.Optional;
 
 public interface AccountService {
-    Optional<Account> getById(@NotNull long id);
-    Optional<Account> getByStringId(@NotNull String stringId);
-    Optional<Account> getByEmail(@NotNull String email);
+    Optional<Account> getAccountById(@NotNull long id);
+    Optional<Account> getAccountByStringId(@NotNull String stringId);
+    Optional<Account> getAccountByEmail(@NotNull String email);
 }

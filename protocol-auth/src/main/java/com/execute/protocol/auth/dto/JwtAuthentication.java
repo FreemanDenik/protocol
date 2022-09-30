@@ -1,25 +1,20 @@
 package com.execute.protocol.auth.dto;
 
 import com.execute.protocol.core.entities.acc.Role;
-import io.jsonwebtoken.lang.Collections;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
 public class JwtAuthentication implements Authentication {
 
     private boolean authenticated;
-    private String id;
+    private String stringId;
     private String login;
     private String email;
     private Set<Role> roles;

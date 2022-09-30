@@ -25,8 +25,9 @@ public class Account implements UserDetails {
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private long id;
-    @Column(name = "string_id")
+    @Column(name = "string_id", unique = true)
     private String stringId;
     @Column
     private String login;

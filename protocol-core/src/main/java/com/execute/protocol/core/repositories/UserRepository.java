@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository  extends AccountRepository {
-
+    User findUserByStringId(String stringId);
+    boolean existsByEmail(String email);
 
 }

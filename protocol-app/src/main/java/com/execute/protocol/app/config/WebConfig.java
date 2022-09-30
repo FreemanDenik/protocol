@@ -47,9 +47,9 @@ public class WebConfig implements WebMvcConfigurer{//implements WebMvcConfigurer
                 .authorizeHttpRequests(
                         authz -> authz
                                 .antMatchers("/api/auth/register", "/api/auth/login",  "/api/auth/token").permitAll()
- //                               .antMatchers("/api/game/**").hasAnyAuthority("USER", "ADMIN")
-                                .antMatchers("/api/game/**").hasAuthority("USER")
-//                                .antMatchers("/api/game/go").hasAuthority("ADMIN")
+                                .antMatchers("/api/game/**").hasAnyAuthority("USER", "ADMIN")
+                               // .antMatchers("/api/game/initializer").hasAuthority("USER")
+                               // .antMatchers("/api/game/go").hasAuthority("ADMIN")
                                 .anyRequest().authenticated()
                                 .and()
                                 .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)

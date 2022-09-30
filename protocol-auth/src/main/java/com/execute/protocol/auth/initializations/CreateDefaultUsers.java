@@ -47,7 +47,7 @@ public class CreateDefaultUsers {
                         .roles(Set.of(Role.USER))
                         .build();
         accountRepository.saveAll(List.of(admin, user));
-        accountRepository.setIdInStringId(admin.getId());
-        accountRepository.setIdInStringId(user.getId());
+//        accountRepository.setIdInStringId(admin.getId());
+//        accountRepository.setIdInStringId(user.getId());
     }
 }

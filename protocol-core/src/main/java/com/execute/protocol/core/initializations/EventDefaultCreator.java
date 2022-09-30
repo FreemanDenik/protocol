@@ -37,7 +37,7 @@ public class EventDefaultCreator {
                                                         .valueTarget(-2).build(),
                                                 Doing.builder()
                                                         .actionTarget(EnumActionTarget.POLLUTION)
-                                                        .valueTarget(3).build()))
+                                                        .valueTarget(2).build()))
                                         .build(),
                                 Answer.builder()
                                         .text("Заставить заводит утилизировать 100% отходов")
@@ -45,21 +45,21 @@ public class EventDefaultCreator {
                                                 Arrays.asList(
                                                         Doing.builder()
                                                                 .actionTarget(EnumActionTarget.MONEY)
-                                                                .valueTarget(-2).build(),
+                                                                .valueTarget(-5).build(),
                                                         Doing.builder()
                                                                 .actionTarget(EnumActionTarget.POLLUTION)
-                                                                .valueTarget(2).build()))
+                                                                .valueTarget(4).build()))
                                         .build(),
                                 Answer.builder()
-                                        .text("Заставить заводит утилизировать 100% отходов")
+                                        .text("Потребовать долю за прикрытие заводов")
                                         .doing(
                                                 Arrays.asList(
                                                         Doing.builder()
                                                                 .actionTarget(EnumActionTarget.MONEY)
-                                                                .valueTarget(-2).build(),
+                                                                .valueTarget(5).build(),
                                                         Doing.builder()
                                                                 .actionTarget(EnumActionTarget.POLLUTION)
-                                                                .valueTarget(2).build()))
+                                                                .valueTarget(6).build()))
                                         .build()
                         ))
                         .build(),
@@ -68,12 +68,12 @@ public class EventDefaultCreator {
                         .question("Нашли месторождение нефти, но рядом живут жилые городки и села")
                         .answers(Arrays.asList(
                                 Answer.builder()
-                                        .text("Все хорошо, ничего страшного не будет")
+                                        .text("Добывать!, ничего страшного не будет")
                                         .doing(
                                                 Arrays.asList(
                                                         Doing.builder()
                                                                 .actionTarget(EnumActionTarget.MONEY)
-                                                                .valueTarget(2).build(),
+                                                                .valueTarget(3).build(),
                                                         Doing.builder()
                                                                 .actionTarget(EnumActionTarget.POLLUTION)
                                                                 .valueTarget(-4).build()
@@ -94,15 +94,15 @@ public class EventDefaultCreator {
                                         )
                                         .build(),
                                 Answer.builder()
-                                        .text("Не трогать! Не будет травить людей, пересели их и через годика 2-4 начнем качать когда рядом не кого не будет")
+                                        .text("Не трогать! Не будет травить людей")
                                         .doing(
                                                 Arrays.asList(
                                                         Doing.builder()
                                                                 .actionTarget(EnumActionTarget.MONEY)
-                                                                .valueTarget(-1).build(),
+                                                                .valueTarget(-3).build(),
                                                         Doing.builder()
                                                                 .actionTarget(EnumActionTarget.POLLUTION)
-                                                                .valueTarget(1).build()
+                                                                .valueTarget(2).build()
                                                 )
                                         )
                                         .build()
