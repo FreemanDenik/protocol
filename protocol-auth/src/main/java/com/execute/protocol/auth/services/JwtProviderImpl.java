@@ -50,7 +50,7 @@ public class JwtProviderImpl implements JwtProvider{
         final Instant accessExpirationInstant = now.plusMinutes(jwtMinutesAccess).atZone(ZoneId.systemDefault()).toInstant();
         final Date accessExpiration = Date.from(accessExpirationInstant);
         return Jwts.builder()
-                .setSubject(account.getStringId())
+                .setSubject(account.getEmail())
                 .setExpiration(accessExpiration)
                 .signWith(jwtAccessSecret)
                 .claim("roles", account.getRoles())
@@ -68,7 +68,7 @@ public class JwtProviderImpl implements JwtProvider{
         final Instant refreshExpirationInstant = now.plusDays(jwtMinutesRefresh).atZone(ZoneId.systemDefault()).toInstant();
         final Date refreshExpiration = Date.from(refreshExpirationInstant);
         return Jwts.builder()
-                .setSubject(account.getStringId())
+                .setSubject(account.getEmail())
                 .setExpiration(refreshExpiration)
                 .signWith(jwtRefreshSecret)
                 .compact();

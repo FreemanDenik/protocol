@@ -1,8 +1,10 @@
 package com.execute.protocol.auth.services;
 
 
-import com.execute.protocol.auth.dto.*;
 import com.execute.protocol.auth.exeptions.AuthException;
+import com.execute.protocol.auth.models.JwtAuthentication;
+import com.execute.protocol.auth.models.JwtRequest;
+import com.execute.protocol.auth.models.JwtResponse;
 import lombok.NonNull;
 
 public interface AuthService {

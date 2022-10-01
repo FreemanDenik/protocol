@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.GeneratorType;
-import org.junit.jupiter.api.Test;
 
 import javax.persistence.*;
 
@@ -22,7 +20,15 @@ public class Target {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column
-    private int money;
+    private int gold;
     @Column
-    private int pollution;
+    private int reputation;
+    @Column
+    private int health;
+    @Column
+    private int fight;
+    @Column
+    private int thirst;
+    @Column
+    private int shadow;
 }

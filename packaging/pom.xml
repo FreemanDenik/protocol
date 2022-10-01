@@ -12,27 +12,27 @@
     <artifactId>packaging</artifactId>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.execute</groupId>
+            <artifactId>protocol-app</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.execute</groupId>
             <artifactId>protocol-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.execute</groupId>
             <artifactId>protocol-auth</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.execute</groupId>
             <artifactId>protocol-admin</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.execute</groupId>
-            <artifactId>protocol-app</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+
 <!--        <dependency>-->
 <!--            <groupId>com.execute</groupId>-->
 <!--            <artifactId>protocol-dto</artifactId>-->
@@ -51,11 +51,24 @@
                             <mainClass>com.execute.protocol.app.ProtocolAppApplication</mainClass>
                         </manifest>
                     </archive>
+                    <finalName>
+                        protocol
+                    </finalName>
                     <descriptorRefs>
-                        <!-- Добавочное имя к файлу jar -->
+                        <!-- какой-то ведущий пакет сборки jar -->
                         <descriptorRef>jar-with-dependencies</descriptorRef>
+
                     </descriptorRefs>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

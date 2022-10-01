@@ -1,7 +1,7 @@
 package com.execute.protocol.auth.filters;
 
-import com.execute.protocol.auth.Utils.JwtUtil;
-import com.execute.protocol.auth.dto.JwtAuthentication;
+import com.execute.protocol.auth.utils.JwtUtil;
+import com.execute.protocol.auth.models.JwtAuthentication;
 import com.execute.protocol.auth.services.JwtProvider;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;

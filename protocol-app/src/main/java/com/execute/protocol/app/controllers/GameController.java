@@ -1,71 +1,90 @@
 package com.execute.protocol.app.controllers;
 
+import com.execute.protocol.app.models.GameInfo;
 import com.execute.protocol.app.models.Tuple;
-import com.execute.protocol.auth.dto.JwtAuthentication;
+import com.execute.protocol.auth.models.JwtAuthentication;
+import com.execute.protocol.core.dto.EventDto;
+import com.execute.protocol.core.entities.Answer;
 import com.execute.protocol.core.entities.Event;
 import com.execute.protocol.core.entities.Target;
 import com.execute.protocol.core.entities.acc.User;
-import com.execute.protocol.core.repositories.EventRepository;
 import com.execute.protocol.core.repositories.UserRepository;
+import com.execute.protocol.core.services.EventService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("api/game")
+@RequiredArgsConstructor
 public class GameController {
-
     private final UserRepository userRepository;
-    private final EventRepository eventRepository;
-
-    public GameController(UserRepository userRepository, EventRepository eventRepository) {
-        this.userRepository = userRepository;
-        this.eventRepository = eventRepository;
-    }
-
+    private final EventService eventService;
     /**
-     * Метод контроллера первый шаг игры
+     * Метод контроллера первый шаг игры (инициализация)
      * @return
      */
+
     @PostMapping("initializer")
-    public Tuple<Target, Event> initializer(JwtAuthentication principal) {
-
-        Event event = eventRepository.findRandomEvent();
-
-        User user = userRepository.findUserByStringId(principal.getStringId());
-        user.setCurrentEvent(event.getId());
+    public Tuple<Target, EventDto> initializer(
+            // Текущий пользователь email login roles
+            JwtAuthentication principal) {
+        // Случайное событие Dto
+        EventDto randomEventDto = eventService.getRandomEventDto();
+        String email = principal.getEmail();
+        // Получаем user по email
+        User user = userRepository.findByEmail(email);
+        // Устанавливаем id случайного события в user
+        user.setCurrentEvent(randomEventDto.getId());
+        // Время последней активности
+        user.setLastAccountActivity(LocalDateTime.now());
         userRepository.save(user);
-       return new Tuple<>(user.getTarget(), event);
+        // Сохранить изменения
+        return new Tuple<>(user.getTarget(), randomEventDto);
     }
 
     /**
      * Метод контроллера выполняющий шаг игры
-     * @param eventId
-     * @param answerId
      * @return
      */
     @PostMapping("go")
-    public Tuple<Target, Event> go(
-            @RequestParam(name = "event", defaultValue = "0") long eventId,
-            @RequestParam(name = "answer", defaultValue = "0") long answerId,
+
+    public Tuple<Target, EventDto> go(
+            // Модель получения значении eventId и answerId
+            @RequestBody GameInfo gameInfo,
+            // Текущий пользователь email login roles
             JwtAuthentication principal) {
-        User user = userRepository.findUserByStringId(principal.getStringId());
-        Event e = eventRepository.findById(eventId).get();
-        //var e = events.stream().filter(w->w.getId() == eventId).findFirst().get();
-        var a = e.getAnswers().stream().filter(w->w.getId() == answerId).findFirst().get();
+        String email = principal.getEmail();
+        // Получение пользователя по email и event, проверяя event страхуемся от подстановки иных значении
+        User user = userRepository.findByEmailAndEvent(email, gameInfo.getEvent());
+        // Поиск события по id которое держим в себе запись user
+        Event event = eventService.getById(user.getCurrentEvent());
+        // Из события получаем варианты ответов и из них получаем один вариант ответа
+        Answer answer = event.getAnswers().stream().filter(w -> w.getId() == gameInfo.getAnswer()).findFirst().get();
+        // Создаем ссылку на Target (что бы внести изменения, они отразятся в базе)
         Target target = user.getTarget();
-        a.getDoing().forEach(w->{
+        // Перебираем действия ответа и выполняем их
+        answer.getDoing().forEach(w -> {
 
-            switch (w.getActionTarget()){
-                case MONEY ->  target.setMoney(target.getMoney() + w.getValueTarget());
-                case POLLUTION -> target.setPollution(target.getPollution() + w.getValueTarget());
-
+            switch (w.getActionTarget()) {
+                case GOLD -> target.setGold(target.getGold() + w.getValueTarget());
+                case REPUTATION -> target.setReputation(target.getReputation() + w.getValueTarget());
+                case THIRST -> target.setThirst(target.getThirst() + w.getValueTarget());
+                case FIGHT -> target.setFight(target.getFight() + w.getValueTarget());
+                case SHADOW -> target.setShadow(target.getShadow() + w.getValueTarget());
             }
-        });
 
+        });
+        // Случайное событие Dto
+        EventDto randomEventDto = eventService.getRandomEventDto();
+        // Устанавливаем id нового случайного события в user
+        user.setCurrentEvent(randomEventDto.getId());
+        // Время последней активности
+        user.setLastAccountActivity(LocalDateTime.now());
+        // Сохранить изменения
         userRepository.save(user);
-        Event event = eventRepository.findRandomEvent();
-       return new Tuple<>(user.getTarget(), eventRepository.findRandomEvent());
+        return new Tuple<>(user.getTarget(), randomEventDto);
     }
 
 }

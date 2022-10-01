@@ -1,6 +1,7 @@
 package com.execute.protocol.core.entities.acc;
 
 import com.execute.protocol.core.entities.Target;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 

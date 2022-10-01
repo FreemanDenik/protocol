@@ -1,4 +1,4 @@
-package com.execute.protocol.auth.dto;
+package com.execute.protocol.auth.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

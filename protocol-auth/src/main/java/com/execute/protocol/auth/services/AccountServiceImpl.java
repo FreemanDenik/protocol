@@ -14,12 +14,10 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
 
     public Optional<Account> getAccountByEmail(@NotNull String email) {
-        return accountRepository.findAccountByEmail(email);
+        return Optional.ofNullable(accountRepository.findByEmail(email));
     }
     public Optional<Account> getAccountById(@NotNull long id) {
         return accountRepository.findAccountById(id);
     }
-    public Optional<Account> getAccountByStringId(@NotNull String id) {
-        return accountRepository.findAccountByStringId(id);
-    }
+
 }

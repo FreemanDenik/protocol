@@ -24,8 +24,8 @@ public class Answer {
     @Column
     private String text;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "doing_id", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "answer_id", referencedColumnName = "id")
     private Collection<Doing> doing;
 
     // Обратная связь

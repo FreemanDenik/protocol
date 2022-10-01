@@ -24,7 +24,7 @@ public class Event {
     private String question;
 
     @OneToMany( cascade = CascadeType.ALL)
-    @JoinColumn(name = "answer_id", referencedColumnName = "id")
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Collection<Answer> answers;
 
 

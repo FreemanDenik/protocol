@@ -1,4 +1,4 @@
-package com.execute.protocol.auth.dto;
+package com.execute.protocol.auth.models;
 
 import com.execute.protocol.core.entities.acc.Role;
 import lombok.Getter;
@@ -14,7 +14,6 @@ import java.util.Set;
 public class JwtAuthentication implements Authentication {
 
     private boolean authenticated;
-    private String stringId;
     private String login;
     private String email;
     private Set<Role> roles;

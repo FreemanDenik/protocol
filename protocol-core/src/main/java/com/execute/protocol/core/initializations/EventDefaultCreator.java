@@ -5,7 +5,6 @@ import com.execute.protocol.core.entities.Doing;
 import com.execute.protocol.core.entities.Event;
 import com.execute.protocol.core.enums.EnumActionTarget;
 import com.execute.protocol.core.repositories.EventRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -27,82 +26,93 @@ public class EventDefaultCreator {
         eventRepository.saveAll(Arrays.asList(
                 // Первая карточка
                 Event.builder()
-                        .question("Заводы сбрасывают слишком много отходов, с этим надо что то делать!")
+                        .question("Трактирщик наливает всем рома")
                         .answers(Arrays.asList(
                                 Answer.builder()
-                                        .text("Заставить завод утилизировать 30% отходов")
+                                        .text("Налей мне полную")
                                         .doing(Arrays.asList(
                                                 Doing.builder()
-                                                        .actionTarget(EnumActionTarget.MONEY)
+                                                        .actionTarget(EnumActionTarget.THIRST)
+                                                        .valueTarget(2).build(),
+                                                Doing.builder()
+                                                        .actionTarget(EnumActionTarget.SHADOW)
                                                         .valueTarget(-2).build(),
                                                 Doing.builder()
-                                                        .actionTarget(EnumActionTarget.POLLUTION)
-                                                        .valueTarget(2).build()))
+                                                        .actionTarget(EnumActionTarget.GOLD)
+                                                        .valueTarget(-2).build(),
+                                                Doing.builder()
+                                                        .actionTarget(EnumActionTarget.REPUTATION)
+                                                        .valueTarget(1).build()))
                                         .build(),
                                 Answer.builder()
-                                        .text("Заставить заводит утилизировать 100% отходов")
+                                        .text("С меня хватит!")
                                         .doing(
                                                 Arrays.asList(
                                                         Doing.builder()
-                                                                .actionTarget(EnumActionTarget.MONEY)
-                                                                .valueTarget(-5).build(),
+                                                                .actionTarget(EnumActionTarget.SHADOW)
+                                                                .valueTarget(-1).build(),
                                                         Doing.builder()
-                                                                .actionTarget(EnumActionTarget.POLLUTION)
-                                                                .valueTarget(4).build()))
+                                                                .actionTarget(EnumActionTarget.THIRST)
+                                                                .valueTarget(-1).build(),
+                                                        Doing.builder()
+                                                                .actionTarget(EnumActionTarget.GOLD)
+                                                                .valueTarget(1).build(),
+                                                        Doing.builder()
+                                                                .actionTarget(EnumActionTarget.REPUTATION)
+                                                                .valueTarget(-1).build()))
                                         .build(),
                                 Answer.builder()
-                                        .text("Потребовать долю за прикрытие заводов")
+                                        .text("Пол кружки не повредит")
                                         .doing(
                                                 Arrays.asList(
                                                         Doing.builder()
-                                                                .actionTarget(EnumActionTarget.MONEY)
-                                                                .valueTarget(5).build(),
+                                                                .actionTarget(EnumActionTarget.GOLD)
+                                                                .valueTarget(-1).build(),
                                                         Doing.builder()
-                                                                .actionTarget(EnumActionTarget.POLLUTION)
-                                                                .valueTarget(6).build()))
+                                                                .actionTarget(EnumActionTarget.SHADOW)
+                                                                .valueTarget(1).build(),
+                                                        Doing.builder()
+                                                                .actionTarget(EnumActionTarget.THIRST)
+                                                                .valueTarget(1).build()))
                                         .build()
                         ))
                         .build(),
                 // Вторая карточка
                 Event.builder()
-                        .question("Нашли месторождение нефти, но рядом живут жилые городки и села")
+                        .question("Выпивающие за соседним столиков слишком шумят")
                         .answers(Arrays.asList(
                                 Answer.builder()
-                                        .text("Добывать!, ничего страшного не будет")
+                                        .text("Заплатить чтобы не шумели")
                                         .doing(
                                                 Arrays.asList(
                                                         Doing.builder()
-                                                                .actionTarget(EnumActionTarget.MONEY)
-                                                                .valueTarget(3).build(),
-                                                        Doing.builder()
-                                                                .actionTarget(EnumActionTarget.POLLUTION)
-                                                                .valueTarget(-4).build()
-                                                )
-                                        )
-                                        .build(),
-                                Answer.builder()
-                                        .text("Подкупить местных чтобы молчали")
-                                        .doing(
-                                                Arrays.asList(
-                                                        Doing.builder()
-                                                                .actionTarget(EnumActionTarget.MONEY)
-                                                                .valueTarget(2).build(),
-                                                        Doing.builder()
-                                                                .actionTarget(EnumActionTarget.POLLUTION)
-                                                                .valueTarget(-3).build()
-                                                )
-                                        )
-                                        .build(),
-                                Answer.builder()
-                                        .text("Не трогать! Не будет травить людей")
-                                        .doing(
-                                                Arrays.asList(
-                                                        Doing.builder()
-                                                                .actionTarget(EnumActionTarget.MONEY)
+                                                                .actionTarget(EnumActionTarget.GOLD)
                                                                 .valueTarget(-3).build(),
                                                         Doing.builder()
-                                                                .actionTarget(EnumActionTarget.POLLUTION)
-                                                                .valueTarget(2).build()
+                                                                .actionTarget(EnumActionTarget.FIGHT)
+                                                                .valueTarget(-2).build(),
+                                                        Doing.builder()
+                                                                .actionTarget(EnumActionTarget.SHADOW)
+                                                                .valueTarget(4).build(),
+                                                        Doing.builder()
+                                                                .actionTarget(EnumActionTarget.REPUTATION)
+                                                                .valueTarget(-1).build()
+                                                )
+                                        )
+                                        .build(),
+                                Answer.builder()
+                                        .text("Попросить чтобы не шумели")
+                                        .doing(
+                                                Arrays.asList(
+                                                        Doing.builder()
+                                                                .actionTarget(EnumActionTarget.SHADOW)
+                                                                .valueTarget(1).build(),
+                                                        Doing.builder()
+                                                                .actionTarget(EnumActionTarget.FIGHT)
+                                                                .valueTarget(-3).build(),
+                                                        Doing.builder()
+                                                                .actionTarget(EnumActionTarget.REPUTATION)
+                                                                .valueTarget(-4).build()
                                                 )
                                         )
                                         .build()

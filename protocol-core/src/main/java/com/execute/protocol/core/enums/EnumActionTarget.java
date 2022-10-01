@@ -1,6 +1,10 @@
 package com.execute.protocol.core.enums;
 
 public enum EnumActionTarget {
-    MONEY,
-    POLLUTION
+    GOLD,
+    REPUTATION,
+    HEALTH,
+    FIGHT,
+    THIRST,
+    SHADOW
 }

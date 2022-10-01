@@ -1,7 +1,7 @@
-package com.execute.protocol.auth.Utils;
+package com.execute.protocol.auth.utils;
 
 
-import com.execute.protocol.auth.dto.JwtAuthentication;
+import com.execute.protocol.auth.models.JwtAuthentication;
 import com.execute.protocol.core.entities.acc.Role;
 import io.jsonwebtoken.Claims;
 import lombok.AccessLevel;
@@ -18,7 +18,7 @@ public final class JwtUtil {
         final JwtAuthentication jwtInfoToken = new JwtAuthentication();
         jwtInfoToken.setRoles(getRoles(claims));
         jwtInfoToken.setLogin(claims.get("login", String.class));
-        jwtInfoToken.setStringId(claims.getSubject());
+        jwtInfoToken.setEmail(claims.getSubject());
         return jwtInfoToken;
     }
 

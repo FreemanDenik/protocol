@@ -25,10 +25,7 @@ public class Account implements UserDetails {
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private long id;
-    @Column(name = "string_id", unique = true)
-    private String stringId;
     @Column
     private String login;
     @Column
@@ -42,6 +39,17 @@ public class Account implements UserDetails {
     )
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+    /**
+     * Время создания аккаунта
+     */
+    @Column(name = "ACCOUNT_CREATED_TIME", nullable = false)
+    private LocalDate accountCreatedTime;
+
+    /**
+     * Время последней активности
+     */
+    @Column(name = "LAST_ACCOUNT_ACTIVITY", nullable = false)
+    private LocalDateTime lastAccountActivity;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
