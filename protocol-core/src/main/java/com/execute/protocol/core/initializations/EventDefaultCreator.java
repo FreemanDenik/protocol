@@ -7,6 +7,7 @@ import com.execute.protocol.core.enums.EnumActionTarget;
 import com.execute.protocol.core.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -36,7 +37,7 @@ public class EventDefaultCreator {
                                                         .valueTarget(2).build(),
                                                 Doing.builder()
                                                         .actionTarget(EnumActionTarget.SHADOW)
-                                                        .valueTarget(-2).build(),
+                                                        .valueTarget(-1).build(),
                                                 Doing.builder()
                                                         .actionTarget(EnumActionTarget.GOLD)
                                                         .valueTarget(-2).build(),
@@ -62,18 +63,21 @@ public class EventDefaultCreator {
                                                                 .valueTarget(-1).build()))
                                         .build(),
                                 Answer.builder()
-                                        .text("Пол кружки не повредит")
+                                        .text("Мне худо от твоего рома заплати мне!")
                                         .doing(
                                                 Arrays.asList(
                                                         Doing.builder()
                                                                 .actionTarget(EnumActionTarget.GOLD)
-                                                                .valueTarget(-1).build(),
+                                                                .valueTarget(2).build(),
                                                         Doing.builder()
                                                                 .actionTarget(EnumActionTarget.SHADOW)
-                                                                .valueTarget(1).build(),
+                                                                .valueTarget(-2).build(),
+                                                        Doing.builder()
+                                                                .actionTarget(EnumActionTarget.REPUTATION)
+                                                                .valueTarget(-2).build(),
                                                         Doing.builder()
                                                                 .actionTarget(EnumActionTarget.THIRST)
-                                                                .valueTarget(1).build()))
+                                                                .valueTarget(-2).build()))
                                         .build()
                         ))
                         .build(),
@@ -106,13 +110,29 @@ public class EventDefaultCreator {
                                                 Arrays.asList(
                                                         Doing.builder()
                                                                 .actionTarget(EnumActionTarget.SHADOW)
-                                                                .valueTarget(1).build(),
+                                                                .valueTarget(2).build(),
                                                         Doing.builder()
                                                                 .actionTarget(EnumActionTarget.FIGHT)
                                                                 .valueTarget(-3).build(),
                                                         Doing.builder()
                                                                 .actionTarget(EnumActionTarget.REPUTATION)
                                                                 .valueTarget(-4).build()
+                                                )
+                                        )
+                                        .build(),
+                                Answer.builder()
+                                        .text("В грубой форме заткнуть их")
+                                        .doing(
+                                                Arrays.asList(
+                                                        Doing.builder()
+                                                                .actionTarget(EnumActionTarget.SHADOW)
+                                                                .valueTarget(-3).build(),
+                                                        Doing.builder()
+                                                                .actionTarget(EnumActionTarget.FIGHT)
+                                                                .valueTarget(3).build(),
+                                                        Doing.builder()
+                                                                .actionTarget(EnumActionTarget.REPUTATION)
+                                                                .valueTarget(2).build()
                                                 )
                                         )
                                         .build()

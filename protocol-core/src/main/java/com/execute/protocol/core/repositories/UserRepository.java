@@ -14,7 +14,6 @@ public interface UserRepository extends AccountRepository {
 
     boolean existsByEmail(String email);
 
-
     User findByEmail(String email);
     @Query("FROM User WHERE email = :email AND currentEvent = :event")
     User findByEmailAndEvent(@Param("email") String email, @Param("event") long event);

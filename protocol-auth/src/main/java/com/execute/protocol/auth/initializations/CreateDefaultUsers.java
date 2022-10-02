@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,7 @@ import java.util.Set;
 @Component
 @Transactional
 @RequiredArgsConstructor
+
 public class CreateDefaultUsers {
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;

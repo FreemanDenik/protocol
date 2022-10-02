@@ -32,7 +32,7 @@ public class JwtProviderImpl implements JwtProvider{
             @Value("${jwt.secret.access}") String jwtAccessSecret,
             @Value("${jwt.secret.refresh}") String jwtRefreshSecret,
             @Value("${jwt.minutes.access}") int jwtMinutesAccess,
-            @Value("${jwt.minutes.refresh}") int jwtMinutesRefresh
+            @Value("${jwt.days.refresh}") int jwtMinutesRefresh
     ) {
         this.jwtAccessSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtAccessSecret));
         this.jwtRefreshSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtRefreshSecret));
