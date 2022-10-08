@@ -1,10 +1,7 @@
 package com.execute.protocol.auth.services;
 
 import com.execute.protocol.auth.exeptions.AuthException;
-import com.execute.protocol.auth.models.JwtAuthentication;
-import com.execute.protocol.auth.models.JwtRequest;
-import com.execute.protocol.auth.models.JwtResponse;
-import com.execute.protocol.auth.models.StgToken;
+import com.execute.protocol.auth.models.*;
 import com.execute.protocol.core.entities.acc.Account;
 import io.jsonwebtoken.Claims;
 import lombok.NonNull;
@@ -21,7 +18,6 @@ public class AuthServiceImpl implements AuthService{
     private final PasswordEncoder passwordEncoder;
     private final AccountService accountService;
     private final StorageService storageService;
-    private final Map<String, String> refreshStorage = new HashMap<>();
     private final JwtProvider jwtProvider;
 
     /**
@@ -30,7 +26,7 @@ public class AuthServiceImpl implements AuthService{
      * @return
      * @throws AuthException
      */
-    public JwtResponse email(@NonNull JwtRequest authRequest) throws AuthException {
+    public JwtLoginResponse email(@NonNull JwtRequest authRequest) throws AuthException {
         // Получение пользователя по email
         final Account account = accountService.getAccountByEmail(authRequest.getEmail())
                 .orElseThrow(() -> new AuthException("Пользователь не найден"));
@@ -43,9 +39,9 @@ public class AuthServiceImpl implements AuthService{
             // Помещаем их в хранилище памяти (refreshStorage просто переменная, надо ее в какой-то redis запилить)
             storageService.addStorage(StgToken.builder().id(account.getEmail()).refreshToken(refreshToken).build());
             //refreshStorage.put(account.getEmail(), refreshToken);
-
+            String[] roles = account.getRoles().stream().map(w->w.name()).toArray(String[]::new);
             // Возвращаем модель JwtLoginResponse содержащая токены
-            return new JwtResponse(accessToken, refreshToken);
+            return new JwtLoginResponse(accessToken, refreshToken, roles);
         } else {
             throw new AuthException("Неправильный пароль");
         }
@@ -64,7 +60,7 @@ public class AuthServiceImpl implements AuthService{
                 return new JwtResponse(accessToken, null);
             }
         }
-        return new JwtResponse(null, null);
+        return new JwtResponse(null,null);
     }
 
     public JwtResponse refresh(@NonNull String refreshToken) throws AuthException {

@@ -48,7 +48,6 @@ public class AuthController {
      */
     @PostMapping("register")
     public ResponseEntity register(@Valid @RequestBody JwtRegister jwtRegister, @Value("${server.port}") String serverPort) {
-
         if (!userRepository.existsByEmail(jwtRegister.getEmail())) {
             Random random = new Random();
             // Получаем случайное имя из готового списка
@@ -85,7 +84,7 @@ public class AuthController {
             // Заполняем request модель моделью jwtRequest и заголовками headers
             HttpEntity<JwtRequest> request = new HttpEntity<>(jwtRequest, headers);
             // Даем запрос на метод login
-           return restTemplate.postForEntity("http://localhost:"+serverPort+"/api/auth/login", request, JwtResponse.class);
+           return restTemplate.postForEntity("http://localhost:"+serverPort+"/api/auth/login", request, JwtLoginResponse.class);
 
         }else {
             // Ответ "user_already_exists" дает фронту знать что пользователь уже есть
@@ -97,13 +96,12 @@ public class AuthController {
 
         try {
             // Формируем и получаем токены
-            final JwtResponse token = authService.email(authRequest);
+            final JwtLoginResponse token = authService.email(authRequest);
             // Возвращаем токены в качестве ответа
             return ResponseEntity.ok(token);
         } catch (AuthException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Не верный email или пароль");
         }
-
     }
 
     @PostMapping("token")

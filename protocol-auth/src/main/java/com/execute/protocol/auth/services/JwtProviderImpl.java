@@ -1,7 +1,6 @@
 package com.execute.protocol.auth.services;
 
 import com.execute.protocol.core.entities.acc.Account;
-import com.execute.protocol.core.repositories.AccountRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -26,18 +25,18 @@ public class JwtProviderImpl implements JwtProvider{
     private final SecretKey jwtAccessSecret;
     private final SecretKey jwtRefreshSecret;
     private final int jwtMinutesAccess;
-    private final int jwtMinutesRefresh;
+    private final int jwtDaysRefresh;
 
     public JwtProviderImpl(
             @Value("${jwt.secret.access}") String jwtAccessSecret,
             @Value("${jwt.secret.refresh}") String jwtRefreshSecret,
             @Value("${jwt.minutes.access}") int jwtMinutesAccess,
-            @Value("${jwt.days.refresh}") int jwtMinutesRefresh
+            @Value("${jwt.days.refresh}") int jwtDaysRefresh
     ) {
         this.jwtAccessSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtAccessSecret));
         this.jwtRefreshSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtRefreshSecret));
         this.jwtMinutesAccess = jwtMinutesAccess;
-        this.jwtMinutesRefresh = jwtMinutesRefresh;
+        this.jwtDaysRefresh = jwtDaysRefresh;
     }
 
     /**
@@ -65,7 +64,7 @@ public class JwtProviderImpl implements JwtProvider{
      */
     public String generateRefreshToken(@NonNull Account account) {
         final LocalDateTime now = LocalDateTime.now();
-        final Instant refreshExpirationInstant = now.plusDays(jwtMinutesRefresh).atZone(ZoneId.systemDefault()).toInstant();
+        final Instant refreshExpirationInstant = now.plusDays(jwtDaysRefresh).atZone(ZoneId.systemDefault()).toInstant();
         final Date refreshExpiration = Date.from(refreshExpirationInstant);
         return Jwts.builder()
                 .setSubject(account.getEmail())

@@ -1,16 +1,14 @@
 package com.execute.protocol.auth.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
-@Builder
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class JwtResponse {
+public class JwtLoginResponse {
     protected final String type = "Bearer";
     protected String accessToken;
     protected String refreshToken;
+    private String[] roles;
 }
