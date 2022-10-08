@@ -4,6 +4,7 @@ import com.execute.protocol.auth.exeptions.AuthException;
 import com.execute.protocol.auth.models.JwtAuthentication;
 import com.execute.protocol.auth.models.JwtRequest;
 import com.execute.protocol.auth.models.JwtResponse;
+import com.execute.protocol.auth.models.StgToken;
 import com.execute.protocol.core.entities.acc.Account;
 import io.jsonwebtoken.Claims;
 import lombok.NonNull;
@@ -19,6 +20,7 @@ import java.util.Map;
 public class AuthServiceImpl implements AuthService{
     private final PasswordEncoder passwordEncoder;
     private final AccountService accountService;
+    private final StorageService storageService;
     private final Map<String, String> refreshStorage = new HashMap<>();
     private final JwtProvider jwtProvider;
 
@@ -39,8 +41,10 @@ public class AuthServiceImpl implements AuthService{
             // Формируем refresh токен (долгоживущий)
             final String refreshToken = jwtProvider.generateRefreshToken(account);
             // Помещаем их в хранилище памяти (refreshStorage просто переменная, надо ее в какой-то redis запилить)
-            refreshStorage.put(account.getEmail(), refreshToken);
-            // Возвращаем модель JwtResponse содержащая токены
+            storageService.addStorage(StgToken.builder().id(account.getEmail()).refreshToken(refreshToken).build());
+            //refreshStorage.put(account.getEmail(), refreshToken);
+
+            // Возвращаем модель JwtLoginResponse содержащая токены
             return new JwtResponse(accessToken, refreshToken);
         } else {
             throw new AuthException("Неправильный пароль");
@@ -51,7 +55,8 @@ public class AuthServiceImpl implements AuthService{
         if (jwtProvider.validateRefreshToken(refreshToken)) {
             final Claims claims = jwtProvider.getRefreshClaims(refreshToken);
             final String email = claims.getSubject();
-            final String saveRefreshToken = refreshStorage.get(email);
+            //final String saveRefreshToken = refreshStorage.get(email);
+            final String saveRefreshToken = storageService.getRefreshToken(email);
             if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
                 final Account account = accountService.getAccountByEmail(email)
                         .orElseThrow(() -> new AuthException("Пользователь не найден"));
@@ -66,13 +71,15 @@ public class AuthServiceImpl implements AuthService{
         if (jwtProvider.validateRefreshToken(refreshToken)) {
             final Claims claims = jwtProvider.getRefreshClaims(refreshToken);
             final String email = claims.getSubject();
-            final String saveRefreshToken = refreshStorage.get(email);
+            //final String saveRefreshToken = refreshStorage.get(email);
+            final String saveRefreshToken = storageService.getRefreshToken(email);
             if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
                 final Account account = accountService.getAccountByEmail(email)
                         .orElseThrow(() -> new AuthException("Пользователь не найден"));
                 final String accessToken = jwtProvider.generateAccessToken(account);
                 final String newRefreshToken = jwtProvider.generateRefreshToken(account);
-                refreshStorage.put(account.getEmail(), newRefreshToken);
+//                refreshStorage.put(account.getEmail(), newRefreshToken);
+                storageService.addStorage(StgToken.builder().id(account.getEmail()).refreshToken(refreshToken).build());
                 return new JwtResponse(accessToken, newRefreshToken);
             }
         }

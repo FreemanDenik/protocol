@@ -31,12 +31,21 @@
             <artifactId>protocol-admin</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- TOMCAT       -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+
+        </dependency>
         <!-- spring boot starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
         <!-- без jackson-databind кидает ошибки -->
         <dependency>
             <groupId>org.wso2.orbit.com.fasterxml.jackson.core</groupId>

@@ -41,6 +41,12 @@
     </properties>
     <dependencyManagement>
         <dependencies>
+            <!-- TOMCAT       -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
             <!-- spring boot starter -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -80,35 +86,46 @@
                 <artifactId>spring-boot-starter-data-jpa</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
+
+            <!-- Redis  -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
             <!-- JDBC -->
 <!--            <dependency>-->
 <!--                <groupId>org.springframework.boot</groupId>-->
 <!--                <artifactId>spring-boot-starter-data-jdbc</artifactId>-->
 <!--                <version>2.7.0</version>-->
 <!--            </dependency>-->
+
             <!-- Springframework security -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
+
             <!-- Springframework security CORE -->
 <!--            <dependency>-->
 <!--                <groupId>org.springframework.security</groupId>-->
 <!--                <artifactId>spring-security-core</artifactId>-->
 <!--                <version>5.7.3</version>-->
 <!--            </dependency>-->
+
             <!-- oauth2  -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-oauth2-client</artifactId>
-                <version>${spring.boot.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security.oauth.boot</groupId>
-                <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-                <version>2.6.1</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-starter-oauth2-client</artifactId>-->
+<!--                <version>${spring.boot.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.security.oauth.boot</groupId>-->
+<!--                <artifactId>spring-security-oauth2-autoconfigure</artifactId>-->
+<!--                <version>2.6.1</version>-->
+<!--            </dependency>-->
 
             <!-- jwt -->
             <dependency>

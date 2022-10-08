@@ -30,13 +30,22 @@ public class GameController {
     public Tuple<Target, EventDto> initializer(
             // Текущий пользователь email login roles
             JwtAuthentication principal) {
-        // Случайное событие Dto
-        EventDto randomEventDto = eventService.getRandomEventDto();
+
         String email = principal.getEmail();
+        EventDto randomEventDto;
         // Получаем user по email
         User user = userRepository.findByEmail(email);
-        // Устанавливаем id случайного события в user
-        user.setCurrentEvent(randomEventDto.getId());
+        if (user.getCurrentEvent() > 0){
+            // Событие по id
+            randomEventDto = eventService.getByIdEventDto(user.getCurrentEvent());
+
+        }else {
+            // Случайное событие Dto
+            randomEventDto = eventService.getRandomEventDto();
+            // Устанавливаем id случайного события в user, тем самым делаем его текущим
+            user.setCurrentEvent(randomEventDto.getId());
+        }
+
         // Время последней активности
         user.setLastAccountActivity(LocalDateTime.now());
         userRepository.save(user);

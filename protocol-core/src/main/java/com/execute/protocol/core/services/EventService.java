@@ -2,9 +2,13 @@ package com.execute.protocol.core.services;
 
 import com.execute.protocol.core.dto.EventDto;
 import com.execute.protocol.core.entities.Event;
-import com.execute.protocol.core.mappers.EventMapper;
+
+import java.util.Set;
 
 public interface EventService {
-    public EventDto getRandomEventDto();
-    public Event getById(long eventId);
+    Set<Event> getAllEventDto();
+    void saveEvent(Event event);
+    EventDto getRandomEventDto();
+    EventDto getByIdEventDto(long eventId);
+    Event getById(long eventId);
 }

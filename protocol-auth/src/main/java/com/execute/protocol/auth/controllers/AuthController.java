@@ -1,10 +1,7 @@
 package com.execute.protocol.auth.controllers;
 
 
-import com.execute.protocol.auth.models.JwtRefreshRequest;
-import com.execute.protocol.auth.models.JwtRegister;
-import com.execute.protocol.auth.models.JwtRequest;
-import com.execute.protocol.auth.models.JwtResponse;
+import com.execute.protocol.auth.models.*;
 import com.execute.protocol.auth.exeptions.AuthException;
 import com.execute.protocol.auth.services.AuthService;
 import com.execute.protocol.core.entities.Target;
@@ -13,6 +10,7 @@ import com.execute.protocol.core.entities.acc.User;
 import com.execute.protocol.core.repositories.AccountRepository;
 import com.execute.protocol.core.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,7 +47,7 @@ public class AuthController {
      * @return
      */
     @PostMapping("register")
-    public ResponseEntity register(@Valid @RequestBody JwtRegister jwtRegister) {
+    public ResponseEntity register(@Valid @RequestBody JwtRegister jwtRegister, @Value("${server.port}") String serverPort) {
 
         if (!userRepository.existsByEmail(jwtRegister.getEmail())) {
             Random random = new Random();
@@ -87,7 +85,7 @@ public class AuthController {
             // Заполняем request модель моделью jwtRequest и заголовками headers
             HttpEntity<JwtRequest> request = new HttpEntity<>(jwtRequest, headers);
             // Даем запрос на метод login
-           return restTemplate.postForEntity("http://localhost:8080/api/auth/login", request, JwtResponse.class);
+           return restTemplate.postForEntity("http://localhost:"+serverPort+"/api/auth/login", request, JwtResponse.class);
 
         }else {
             // Ответ "user_already_exists" дает фронту знать что пользователь уже есть

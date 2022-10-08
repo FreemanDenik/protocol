@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,6 +29,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+
 public class WebConfig implements WebMvcConfigurer{//implements WebMvcConfigurer
 
     @Value("${cors.allowed.origins}")
@@ -48,7 +52,7 @@ public class WebConfig implements WebMvcConfigurer{//implements WebMvcConfigurer
                         authz -> authz
                                 .antMatchers("/api/auth/register", "/api/auth/login",  "/api/auth/token").permitAll()
                                 .antMatchers("/api/game/**").hasAuthority("USER")
-                               // .antMatchers("/api/game/initializer").hasAuthority("USER")
+                                .antMatchers("/api/admin/**").hasAuthority("ADMIN")
                                // .antMatchers("/api/game/go").hasAuthority("ADMIN")
                                 .anyRequest().authenticated()
                                 .and()
