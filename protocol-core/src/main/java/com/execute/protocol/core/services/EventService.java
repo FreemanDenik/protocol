@@ -2,11 +2,10 @@ package com.execute.protocol.core.services;
 
 import com.execute.protocol.core.dto.EventDto;
 import com.execute.protocol.core.entities.Event;
-
-import java.util.Set;
+import org.springframework.data.domain.Page;
 
 public interface EventService {
-    Set<Event> getAllEventDto();
+    Page<Event> getEventsOrderByUpdateTimeDesc(int page, int pageSize);
     void saveEvent(Event event);
     EventDto getRandomEventDto();
     EventDto getByIdEventDto(long eventId);

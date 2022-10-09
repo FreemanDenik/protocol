@@ -5,8 +5,13 @@ import com.execute.protocol.core.entities.Event;
 import com.execute.protocol.core.mappers.EventMapper;
 import com.execute.protocol.core.repositories.EventRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,10 +20,12 @@ import java.util.stream.Collectors;
 public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
 
-    public Set<Event> getAllEventDto(){
-        return eventRepository.findAll().stream().collect(Collectors.toSet());
+    public Page<Event> getEventsOrderByUpdateTimeDesc(int page, int pageSize){
+        return eventRepository.findAllByOrderByUpdateTimeDesc(PageRequest.of(page,pageSize));
     }
     public void saveEvent(Event event){
+        event.setCreateTime(LocalDateTime.now());
+        event.setUpdateTime(LocalDateTime.now());
         eventRepository.save(event);
     }
     public EventDto getRandomEventDto() {

@@ -20,7 +20,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 //    void setIdInStringId(@Param("Id") long id);
 
     Account findByEmail(String email);
-
+    boolean existsByEmail(String email);
     Optional<Account> findAccountById(long email);
 
 

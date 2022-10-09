@@ -10,9 +10,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Component
+@Profile("dev")
 public class EventDefaultCreator {
     private final EventRepository eventRepository;
 
@@ -80,6 +82,8 @@ public class EventDefaultCreator {
                                                                 .valueTarget(-2).build()))
                                         .build()
                         ))
+                        .createTime(LocalDateTime.now())
+                        .updateTime(LocalDateTime.now())
                         .build(),
                 // Вторая карточка
                 Event.builder()
@@ -137,6 +141,8 @@ public class EventDefaultCreator {
                                         )
                                         .build()
                         ))
+                        .createTime(LocalDateTime.now())
+                        .updateTime(LocalDateTime.now())
                         .build()
         ));
 

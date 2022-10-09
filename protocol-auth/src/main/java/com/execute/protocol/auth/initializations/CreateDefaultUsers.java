@@ -26,7 +26,6 @@ import java.util.Set;
 @Component
 @Transactional
 @RequiredArgsConstructor
-
 public class CreateDefaultUsers {
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
@@ -57,7 +56,10 @@ public class CreateDefaultUsers {
                         .fight(random.nextInt(1, 7))
                         .shadow(random.nextInt(1, 7)).build())
                 .build();
-        accountRepository.saveAll(List.of(admin,user));
+        if (!accountRepository.existsByEmail("admin@gmail.com"))
+            accountRepository.save(admin);
+        if (!accountRepository.existsByEmail("user@gmail.com"))
+            accountRepository.save(user);
 
     }
 }
