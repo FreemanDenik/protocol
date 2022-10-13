@@ -14,8 +14,8 @@
     <description>protocol-app</description>
 
     <dependencies>
-        <!-- модули -->
 
+        <!-- Модули -->
         <dependency>
             <groupId>com.execute</groupId>
             <artifactId>protocol-core</artifactId>
@@ -31,60 +31,57 @@
             <artifactId>protocol-admin</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- TOMCAT       -->
+
+        <!-- TOMCAT -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-
         </dependency>
-        <!-- spring boot starter -->
+
+        <!-- Spring boot starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+
+        <!-- Springframework security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        <!-- без jackson-databind кидает ошибки -->
+
+        <!-- Без jackson-databind кидает ошибки -->
         <dependency>
             <groupId>org.wso2.orbit.com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.11.0.wso2v1</version>
         </dependency>
 
-        <!-- tests -->
+        <!-- Junit 5 -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
         </dependency>
+
+        <!-- H2 база для тестов, в первую очередь для анотации DataJpaTest -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+        <!-- Tests -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
         </dependency>
-
-        <!-- Lombok -->
-<!--        <dependency>-->
-<!--            <groupId>org.projectlombok</groupId>-->
-<!--            <artifactId>lombok</artifactId>-->
-<!--            <version>${lombok.version}</version>-->
-<!--            <optional>true</optional>-->
-<!--        </dependency>-->
     </dependencies>
 
     <build>
         <plugins>
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--            </plugin>-->
         </plugins>
     </build>
 

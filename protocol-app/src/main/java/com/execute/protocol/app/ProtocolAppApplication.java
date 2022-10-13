@@ -18,7 +18,6 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @PropertySource({
         "classpath:core.properties",
         "classpath:auth.properties",
-//        "classpath:auth.jwt.attr.properties",
         "classpath:admin.properties",
 })
 @Slf4j

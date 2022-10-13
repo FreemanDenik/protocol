@@ -7,7 +7,6 @@ import com.execute.protocol.core.entities.acc.User;
 import com.execute.protocol.core.repositories.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
