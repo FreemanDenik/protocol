@@ -43,7 +43,10 @@
         <plugins>
             <!-- Плагин, пакетирует весь проект в один jar файл, который можно легко запустить -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.4.2</version>
+<!-- а было так <artifactId>maven-assembly-plugin</artifactId> и все!      -->
                 <configuration>
                     <archive>
                         <manifest>
