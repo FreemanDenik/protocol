@@ -32,7 +32,8 @@ public class Account implements UserDetails {
     private String password;
     @Column(nullable = false, unique = true)
     private String email;
-    @ElementCollection
+    // fetch = FetchType.EAGER - необходимо для теста (jwt) именно жадная загрузка ролей
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name="roles",
             joinColumns=@JoinColumn(name="user_id")

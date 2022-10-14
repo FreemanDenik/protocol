@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class StorageServiceImpl implements StorageService{
 
-    private final String HASH_KEY = "StgToken";
+    //private final String HASH_KEY = "StgToken";
 
     private final TokenRepository tokenRepository;
    // private final RedisTemplate redisTemplate;

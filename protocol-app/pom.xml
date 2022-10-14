@@ -33,15 +33,21 @@
         </dependency>
 
         <!-- TOMCAT -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--        </dependency>-->
 
         <!-- Spring boot starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- WEB -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <!-- Springframework security -->
@@ -79,12 +85,33 @@
             <artifactId>spring-security-test</artifactId>
         </dependency>
 
+        <!-- Встраиваемый севре Embedded-Redis для тестов -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test-autoconfigure</artifactId>
-            <version>2.7.4</version>
-            <scope>test</scope>
+            <groupId>it.ozimov</groupId>
+            <artifactId>embedded-redis</artifactId>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+<!--        <dependency>-->
+<!--            <groupId>org.mockito</groupId>-->
+<!--            <artifactId>mockito-core</artifactId>-->
+<!--            <version>4.8.0</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-test-autoconfigure</artifactId>-->
+<!--            <version>2.7.4</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+
+<!--         Пакет для использования анотации @ConfigurationProperties-->
+<!--                <dependency>-->
+<!--                    <groupId>org.springframework.boot</groupId>-->
+<!--                    <artifactId>spring-boot-configuration-processor</artifactId>-->
+<!--                    <version>2.7.4</version>-->
+<!--                    <optional>true</optional>-->
+<!--                </dependency>-->
     </dependencies>
 
     <build>
