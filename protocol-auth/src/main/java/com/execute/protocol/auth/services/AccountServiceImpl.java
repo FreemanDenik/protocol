@@ -1,6 +1,6 @@
 package com.execute.protocol.auth.services;
 
-import com.execute.protocol.core.entities.acc.Account;
+import com.execute.protocol.core.entities.account.Account;
 import com.execute.protocol.core.repositories.AccountRepository;
 import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;

@@ -1,16 +1,11 @@
 package com.execute.protocol.auth.initializations;
 
 import com.execute.protocol.core.entities.Target;
-import com.execute.protocol.core.entities.acc.Admin;
-import com.execute.protocol.core.entities.acc.Role;
-import com.execute.protocol.core.entities.acc.User;
+import com.execute.protocol.core.entities.account.Admin;
+import com.execute.protocol.core.entities.account.Role;
+import com.execute.protocol.core.entities.account.User;
 import com.execute.protocol.core.repositories.AccountRepository;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.lang.annotation.Before;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 

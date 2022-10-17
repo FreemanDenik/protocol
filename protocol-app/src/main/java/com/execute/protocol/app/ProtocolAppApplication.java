@@ -20,7 +20,6 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
         "classpath:auth.properties",
         "classpath:admin.properties",
 })
-@Slf4j
 
 public class ProtocolAppApplication {
 

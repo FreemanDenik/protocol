@@ -1,4 +1,4 @@
-package com.execute.protocol.core.entities.acc;
+package com.execute.protocol.core.entities.account;
 
 import org.springframework.security.core.GrantedAuthority;
 

@@ -7,7 +7,7 @@ import com.execute.protocol.core.dto.EventDto;
 import com.execute.protocol.core.entities.Answer;
 import com.execute.protocol.core.entities.Event;
 import com.execute.protocol.core.entities.Target;
-import com.execute.protocol.core.entities.acc.User;
+import com.execute.protocol.core.entities.account.User;
 import com.execute.protocol.core.repositories.UserRepository;
 import com.execute.protocol.core.services.EventService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,6 @@ public class GameController {
      * Метод контроллера первый шаг игры (инициализация)
      * @return
      */
-
     @PostMapping("initializer")
     public Tuple<Target, EventDto> initializer(
             // Текущий пользователь email login roles

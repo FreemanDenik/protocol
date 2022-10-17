@@ -16,9 +16,9 @@ public interface EventMapper {
    // @Mapping(target = "age", source = "birthday")
     EventDto mapEventToDto(Event event);
 
-    /**
-     * @return мэппинг UserDto в User
-     */
+//    /**
+//     * @return мэппинг UserDto в User
+//     */
     //@Mapping(target = "birthday", source = "age")
-    Event mapEventFromDto(EventDto eventDto);
+    //Event mapEventFromDto(EventDto eventDto);
 }

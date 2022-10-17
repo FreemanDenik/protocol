@@ -1,6 +1,5 @@
-package com.execute.protocol.core.entities.acc;
+package com.execute.protocol.core.entities.account;
 
-import com.execute.protocol.core.enums.EnumProviders;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,7 +9,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Set;
 
 @Entity

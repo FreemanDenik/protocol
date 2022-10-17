@@ -2,18 +2,18 @@ package com.execute.protocol.auth.services;
 
 import com.execute.protocol.auth.exeptions.AuthException;
 import com.execute.protocol.auth.models.*;
-import com.execute.protocol.core.entities.acc.Account;
+import com.execute.protocol.core.entities.account.Account;
 import io.jsonwebtoken.Claims;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
 @Service
 @RequiredArgsConstructor
+//@Primary
 public class AuthServiceImpl implements AuthService{
     private final PasswordEncoder passwordEncoder;
     private final AccountService accountService;
@@ -29,6 +29,7 @@ public class AuthServiceImpl implements AuthService{
     public JwtLoginResponse email(@NonNull JwtRequest authRequest) throws AuthException {
         // Получение пользователя по email
         final Account account = accountService.getAccountByEmail(authRequest.getEmail())
+                // Если изменять строку "Пользователь не найден" надо изменить ее и в тестах JwtTests
                 .orElseThrow(() -> new AuthException("Пользователь не найден"));
         // Сравниваем пароли полученного аккаунта и присланного
         if (passwordEncoder.matches(authRequest.getPassword(), account.getPassword())) {
@@ -60,7 +61,8 @@ public class AuthServiceImpl implements AuthService{
                 return new JwtResponse(accessToken, null);
             }
         }
-        return new JwtResponse(null,null);
+        //return new JwtResponse(null,null);
+        throw new AuthException("AccessToken не был обновлен!");
     }
 
     public JwtResponse refresh(@NonNull String refreshToken) throws AuthException {
@@ -75,7 +77,7 @@ public class AuthServiceImpl implements AuthService{
                 final String accessToken = jwtProvider.generateAccessToken(account);
                 final String newRefreshToken = jwtProvider.generateRefreshToken(account);
 //                refreshStorage.put(account.getEmail(), newRefreshToken);
-                storageService.addStorage(StgToken.builder().id(account.getEmail()).refreshToken(refreshToken).build());
+                storageService.addStorage(StgToken.builder().id(account.getEmail()).refreshToken(newRefreshToken).build());
                 return new JwtResponse(accessToken, newRefreshToken);
             }
         }

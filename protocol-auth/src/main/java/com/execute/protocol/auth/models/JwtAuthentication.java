@@ -1,6 +1,6 @@
 package com.execute.protocol.auth.models;
 
-import com.execute.protocol.core.entities.acc.Role;
+import com.execute.protocol.core.entities.account.Role;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.Authentication;

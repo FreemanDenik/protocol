@@ -1,12 +1,10 @@
-package com.execute.protocol.core.entities.acc;
+package com.execute.protocol.core.entities.account;
 
 import com.execute.protocol.core.entities.Target;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Getter

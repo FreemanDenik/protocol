@@ -2,7 +2,7 @@ package com.execute.protocol.auth.utils;
 
 
 import com.execute.protocol.auth.models.JwtAuthentication;
-import com.execute.protocol.core.entities.acc.Role;
+import com.execute.protocol.core.entities.account.Role;
 import io.jsonwebtoken.Claims;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

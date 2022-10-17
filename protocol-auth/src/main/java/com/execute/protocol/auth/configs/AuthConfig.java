@@ -1,19 +1,27 @@
 package com.execute.protocol.auth.configs;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import redis.clients.jedis.JedisPoolConfig;
 
 @Configuration
+@EnableRedisRepositories
 public class AuthConfig  {
+    @Value("${spring.redis.host}")
+    private String redisHost;
+    @Value("${spring.redis.port}")
+    private int redisPort;
     @Bean
     public JedisPoolConfig jedisPoolConfig() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         // Максимальное время ожидания для установления соединения
         jedisPoolConfig.setMaxWaitMillis(3600);
+
         // Минимальное время простоя для удаления соединений. По умолчанию 1800000 миллисекунд (30 минут)
 //        jedisPoolConfig.setMinEvictableIdleTimeMillis(1800000);
         // Максимальное количество выселений во время каждой проверки выселения. Если это отрицательное число, это: 1 / abs (n), по умолчанию 3
@@ -28,7 +36,8 @@ public class AuthConfig  {
     }
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
-        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration("127.0.0.1", 7000);
+        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(redisHost, redisPort);
+
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(config);
         jedisConnectionFactory.afterPropertiesSet();
         return jedisConnectionFactory;

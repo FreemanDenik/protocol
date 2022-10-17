@@ -6,9 +6,10 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class JwtLoginResponse {
+public class JwtLoginResponse{
     protected final String type = "Bearer";
     protected String accessToken;
     protected String refreshToken;
     private String[] roles;
+
 }

@@ -20,11 +20,16 @@
         <module>protocol-admin</module>
         <module>protocol-app</module>
         <module>packaging</module>
+
     </modules>
     <properties>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+
+        <!-- File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent! -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <lombok.version>1.18.24</lombok.version>
         <spring.boot.version>2.7.4</spring.boot.version>
@@ -92,18 +97,6 @@
                 <version>${spring.boot.version}</version>
             </dependency>
 
-            <!-- oauth2  -->
-            <!--            <dependency>-->
-            <!--                <groupId>org.springframework.boot</groupId>-->
-            <!--                <artifactId>spring-boot-starter-oauth2-client</artifactId>-->
-            <!--                <version>${spring.boot.version}</version>-->
-            <!--            </dependency>-->
-            <!--            <dependency>-->
-            <!--                <groupId>org.springframework.security.oauth.boot</groupId>-->
-            <!--                <artifactId>spring-security-oauth2-autoconfigure</artifactId>-->
-            <!--                <version>2.6.1</version>-->
-            <!--            </dependency>-->
-
             <!-- JWT -->
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
@@ -150,6 +143,13 @@
                 <version>${mapstruct.version}</version>
             </dependency>
 
+            <!-- Пакет для валидации дат, хотя там наверное полно возможностей -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.12.0</version>
+            </dependency>
+
             <!-- Junit 5 -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
@@ -158,11 +158,22 @@
                 <scope>test</scope>
             </dependency>
 
-            <!-- H2 база для тестов, в первую очередь для анотации AutoConfigureTestDatabase и DataJpaTest -->
+            <!-- H2 база для тестов, тестовые аннотации AutoConfigureTestDatabase или DataJpaTest
+                 используют H2 чтобы, создавать отдельные БД в памяти для тестов -->
             <dependency>
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
                 <version>2.1.214</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Встраиваемый сервер Embedded-Redis, тестовые аннотации AutoConfigureTestDatabase или DataRedisTest
+                 используют Embedded-Redis для создания и внедрения отдельного Redis Server в памяти для тестов,
+                 требуется отдельная настройка в TestConfig или в похожем фале -->
+            <dependency>
+                <groupId>it.ozimov</groupId>
+                <artifactId>embedded-redis</artifactId>
+                <version>0.7.3</version>
                 <scope>test</scope>
             </dependency>
 
@@ -187,20 +198,14 @@
                 <version>${security.test.version}</version>
             </dependency>
 
-            <!-- Встраиваемый сервер Embedded-Redis для тестов -->
-            <dependency>
-                <groupId>it.ozimov</groupId>
-                <artifactId>embedded-redis</artifactId>
-                <version>0.7.3</version>
-                <scope>test</scope>
-            </dependency>
+            <!-- SLF4J -->
+<!--            <dependency>-->
+<!--                <groupId>org.slf4j</groupId>-->
+<!--                <artifactId>slf4j-simple</artifactId>-->
+<!--                <version>2.0.3</version>-->
+<!--                <scope>test</scope>-->
+<!--            </dependency>-->
 
-            <!-- Пакет для валидации дат, хотя там наверное полно возможностей -->
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>3.12.0</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
@@ -233,6 +238,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M7</version>
+<!--                <configuration>-->
+<!--                    <skipTests>true</skipTests>-->
+<!--                </configuration>-->
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -251,3 +259,26 @@
     </build>
 
 </project>
+
+
+
+        <!-- Пакет для использования анотации @ConfigurationProperties -->
+        <!--    <dependency>-->
+        <!--        <groupId>org.springframework.boot</groupId>-->
+        <!--        <artifactId>spring-boot-configuration-processor</artifactId>-->
+        <!--        <version>2.7.3</version>-->
+        <!--        <optional>true</optional>-->
+        <!--    </dependency>-->
+
+
+        <!-- oauth2  -->
+        <!--            <dependency>-->
+        <!--                <groupId>org.springframework.boot</groupId>-->
+        <!--                <artifactId>spring-boot-starter-oauth2-client</artifactId>-->
+        <!--                <version>${spring.boot.version}</version>-->
+        <!--            </dependency>-->
+        <!--            <dependency>-->
+        <!--                <groupId>org.springframework.security.oauth.boot</groupId>-->
+        <!--                <artifactId>spring-security-oauth2-autoconfigure</artifactId>-->
+        <!--                <version>2.6.1</version>-->
+        <!--            </dependency>-->

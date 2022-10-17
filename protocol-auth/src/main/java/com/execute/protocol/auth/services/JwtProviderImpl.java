@@ -1,6 +1,6 @@
 package com.execute.protocol.auth.services;
 
-import com.execute.protocol.core.entities.acc.Account;
+import com.execute.protocol.core.entities.account.Account;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

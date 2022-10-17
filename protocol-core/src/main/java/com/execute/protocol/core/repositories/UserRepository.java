@@ -1,13 +1,9 @@
 package com.execute.protocol.core.repositories;
 
-import com.execute.protocol.core.entities.acc.Account;
-import com.execute.protocol.core.entities.acc.Admin;
-import com.execute.protocol.core.entities.acc.User;
+import com.execute.protocol.core.entities.account.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 public interface UserRepository extends AccountRepository {

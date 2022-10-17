@@ -1,4 +1,9 @@
-Чтобы залить файл на сервер ubuntu
-"C:\Program Files\PuTTY\pscp.exe" -l imdenik -scp qw.jpg 20.224.155.229:[new_name_file]
-<br/>Собрать проект package
-Сначала дать команду clean compile install всем проекта кроме package а потом ему дать clean compile package
+<h2>Занятые порты</h2>
+<ul>
+<li>Сам сервис весит на стандартном 8080 порту</li>
+<li>Тестовый встраиваемый сервер Embedded-Redis весит на 7776 порту</li>
+<li>Docker Redis весит на 7000 порту</li>
+<li>Docker Mysql весит на 3333 порту</li>
+<li>Front-end'ы весят на 5000 и 5555 портах</li>
+</ul>
+
