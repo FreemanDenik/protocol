@@ -31,7 +31,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-//@EnableAutoConfiguration
+@EnableAutoConfiguration
 public class WebConfig implements WebMvcConfigurer{//implements WebMvcConfigurer
 
     @Value("${cors.allowed.origins}")

@@ -16,6 +16,10 @@ public class AuthConfig  {
     private String redisHost;
     @Value("${spring.redis.port}")
     private int redisPort;
+    @Value("${spring.redis.password}")
+    private String redisPassword;
+    @Value("${spring.redis.database}")
+    private int redisDatabase;
     @Bean
     public JedisPoolConfig jedisPoolConfig() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
@@ -37,7 +41,8 @@ public class AuthConfig  {
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(redisHost, redisPort);
-
+        config.setDatabase(redisDatabase);
+        config.setPassword(redisPassword);
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(config);
         jedisConnectionFactory.afterPropertiesSet();
         return jedisConnectionFactory;
