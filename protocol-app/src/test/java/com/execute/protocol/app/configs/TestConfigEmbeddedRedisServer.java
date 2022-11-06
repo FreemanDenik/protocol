@@ -11,18 +11,16 @@ import javax.annotation.PreDestroy;
 
 /**
  * Настройка встраиваемого Embedded-Redis сервера для тестов
- * Все тесты должны иметь аннотации
- * @SpringBootTest
- * @AutoConfigureTestDatabase
+ * Все тесты должны иметь аннотации @SpringBootTest @AutoConfigureTestDatabase
  * т.к. TestConfiguration применяется ко всем тестам,
  * и все они пытаются настроить Embedded-Redis
  */
 
 @TestConfiguration
-// В файле test.properties есть строка "spring.redis.port",
-// которая переопределяет порт обычного Docker Redis на порт тестового Embedded-Redis.
-// Это строка должна именно переопределяться в файле property так как внедрение и запуск тестового Embedded-Redis сервера
-// использует настройки Docker Redis (в файле AuthConfig) который в свою очередь получает порт из property
+// В файле test.properties есть строки "spring.redis.port" и "spring.redis.password",
+// они переопределяют порт и пароль обычного Docker Redis на порт и пароль тестового Embedded-Redis.
+// Эти строки должны именно переопределяться в файле property так как внедрение и запуск тестового Embedded-Redis сервера
+// использует настройки Docker Redis (в файле AuthConfig) который в свою очередь получает эти настройки из property
 @PropertySource("classpath:test.properties")
 public class TestConfigEmbeddedRedisServer {
     private final RedisServer redisServer;

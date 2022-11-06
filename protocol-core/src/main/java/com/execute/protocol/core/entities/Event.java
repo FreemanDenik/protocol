@@ -30,6 +30,4 @@ public class Event {
     @OneToMany( cascade = CascadeType.ALL)
     @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Collection<Answer> answers;
-
-
 }
