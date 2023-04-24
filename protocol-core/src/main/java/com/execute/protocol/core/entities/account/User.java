@@ -17,7 +17,7 @@ import javax.persistence.*;
 
 public class User extends Account{
 
-    @OneToOne(cascade = { CascadeType.ALL })
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "target_id", referencedColumnName = "id")
     private Target target;
     @Column

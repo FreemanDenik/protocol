@@ -11,12 +11,13 @@ import com.execute.protocol.core.entities.account.User;
 import com.execute.protocol.core.repositories.UserRepository;
 import com.execute.protocol.core.services.EventService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping("api/game")
+@RequestMapping(value = "api/game", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class GameController {
     private final UserRepository userRepository;
@@ -47,9 +48,12 @@ public class GameController {
 
         // Время последней активности
         user.setLastAccountActivity(LocalDateTime.now());
-        userRepository.save(user);
         // Сохранить изменения
-        return new Tuple<>(user.getTarget(), randomEventDto);
+        userRepository.save(user);
+        //userRepository.delete(user);
+        Target target = user.getTarget();
+        //target.setUser(null);
+        return new Tuple<>(target, randomEventDto);
     }
 
     /**

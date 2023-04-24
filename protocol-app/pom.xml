@@ -25,17 +25,12 @@
             <artifactId>protocol-auth</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.execute</groupId>
-            <artifactId>protocol-admin</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <!-- TOMCAT -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-tomcat</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </dependency>
 
         <!-- Spring boot starter -->
         <dependency>
