@@ -49,10 +49,27 @@ public class CreateDefaultUsers {
                         .fight(random.nextInt(1, 7))
                         .shadow(random.nextInt(1, 7)).build())
                 .build();
+        User user2 = User.builder()
+                .login("user2")
+                .password(passwordEncoder.encode("2174"))
+                .email("user2@gmail.com")
+                .roles(Set.of(Role.USER))
+                .accountCreatedTime(LocalDate.now())
+                .lastAccountActivity(LocalDateTime.now())
+                .target(Target.builder()
+                        .gold(random.nextInt(1, 7))
+                        .reputation(random.nextInt(1, 7))
+                        .health(random.nextInt(1, 7))
+                        .thirst(random.nextInt(1, 7))
+                        .fight(random.nextInt(1, 7))
+                        .shadow(random.nextInt(1, 7)).build())
+                .build();
         if (!accountRepository.existsByEmail("admin@gmail.com"))
             accountRepository.save(admin);
         if (!accountRepository.existsByEmail("user@gmail.com"))
             accountRepository.save(user);
+        if (!accountRepository.existsByEmail("user@gmail2.com"))
+            accountRepository.save(user2);
 
     }
 }

@@ -59,6 +59,7 @@ class EventServiceTests {
     })
     void findAllByOrderByUpdateTimeDescTest(int pageSize, String compare) {
         assertNotNull(eventService);
+        
         Page<Event> page = eventService.getEventsOrderByUpdateTimeDesc(0, pageSize);
 
         List<Event> events = page.getContent();

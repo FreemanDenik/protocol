@@ -17,8 +17,8 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @EnableJpaRepositories("com.execute.protocol.core.repositories")
 @PropertySource({
         "classpath:core.properties",
-        "classpath:auth.properties",
-        "classpath:admin.properties",
+        "classpath:auth.properties"/*,
+        "classpath:admin.properties",*/
 })
 
 public class ProtocolAppApplication {

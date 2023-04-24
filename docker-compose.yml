@@ -1,6 +1,7 @@
 version: '2'
 services:
   mysql:
+    container_name: mysql
     image: mysql
     restart: always
     environment:
@@ -11,7 +12,9 @@ services:
 #    volumes:
 #      - /var/lib/mysql/mysql.sock:/var/run/mysqld/mysqld.sock
   redis:
+    container_name: redis
     image: 'bitnami/redis:latest'
+    restart: always
     environment:
 #      - ALLOW_EMPTY_PASSWORD=yes
       - REDIS_PASSWORD=p123
