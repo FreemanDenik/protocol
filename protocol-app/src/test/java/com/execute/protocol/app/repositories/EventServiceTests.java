@@ -1,6 +1,5 @@
 package com.execute.protocol.app.repositories;
 
-import com.execute.protocol.core.entities.Event;
 import com.execute.protocol.core.repositories.EventRepository;
 import com.execute.protocol.core.services.EventService;
 import org.junit.jupiter.api.BeforeEach;

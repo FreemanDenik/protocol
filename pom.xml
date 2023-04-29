@@ -53,14 +53,32 @@
                 <artifactId>spring-boot-starter-tomcat</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
-
+            <!-- При компиляции перезагружает сервер -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <version>2.7.5</version>
+                <optional>true</optional>
+            </dependency>
             <!-- Spring boot starter -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
                 <version>${spring.boot.version}</version>
+                <exclusions>
+                    <!-- log4j исключается в spring-boot-starter -->
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
-
+            <!-- вместо log4j добавляем log4j2-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-log4j2</artifactId>
+                <version>2.7.5</version>
+            </dependency>
             <!-- WEB -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -81,7 +99,6 @@
                 <artifactId>spring-boot-starter-data-jpa</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
-
             <!-- MySql connector -->
             <dependency>
                 <groupId>mysql</groupId>
@@ -89,7 +106,6 @@
                 <version>${mysql.connector.version}</version>
                 <scope>runtime</scope>
             </dependency>
-
             <!-- Springframework security -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
