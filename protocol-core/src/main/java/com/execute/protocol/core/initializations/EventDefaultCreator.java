@@ -1,14 +1,10 @@
 package com.execute.protocol.core.initializations;
 
-import com.execute.protocol.core.enums.EnumActionTarget;
 import com.execute.protocol.core.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
 
 @Component
 @Profile("dev")

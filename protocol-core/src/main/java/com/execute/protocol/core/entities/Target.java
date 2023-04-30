@@ -16,27 +16,30 @@ import javax.persistence.*;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "TARGETS")
+@Table(name = "PLAYER_TARGETS")
 // При JSON сериализациях игнорирует поле user, иначе происходит зацикливание,
 // т.е. модель User имеет ссылку на Target
 @JsonIgnoreProperties({"user"})
 public class Target {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
     @Column
-    private int gold;
+    private byte gold;
     @Column
-    private int reputation;
+    private byte reputation;
     @Column
-    private int health;
+    private byte influence;
     @Column
-    private int fight;
+    private byte shadow;
     @Column
-    private int thirst;
-    @Column
-    private int shadow;
+    private byte luck;
     // Обратная связь
-    @OneToOne(mappedBy = "target",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "target", fetch = FetchType.LAZY)
     private User user;
+
+    @Override
+    public String toString(){
+        return String.format("id: %d, gold: %d, reputation: %d, influence: %d, shadow: %d, luck: %d", id, gold, reputation, influence, shadow, luck);
+    }
 }

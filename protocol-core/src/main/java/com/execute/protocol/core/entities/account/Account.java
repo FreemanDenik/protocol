@@ -23,7 +23,7 @@ public class Account implements UserDetails {
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
     @Column
     private String login;
     @Column

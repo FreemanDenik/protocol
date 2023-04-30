@@ -44,7 +44,7 @@ public class AuthServiceImpl implements AuthService{
             // Возвращаем модель JwtLoginResponse содержащая токены
             return new JwtLoginResponse(accessToken, refreshToken, roles);
         } else {
-            throw new AuthException("Неправильный пароль");
+            throw new AuthException("Неправильный логин и(или) пароль");
         }
     }
 

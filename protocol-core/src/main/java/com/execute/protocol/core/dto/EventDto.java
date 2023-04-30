@@ -1,14 +1,25 @@
 package com.execute.protocol.core.dto;
 
+import com.execute.protocol.core.entities.Category;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class EventDto {
-    private long id;
-    private String question;
-    private Collection<AnswerDto> answers;
+    @EqualsAndHashCode.Include
+    private int id;
+    private boolean useOnce;
+    private boolean shadow;
+    private boolean child;
+    @EqualsAndHashCode.Include
+    private String eventText;
+    private Set<AnswerDto> answers;
 }

@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import com.execute.protocol.core.entities.Category;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -24,15 +26,22 @@ public class EventServiceImpl implements EventService {
         event.setUpdateTime(LocalDateTime.now());
         eventRepository.save(event);
     }
-    public EventDto getRandomEventDto() {
-        return EventMapper.INSTANCE.mapEventToDto(eventRepository.findRandomEvent());
+
+    /**
+     * Получить случайное событие из Общей категории и из коллекции id {@link Category} что переданы
+     * @param categoryIdSet коллецяи id {@link Category}
+     * @return {@link EventDto}
+     */
+    @Override
+    public EventDto getRandomEventDto(Set<Integer> categoryIdSet) {
+        return EventMapper.INSTANCE.mapEventToDto(eventRepository.findRandomEvent(categoryIdSet));
     }
 
-    public EventDto getByIdEventDto(long eventId) {
+    public EventDto getByIdEventDto(int eventId) {
         return EventMapper.INSTANCE.mapEventToDto(eventRepository.findById(eventId).get());
     }
 
-    public Event getById(long eventId) {
+    public Event getById(int eventId) {
         return eventRepository.findById(eventId).get();
     }
 }

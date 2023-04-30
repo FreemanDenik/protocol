@@ -8,6 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GameInfo {
-    private long answer;
-    private long event;
+    private int answer;
+    private int event;
 }

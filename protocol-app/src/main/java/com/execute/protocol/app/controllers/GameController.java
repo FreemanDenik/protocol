@@ -1,7 +1,7 @@
 package com.execute.protocol.app.controllers;
 
 import com.execute.protocol.app.models.GameInfo;
-import com.execute.protocol.app.models.Tuple;
+import com.execute.protocol.app.models.TwoTuple;
 import com.execute.protocol.auth.models.JwtAuthentication;
 import com.execute.protocol.core.dto.EventDto;
 import com.execute.protocol.core.entities.Target;
@@ -25,7 +25,7 @@ public class GameController {
      * @return
      */
     @PostMapping("initializer")
-    public Tuple<Target, EventDto> initializer(
+    public TwoTuple<Target, EventDto> initializer(
             // Текущий пользователь email login roles
             JwtAuthentication principal) {
 
@@ -39,7 +39,7 @@ public class GameController {
 
         }else {
             // Случайное событие Dto
-            randomEventDto = eventService.getRandomEventDto();
+            randomEventDto = eventService.getRandomEventDto(user.getAddCategories());
             // Устанавливаем id случайного события в user, тем самым делаем его текущим
             user.setCurrentEvent(randomEventDto.getId());
         }
@@ -51,7 +51,7 @@ public class GameController {
         //userRepository.delete(user);
         Target target = user.getTarget();
         //target.setUser(null);
-        return new Tuple<>(target, randomEventDto);
+        return TwoTuple.of(target, randomEventDto);
     }
 
     /**
@@ -59,8 +59,7 @@ public class GameController {
      * @return
      */
     @PostMapping("go")
-
-    public Tuple<Target, EventDto> go(
+    public TwoTuple<Target, EventDto> go(
             // Модель получения значении eventId и answerId
             @RequestBody GameInfo gameInfo,
             // Текущий пользователь email login roles

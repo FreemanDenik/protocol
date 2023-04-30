@@ -2,10 +2,9 @@ package com.execute.protocol.auth.models;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
 
 @Getter
 @Setter
@@ -13,10 +12,13 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JwtRequest {
-    @Email
-    @NotBlank
+    @Email(message = "не корръектный email адрес")
+    @NotBlank(message = "поле email не может быть пустым")
+    @NotEmpty(message = "поле email не может быть пустым")
+
     private String email;
-    @NotBlank
+    @NotBlank(message = "поле password не может быть пустым" )
+    @Length(message = "поле должно быть не меньше 6 символов", min = 6)
     private String password;
 
 }

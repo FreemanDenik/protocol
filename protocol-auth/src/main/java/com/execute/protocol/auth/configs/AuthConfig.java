@@ -25,7 +25,6 @@ public class AuthConfig  {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         // Максимальное время ожидания для установления соединения
         jedisPoolConfig.setMaxWaitMillis(3600);
-
         // Минимальное время простоя для удаления соединений. По умолчанию 1800000 миллисекунд (30 минут)
 //        jedisPoolConfig.setMinEvictableIdleTimeMillis(1800000);
         // Максимальное количество выселений во время каждой проверки выселения. Если это отрицательное число, это: 1 / abs (n), по умолчанию 3
