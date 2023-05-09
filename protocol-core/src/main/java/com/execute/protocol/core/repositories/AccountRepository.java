@@ -14,7 +14,7 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 //    @Query(value = "UPDATE accounts as a SET a.string_id = a.id where a.id = :Id", nativeQuery = true)
 //    void setIdInStringId(@Param("Id") long id);
 
-    Account findByEmail(String email);
+    Optional<? extends Account> findByEmail(String email);
     boolean existsByEmail(String email);
     Optional<Account> findAccountById(long email);
 

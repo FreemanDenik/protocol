@@ -10,11 +10,11 @@ Configuration:
       target: SYSTEM_OUT
       PatternLayout:
         pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
-    File:
-      - name: File_Appender
-        fileName: ${log-path}/logfile.log
-        PatternLayout:
-          pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+#    File:
+#      - name: File_Appender
+#        fileName: ${log-path}/logfile.log
+#        PatternLayout:
+#          pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
 #      - name: File_Appender2
 #        fileName: ${log-path}/logfile2.log
 #        PatternLayout:
@@ -24,11 +24,11 @@ Configuration:
       level: info
       AppenderRef:
         - ref: Console_Appender
-    Logger:
-#      - name: com.execute.protocol
-#        level: trace
-#        AppenderRef:
-#          - ref: Console_Appender
-#            level: error
-      - name: com.execute.protocol.auth
-        level: info
+#    Logger:
+##      - name: com.execute.protocol
+##        level: trace
+##        AppenderRef:
+##          - ref: Console_Appender
+##            level: error
+#      - name: com.execute.protocol.auth
+#        level: info

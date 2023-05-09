@@ -15,10 +15,9 @@
     <name>protocol</name>
     <description>protocol</description>
     <modules>
+        <module>protocol-app</module>
         <module>protocol-core</module>
         <module>protocol-auth</module>
-        <module>protocol-admin</module>
-        <module>protocol-app</module>
         <module>packaging</module>
 
     </modules>
@@ -231,7 +230,6 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

@@ -8,7 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <artifactId>packaging</artifactId>
     <name>packaging</name>
     <description>packaging module</description>
@@ -28,52 +28,184 @@
             <artifactId>protocol-auth</artifactId>
             <version>${project.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.execute</groupId>-->
-<!--            <artifactId>protocol-admin</artifactId>-->
-<!--            <version>${project.version}</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.execute</groupId>-->
+        <!--            <artifactId>protocol-admin</artifactId>-->
+        <!--            <version>${project.version}</version>-->
+        <!--        </dependency>-->
 
-<!--        <dependency>-->
-<!--            <groupId>com.execute</groupId>-->
-<!--            <artifactId>protocol-dto</artifactId>-->
-<!--            <version>0.0.1-SNAPSHOT</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.execute</groupId>-->
+        <!--            <artifactId>protocol-dto</artifactId>-->
+        <!--            <version>0.0.1-SNAPSHOT</version>-->
+        <!--        </dependency>-->
     </dependencies>
     <build>
         <plugins>
-            <!-- Плагин, пакетирует весь проект в один jar файл, который можно легко запустить -->
+            <!--Копирование зависимотей в папку lib/-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.4.2</version>
-<!-- а было так <artifactId>maven-assembly-plugin</artifactId> и все!      -->
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.5.0</version>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <!-- Указываем главный исполняемый класс -->
-                            <mainClass>com.execute.protocol.app.ProtocolAppApplication</mainClass>
-                        </manifest>
-                    </archive>
-                    <finalName>
-                        protocol
-                    </finalName>
-                    <descriptorRefs>
-                        <!-- какой-то ведущий пакет сборки jar -->
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
 
-                    </descriptorRefs>
+                    <!--Все зависимости которые нужны для работы твоего приложения будут лежать здесь-->
+                    <outputDirectory>${project.build.directory}/lib/</outputDirectory>
+                    <overWriteReleases>true</overWriteReleases>
+                    <overWriteSnapshots>true</overWriteSnapshots>
+                    <overWriteIfNewer>true</overWriteIfNewer>
+
                 </configuration>
                 <executions>
                     <execution>
-                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
-                        <phase>package</phase> <!-- bind to the packaging phase -->
+
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>copy-dependencies</goal>
                         </goals>
                     </execution>
+
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+
+                <configuration>
+                    <archive>
+
+                        <!--Если надо конфигурировать манифест, то здесь-->
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <!--путь к зависимостям относительно запускаемого jar файла-->
+                            <!--ВСЕ ЗАВИСИМОСТИ ДОЛЖНЫ БУДУТ ПОСТАВЛЯТЬСЯ С ТВОИМ jar приложением. -->
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <classpathLayoutType>simple</classpathLayoutType>
+
+                            <mainClass>com.execute.protocol.app.ProtocolAppApplication</mainClass>
+                        </manifest>
+                        <!--<manifestEntries>-->
+                        <!--<Rsrc-Class-Path>${}</Rsrc-Class-Path>-->
+                        <!--</manifestEntries>-->
+
+                    </archive>
+                </configuration>
+            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-shade-plugin</artifactId>-->
+<!--                <version>3.3.0</version>-->
+<!--                <configuration>-->
+<!--                    <createDependencyReducedPom>false</createDependencyReducedPom>-->
+<!--                    <filters>-->
+<!--                        <filter>-->
+<!--                            <artifact>*:*</artifact>-->
+<!--                            <excludes>-->
+<!--                                <exclude>**/Log4j2Plugins.dat</exclude>-->
+<!--                            </excludes>-->
+<!--                        </filter>-->
+<!--                    </filters>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>shade</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <shadedArtifactAttached>true</shadedArtifactAttached>-->
+<!--                            <transformers>-->
+<!--                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
+<!--                                    <mainClass>com.execute.protocol.app.ProtocolAppApplication</mainClass>-->
+<!--                                </transformer>-->
+<!--                            </transformers>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+            <!-- Плагин, пакетирует весь проект в один jar файл, который можно легко запустить -->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-assembly-plugin</artifactId>-->
+<!--                <version>3.5.0</version>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-jar-plugin</artifactId>-->
+<!--                <version>3.3.0</version>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-jar-plugin</artifactId>-->
+<!--                <version>3.3.0</version>-->
+<!--                <configuration>-->
+<!--                    <archive>-->
+<!--                        <manifest>-->
+<!--                            <mainClass>com.execute.protocol.app.ProtocolAppApplication</mainClass>-->
+<!--                        </manifest>-->
+<!--                    </archive>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
+        <pluginManagement>
+            <plugins>
+<!--                <plugin>-->
+<!--                    <groupId>org.apache.maven.plugins</groupId>-->
+<!--                    <artifactId>maven-assembly-plugin</artifactId>-->
+<!--                    <version>3.5.0</version>-->
+<!--                    <configuration>-->
+<!--                        <archive>-->
+<!--                            <manifest>-->
+<!--                                &lt;!&ndash; Указываем главный исполняемый класс &ndash;&gt;-->
+<!--                                <mainClass>com.execute.protocol.app.ProtocolAppApplication</mainClass>-->
+<!--                                <addClasspath>true</addClasspath>-->
+<!--                            </manifest>-->
+<!--                            <manifestEntries>-->
+<!--                                <Multi-Release>true</Multi-Release>-->
+<!--                            </manifestEntries>-->
+<!--                        </archive>-->
+<!--                        <finalName>-->
+<!--                            protocol-->
+<!--                        </finalName>-->
+<!--                        <descriptorRefs>-->
+<!--                            &lt;!&ndash; какой-то ведущий пакет сборки jar &ndash;&gt;-->
+<!--                            <descriptorRef>jar-with-dependencies</descriptorRef>-->
+<!--                        </descriptorRefs>-->
+<!--                        <appendAssemblyId>false</appendAssemblyId>-->
+<!--                    </configuration>-->
+<!--                    <executions>-->
+<!--                        <execution>-->
+<!--                            <id>make-assembly</id> &lt;!&ndash; this is used for inheritance merges &ndash;&gt;-->
+<!--                            <phase>package</phase> &lt;!&ndash; bind to the packaging phase &ndash;&gt;-->
+<!--                            <goals>-->
+<!--                                <goal>single</goal>-->
+<!--                            </goals>-->
+<!--                        </execution>-->
+<!--                    </executions>-->
+<!--                </plugin>-->
+
+            </plugins>
+        </pluginManagement>
     </build>
 </project>
+
+
+<!--<plugin>-->
+<!--<groupId>org.apache.maven.plugins</groupId>-->
+<!--<artifactId>maven-shade-plugin</artifactId>-->
+<!--<version>3.1.0</version>-->
+<!--<configuration>-->
+<!--    <createDependencyReducedPom>false</createDependencyReducedPom>-->
+<!--    <filters>-->
+<!--        <filter>-->
+<!--            <artifact>:</artifact>-->
+<!--            <excludes>-->
+<!--                <exclude>**/Log4j2Plugins.dat</exclude>-->
+<!--            </excludes>-->
+<!--        </filter>-->
+<!--    </filters>-->
+<!--</configuration>-->
+<!--</plugin>-->

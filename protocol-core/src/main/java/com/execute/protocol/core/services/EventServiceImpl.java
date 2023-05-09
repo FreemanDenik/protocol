@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import com.execute.protocol.core.entities.Category;
+
+import javax.transaction.Transactional;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -21,6 +24,7 @@ public class EventServiceImpl implements EventService {
     public Page<Event> getEventsOrderByUpdateTimeDesc(int page, int pageSize){
         return eventRepository.findAllByOrderByUpdateTimeDesc(PageRequest.of(page,pageSize));
     }
+    @Transactional
     public void saveEvent(Event event){
         event.setCreateTime(LocalDateTime.now());
         event.setUpdateTime(LocalDateTime.now());
@@ -37,11 +41,20 @@ public class EventServiceImpl implements EventService {
         return EventMapper.INSTANCE.mapEventToDto(eventRepository.findRandomEvent(categoryIdSet));
     }
 
+    /**
+     * Проверяет еслить у целевого события целевой ответ
+     * @param eventId id события
+     * @param answerId id ответа
+     * @return boolean
+     */
+    public Optional<Boolean> isEventHasAnswer(int eventId, int answerId){
+        return eventRepository.existsEventByIdAndAnswersIn(eventId, answerId);
+    }
     public EventDto getByIdEventDto(int eventId) {
         return EventMapper.INSTANCE.mapEventToDto(eventRepository.findById(eventId).get());
     }
 
-    public Event getById(int eventId) {
-        return eventRepository.findById(eventId).get();
+    public Optional<Event> getById(int eventId) {
+        return eventRepository.findById(eventId);
     }
 }

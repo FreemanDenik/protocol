@@ -6,12 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class JwtRefreshRequest {
-    @NotBlank
+    @NotBlank(message = "поле email не может быть пустым")
+    @NotEmpty(message = "поле email не может быть пустым")
     public String refreshToken;
 }

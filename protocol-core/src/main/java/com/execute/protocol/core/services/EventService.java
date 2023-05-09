@@ -5,12 +5,14 @@ import com.execute.protocol.core.entities.Event;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface EventService {
     Page<Event> getEventsOrderByUpdateTimeDesc(int page, int pageSize);
     void saveEvent(Event event);
     EventDto getRandomEventDto(Set<Integer> ids);
+    Optional<Boolean> isEventHasAnswer(int eventId, int answerId);
     EventDto getByIdEventDto(int eventId);
-    Event getById(int eventId);
+    Optional<Event> getById(int eventId);
 }

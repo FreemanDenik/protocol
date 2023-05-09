@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface AccountService {
     Optional<Account> getAccountById(@NotNull long id);
-    Optional<Account> getAccountByEmail(@NotNull String email);
+    Optional<? extends Account> getAccountByEmail(@NotNull String email);
 }

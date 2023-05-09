@@ -1,5 +1,6 @@
 package com.execute.protocol.app.repositories;
 
+import com.execute.protocol.core.entities.Event;
 import com.execute.protocol.core.repositories.EventRepository;
 import com.execute.protocol.core.services.EventService;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,11 +40,11 @@ class EventServiceTests {
     void setEvents() {
         eventRepository.saveAll(
                 List.of(
-                        Event.builder().question("question 1").updateTime(LocalDateTime.now().plusSeconds(1)).createTime(LocalDateTime.now()).build(),
-                        Event.builder().question("question 2").updateTime(LocalDateTime.now().plusSeconds(2)).createTime(LocalDateTime.now()).build(),
-                        Event.builder().question("question 3").updateTime(LocalDateTime.now().plusSeconds(3)).createTime(LocalDateTime.now()).build(),
-                        Event.builder().question("question 4").updateTime(LocalDateTime.now().plusSeconds(4)).createTime(LocalDateTime.now()).build(),
-                        Event.builder().question("question 5").updateTime(LocalDateTime.now().plusSeconds(5)).createTime(LocalDateTime.now()).build()
+                        Event.builder().eventText("question 1").updateTime(LocalDateTime.now().plusSeconds(1)).createTime(LocalDateTime.now()).build(),
+                        Event.builder().eventText("question 2").updateTime(LocalDateTime.now().plusSeconds(2)).createTime(LocalDateTime.now()).build(),
+                        Event.builder().eventText("question 3").updateTime(LocalDateTime.now().plusSeconds(3)).createTime(LocalDateTime.now()).build(),
+                        Event.builder().eventText("question 4").updateTime(LocalDateTime.now().plusSeconds(4)).createTime(LocalDateTime.now()).build(),
+                        Event.builder().eventText("question 5").updateTime(LocalDateTime.now().plusSeconds(5)).createTime(LocalDateTime.now()).build()
                 )
         );
     }
@@ -62,7 +63,7 @@ class EventServiceTests {
         Page<Event> page = eventService.getEventsOrderByUpdateTimeDesc(0, pageSize);
 
         List<Event> events = page.getContent();
-        assertEquals(events.get(0).getQuestion(), compare);
+        assertEquals(events.get(0).getEventText(), compare);
         assertEquals(events.size(), pageSize);
     }
 }

@@ -75,7 +75,7 @@ public class JwtTokenTests {
         assertThrows(AuthException.class, ()->authService.email(INVALID_USER));
 
         // Проверка существует ли тестовый пользователь в тестовой базе
-        assertEquals(accountRepository.findByEmail(TEST_EMAIL).getLogin(), TEST_NAME);
+        assertEquals(accountRepository.findByEmail(TEST_EMAIL).get().getLogin(), TEST_NAME);
 
         // Авторизация тестового пользователя
         JwtLoginResponse loginResponse = authService.email(TEST_USER);
