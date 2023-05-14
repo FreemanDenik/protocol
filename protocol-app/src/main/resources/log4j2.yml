@@ -24,11 +24,11 @@ Configuration:
       level: info
       AppenderRef:
         - ref: Console_Appender
-#    Logger:
-##      - name: com.execute.protocol
-##        level: trace
-##        AppenderRef:
-##          - ref: Console_Appender
-##            level: error
-#      - name: com.execute.protocol.auth
-#        level: info
+    Logger:
+#      - name: com.execute.protocol
+#        level: trace
+#        AppenderRef:
+#          - ref: Console_Appender
+#            level: error
+      - name: com.execute.protocol.auth.initializations
+        level: trace

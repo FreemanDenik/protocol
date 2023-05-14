@@ -2,7 +2,7 @@ package com.execute.protocol.app.models;
 
 import lombok.*;
 
-import javax.validation.constraints.Min;
+import javax.validation.constraints.*;
 
 @Getter
 @Setter
@@ -11,7 +11,7 @@ import javax.validation.constraints.Min;
 @NoArgsConstructor
 public class GameInfo {
     @Min(message = "событие не может быть меньше 1", value = 1)
-    private int event;
+    private Integer event;
     @Min(message = "ответ не может быть меньше 1", value = 1)
-    private int answer;
+    private Integer answer;
 }

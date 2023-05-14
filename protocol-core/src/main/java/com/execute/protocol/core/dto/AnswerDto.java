@@ -15,4 +15,7 @@ public class AnswerDto {
     private boolean useOnce;
     @EqualsAndHashCode.Include
     private String answerText;
+    private boolean enabled = true;
+    private String description;
+
 }

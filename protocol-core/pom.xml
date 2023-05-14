@@ -27,7 +27,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
-
+        <!-- зависимость котора связывает файл log4j2.yml с логами и там можно делать настройки логов -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+        </dependency>
         <!-- WEB -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -33,14 +33,19 @@ public class EventServiceImpl implements EventService {
 
     /**
      * Получить случайное событие из Общей категории и из коллекции id {@link Category} что переданы
-     * @param categoryIdSet коллецяи id {@link Category}
+     * @param userId id игрока
+     * @param eventId id предыдушего события, его мы сключаем
      * @return {@link EventDto}
      */
     @Override
-    public EventDto getRandomEventDto(Set<Integer> categoryIdSet) {
-        return EventMapper.INSTANCE.mapEventToDto(eventRepository.findRandomEvent(categoryIdSet));
+    public EventDto getRandomEventDto(int userId, int eventId) {
+        Event event = eventRepository.findRandomEvent(userId, eventId);
+        return EventMapper.INSTANCE.mapEventToDto(eventRepository.findRandomEvent(userId, eventId));
     }
-
+    @Override
+    public Event getRandomEvent(int userId, int eventId) {
+        return eventRepository.findRandomEvent(userId, eventId);
+    }
     /**
      * Проверяет еслить у целевого события целевой ответ
      * @param eventId id события
@@ -53,7 +58,9 @@ public class EventServiceImpl implements EventService {
     public EventDto getByIdEventDto(int eventId) {
         return EventMapper.INSTANCE.mapEventToDto(eventRepository.findById(eventId).get());
     }
-
+    public Event getByIdEvent(int eventId) {
+        return eventRepository.findById(eventId).get();
+    }
     public Optional<Event> getById(int eventId) {
         return eventRepository.findById(eventId);
     }

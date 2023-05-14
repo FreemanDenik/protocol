@@ -66,7 +66,7 @@ public class CreateDefaultUsers {
             accountRepository.save(admin);
         if (!accountRepository.existsByEmail("user@gmail.com"))
             accountRepository.save(user);
-        if (!accountRepository.existsByEmail("user@gmail2.com"))
+        if (!accountRepository.existsByEmail("user2@gmail.com"))
             accountRepository.save(user2);
 
     }

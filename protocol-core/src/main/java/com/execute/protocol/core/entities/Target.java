@@ -38,6 +38,21 @@ public class Target {
     @OneToOne(mappedBy = "target", fetch = FetchType.LAZY)
     private User user;
 
+    public void calcGld(byte gold){
+        this.gold += gold;
+    }
+    public void calcRep(byte reputation){
+        this.reputation += reputation;
+    }
+    public void calcInf(byte influence){
+        this.influence += influence;
+    }
+    public void calcShd(byte shadow){
+        this.shadow += shadow;
+    }
+    public void calcLck(byte luck){
+        this.luck += luck;
+    }
     @Override
     public String toString(){
         return String.format("id: %d, gold: %d, reputation: %d, influence: %d, shadow: %d, luck: %d", id, gold, reputation, influence, shadow, luck);

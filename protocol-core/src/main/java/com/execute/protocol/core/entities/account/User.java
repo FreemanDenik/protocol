@@ -24,6 +24,22 @@ public class User extends Account{
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "PLAYER_ADD_CATEGORIES")
     private Set<Integer> addCategories;
+    @Column(name = "add_events")
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "PLAYER_ADD_EVENTS")
+    private Set<Integer> addEvents;
+    @Column(name = "once_events")
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "PLAYER_ONCE_EVENTS")
+    private Set<Integer> onceEvents;
+    @Column(name = "once_answer")
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "PLAYER_ONCE_ANSWER")
+    private Set<Integer> onceAnswer;
+    @Column(name = "things")
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "PLAYER_THINGS")
+    private Set<Integer> things;
     @Column
     private int currentEvent;
 

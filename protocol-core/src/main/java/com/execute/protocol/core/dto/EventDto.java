@@ -21,5 +21,6 @@ public class EventDto {
     private boolean child;
     @EqualsAndHashCode.Include
     private String eventText;
+    private String description;
     private Set<AnswerDto> answers;
 }

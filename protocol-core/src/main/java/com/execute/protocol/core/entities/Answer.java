@@ -29,6 +29,8 @@ public class Answer {
     @Column(name = "answer_text", nullable = false)
     private String answerText;
     @Column
+    private String description;
+    @Column
     private byte gold;
     @Column
     private byte reputation;

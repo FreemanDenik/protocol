@@ -25,6 +25,12 @@
             <artifactId>protocol-auth</artifactId>
             <version>${project.version}</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-configuration-processor</artifactId>-->
+<!--            <version>3.0.4</version>-->
+<!--            <optional>true</optional>-->
+<!--        </dependency>-->
         <!-- При компиляции перезагружает сервер -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,11 +51,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
         <!-- вместо log4j добавляем log4j2-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        <!-- зависимость котора связывает файл log4j2.yml с логами и там можно делать настройки логов -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
         </dependency>
         <!-- Redis -->
         <dependency>
@@ -66,20 +76,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.hibernate.orm</groupId>-->
-<!--            <artifactId>hibernate-core</artifactId>-->
-<!--            <version>6.1.7.Final</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.hibernate.orm</groupId>-->
-<!--            <artifactId>hibernate-entitymanager</artifactId>-->
-<!--            <version>6.0.0.Alpha7</version>-->
-<!--        </dependency>-->
-        <!-- зависимость котора связывает файл log4j2.yml с логами и там можно делать настройки логов -->
+        <!-- Validation -->
         <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-yaml</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <!-- Springframework security -->
         <dependency>

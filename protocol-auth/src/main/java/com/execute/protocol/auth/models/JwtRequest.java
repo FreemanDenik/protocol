@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JwtRequest {
-    @Email(message = "не корръектный email адрес")
+    @Email(message = "не корректный email адрес")
     @NotBlank(message = "поле email не может быть пустым")
     @NotEmpty(message = "поле email не может быть пустым")
 
@@ -20,5 +20,4 @@ public class JwtRequest {
     @NotBlank(message = "поле password не может быть пустым" )
     @Length(message = "поле должно быть не меньше 6 символов", min = 6)
     private String password;
-
 }
