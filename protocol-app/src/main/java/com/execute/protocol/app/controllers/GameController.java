@@ -190,7 +190,6 @@ public class GameController {
                 // Удаляем ответы которые записаны как одноразовые
                 eventDto.getAnswers().removeIf(w-> user.getOnceAnswer().contains(w.getId()));
 
-
                 // устанавливаем disabled ответам которые требуют предметы и их (одного из них) нет
                 setDisabledAnswers(randomEvent.getAnswers(), user.getThings(), eventDto);
 

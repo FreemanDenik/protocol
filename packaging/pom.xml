@@ -75,8 +75,8 @@
                 <version>2.4</version>
 
                 <configuration>
+                    <finalName>protocol</finalName>
                     <archive>
-
                         <!--Если надо конфигурировать манифест, то здесь-->
                         <manifest>
                             <addClasspath>true</addClasspath>

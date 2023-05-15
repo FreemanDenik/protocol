@@ -2,5 +2,5 @@ spring:
   profiles:
     active: dev
   # disables the default creation of a account with a description in the password logs
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  #autoconfigure:
+    #exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
