@@ -11,7 +11,7 @@ import java.util.Properties;
 
 /**
  * Этот класс выполняет роль связки yml файлов с анотацией PropertySource
- * @PropertySource(value = {"classpath:auth-dev.yml"}, factory = YamlPropertySourceFactory.class)
+ * @PropertySource(value = {"classpath:core-dev.yml"}, factory = YamlPropertySourceFactory.class)
  */
 public class YamlPropertySourceFactory implements PropertySourceFactory {
 

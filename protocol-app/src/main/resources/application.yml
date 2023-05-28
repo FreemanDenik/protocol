@@ -1,6 +1,16 @@
 spring:
   profiles:
     active: dev
-  # disables the default creation of a account with a description in the password logs
-  #autoconfigure:
-    #exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+#  jpa:
+#    properties:
+#      hibernate:
+#        enable_lazy_load_no_trans: true
+
+server:
+  port: 8081
+
+# allowed origins
+# example: http://localhost:3000,http://localhost:3001
+cors:
+  allowed:
+    origins: http://localhost:8080

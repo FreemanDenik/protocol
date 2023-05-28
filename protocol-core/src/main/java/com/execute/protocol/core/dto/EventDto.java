@@ -1,6 +1,7 @@
 package com.execute.protocol.core.dto;
 
 import com.execute.protocol.core.entities.Category;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class EventDto {
     @EqualsAndHashCode.Include
@@ -22,5 +24,6 @@ public class EventDto {
     @EqualsAndHashCode.Include
     private String eventText;
     private String description;
+    private String image;
     private Set<AnswerDto> answers;
 }

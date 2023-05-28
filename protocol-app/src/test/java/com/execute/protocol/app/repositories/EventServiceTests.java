@@ -49,21 +49,4 @@ class EventServiceTests {
         );
     }
 
-    @ParameterizedTest
-    @CsvSource({
-            "1, question 5",
-            "2, question 5",
-            "3, question 5",
-            "4, question 5",
-            "5, question 5"
-    })
-    void findAllByOrderByUpdateTimeDescTest(int pageSize, String compare) {
-        assertNotNull(eventService);
-        
-        Page<Event> page = eventService.getEventsOrderByUpdateTimeDesc(0, pageSize);
-
-        List<Event> events = page.getContent();
-        assertEquals(events.get(0).getEventText(), compare);
-        assertEquals(events.size(), pageSize);
-    }
 }

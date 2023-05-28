@@ -42,5 +42,7 @@ public class User extends Account{
     private Set<Integer> things;
     @Column
     private int currentEvent;
+    @Transient
+    private byte deadShans = 70;
 
 }

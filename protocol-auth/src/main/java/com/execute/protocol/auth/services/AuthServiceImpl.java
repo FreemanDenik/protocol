@@ -3,6 +3,7 @@ package com.execute.protocol.auth.services;
 import com.execute.protocol.auth.exeptions.AuthException;
 import com.execute.protocol.auth.models.*;
 import com.execute.protocol.core.entities.account.Account;
+import com.execute.protocol.core.entities.redis.StgToken;
 import io.jsonwebtoken.Claims;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

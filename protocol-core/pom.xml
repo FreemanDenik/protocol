@@ -15,13 +15,11 @@
 
     <dependencies>
 
-
         <!-- Spring boot starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
         <!-- вместо log4j добавляем log4j2-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -71,6 +69,26 @@
             <artifactId>jakarta.validation-api</artifactId>
             <version>2.0.2</version>
             <scope>compile</scope>
+        </dependency>
+        <!-- Redis -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
+<!--            <version>${spring.boot.version}</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+            <version>${spring.boot.version}</version>
         </dependency>
     </dependencies>
 

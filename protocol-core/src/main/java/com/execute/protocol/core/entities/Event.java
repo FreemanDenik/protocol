@@ -1,12 +1,14 @@
 package com.execute.protocol.core.entities;
 
 import com.execute.protocol.core.entities.embeddables.Parent;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -21,8 +23,8 @@ import java.util.Set;
 @Table(name = "TEMP_EVENTS")
 // При JSON сериализациях игнорирует поле user, иначе происходит зацикливание,
 // т.е. модель Answer имеет ссылку на Event
-//@JsonIgnoreProperties({"answers"})
-public class Event {
+//@JsonIgnoreProperties({"parent"})
+public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
@@ -61,6 +63,9 @@ public class Event {
     private String eventText;
     @Column
     private String description;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "imageId", referencedColumnName = "id")
+    private Image image;
     @Column(name = "create_time")
     @NotNull
     private LocalDateTime createTime;

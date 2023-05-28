@@ -9,6 +9,8 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Random;
 
 @Entity
 @Getter
@@ -20,7 +22,7 @@ import javax.persistence.*;
 // При JSON сериализациях игнорирует поле user, иначе происходит зацикливание,
 // т.е. модель User имеет ссылку на Target
 @JsonIgnoreProperties({"user"})
-public class Target {
+public class Target  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -37,7 +39,16 @@ public class Target {
     // Обратная связь
     @OneToOne(mappedBy = "target", fetch = FetchType.LAZY)
     private User user;
-
+    public static Target generate(){
+        Random random = new Random();
+        return Target.builder()
+                .gold((byte) random.nextInt(10,30))
+                .reputation((byte) random.nextInt(10,30))
+                .influence((byte) random.nextInt(10,30))
+                .shadow((byte) random.nextInt(10,30))
+                .luck((byte) random.nextInt(10,30))
+                .build();
+    }
     public void calcGld(byte gold){
         this.gold += gold;
     }

@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Integer> {
@@ -39,7 +37,26 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
             " AND ((pac.user_id = :userId AND te.category IN(pac.add_categories)) OR te.category = 0)" +
             " AND ((poe.user_id = :userId AND te.id NOT IN(poe.once_events)) OR poe.once_events IS NULL)" +
             " ORDER BY RAND() LiMIT 1", nativeQuery = true)
-    Event findRandomEvent(@Param("userId") int userId, @Param("eventId") int eventId);
+
+    Optional<Event> findRandomEvent(@Param("userId") int userId, @Param("eventId") int eventId);
+
+    /**
+     * Получаем id случайного (доступного по условиям) события
+     *
+     * @param userId
+     * @param eventId
+     * @return
+     */
+    @Query(value = "SELECT te.id FROM protocol_db.temp_events as te" +
+            " LEFT JOIN player_add_events as pae ON pae.add_events = te.id" +
+            " LEFT JOIN player_add_categories as pac ON pac.add_categories = te.category" +
+            " LEFT JOIN player_once_events  as poe ON poe.once_events = te.id" +
+            " WHERE te.id != :eventId AND te.publication = true" +
+            " AND ((pae.user_id = :userId AND pae.add_events = te.id) OR te.shadow = false)" +
+            " AND ((pac.user_id = :userId AND te.category IN(pac.add_categories)) OR te.category = 0)" +
+            " AND ((poe.user_id = :userId AND te.id NOT IN(poe.once_events)) OR poe.once_events IS NULL)" +
+            " ORDER BY RAND() LiMIT 1", nativeQuery = true)
+    Optional<Integer> findRandomEventId(@Param("userId") int userId, @Param("eventId") int eventId);
     @Query(value = "SELECT count(te) = 1 FROM Event as te LEFT JOIN te.answers an WHERE te.publication = true AND te.id = :eventId AND an.id = :answerId")
     Optional<Boolean> existsEventByIdAndAnswersIn(@Param("eventId") int eventId, @Param("answerId") int answerId);
     //Boolean existsEventByIdAAndAnswersAnd(int event, int answer);

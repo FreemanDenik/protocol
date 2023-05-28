@@ -11,5 +11,4 @@ public class JwtLoginResponse{
     protected String accessToken;
     protected String refreshToken;
     private String[] roles;
-
 }

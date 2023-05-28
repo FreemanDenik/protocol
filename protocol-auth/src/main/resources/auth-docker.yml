@@ -1,3 +1,8 @@
+spring:
+  autoconfigure:
+    exclude:
+      # disables the default creation of a account with a description in the password logs
+      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
 # jwt
 jwt:
   secret:
@@ -7,16 +12,3 @@ jwt:
     access: 30
   days:
     refresh: 30
-# REDIS (RedisProperties)
-spring:
-  redis:
-    database: 0
-    host: protocol-redis
-    port: 6390
-    password: p123
-#    timeout: 0
-#    pool:
-#      max-active: 8
-#      max-wait: -1
-#      max-idle: 8
-#      min-idle: 0

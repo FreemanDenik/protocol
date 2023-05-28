@@ -1,25 +1,3 @@
 #logging:
 #  level:
 #    root: DEBUG
-# mysql
-server:
-  port: 8080
-spring:
-  # disables the default creation of a account with a description in the password logs
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
-  datasource:
-    url: jdbc:mysql://protocol-mysql:3390/protocol_db
-    username: root
-    password: 2174
-  jpa:
-    hibernate:
-      #dialect: org.hibernate.dialect.MySQLDialect
-      ddl-auto: create
-    show_sql: false
-
-# allowed origins
-# example: http://localhost:3000,http://localhost:3001
-cors:
-  allowed:
-    origins: http://localhost:5000

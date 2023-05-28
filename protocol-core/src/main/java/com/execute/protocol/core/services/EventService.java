@@ -9,12 +9,8 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface EventService {
-    Page<Event> getEventsOrderByUpdateTimeDesc(int page, int pageSize);
-    void saveEvent(Event event);
-    EventDto getRandomEventDto(int userId, int eventId);
-    Event getRandomEvent(int userId, int eventId);
+    Optional<Event> getRandomEvent(int userId, int eventId);
+    Optional<Integer> getRandomEventId(int userId, int eventId);
     Optional<Boolean> isEventHasAnswer(int eventId, int answerId);
-    EventDto getByIdEventDto(int eventId);
-    Event getByIdEvent(int eventId);
-    Optional<Event> getById(int eventId);
+    Optional<Event> getByIdEvent(int eventId);
 }

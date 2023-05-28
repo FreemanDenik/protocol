@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Getter
@@ -16,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "TEMP_THINGS")
-public class Thing /*implements FastFiner*/ {
+public class Thing  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include

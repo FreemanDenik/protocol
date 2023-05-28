@@ -6,6 +6,7 @@ import com.execute.protocol.core.entities.account.Role;
 import com.execute.protocol.core.entities.account.User;
 import com.execute.protocol.core.repositories.AccountRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import java.util.Set;
 @Component
 @Transactional
 @RequiredArgsConstructor
+@Profile("dev")
 public class CreateDefaultUsers {
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;

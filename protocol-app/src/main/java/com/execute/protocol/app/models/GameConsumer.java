@@ -9,9 +9,9 @@ import javax.validation.constraints.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GameInfo {
+public class GameConsumer {
     @Min(message = "событие не может быть меньше 1", value = 1)
-    private Integer event;
+    private int event;
     @Min(message = "ответ не может быть меньше 1", value = 1)
-    private Integer answer;
+    private int answer;
 }

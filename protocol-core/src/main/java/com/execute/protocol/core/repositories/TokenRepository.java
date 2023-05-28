@@ -1,6 +1,6 @@
-package com.execute.protocol.auth.repositories;
+package com.execute.protocol.core.repositories;
 
-import com.execute.protocol.auth.models.StgToken;
+import com.execute.protocol.core.entities.redis.StgToken;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

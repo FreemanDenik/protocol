@@ -14,13 +14,12 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @SpringBootApplication
 @ComponentScan("com.execute")
 @EntityScan("com.execute.protocol.core")
-@EnableRedisRepositories("com.execute.protocol.auth.repositories")
+@EnableRedisRepositories("com.execute.protocol.core.repositories")
 @EnableJpaRepositories("com.execute.protocol.core.repositories")
 //@ConfigurationProperties(prefix = "yaml")
 @PropertySource(value = {
-        //"classpath:core.properties",
+        "classpath:core-${spring.profiles.active}.yml",
         "classpath:auth-${spring.profiles.active}.yml"
-        //"classpath:admin.properties"
 }, factory = YamlPropertySourceFactory.class)
 public class ProtocolAppApplication {
 

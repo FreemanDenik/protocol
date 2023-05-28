@@ -6,6 +6,7 @@ import com.execute.protocol.auth.services.AuthService;
 import com.execute.protocol.core.entities.account.Account;
 import com.execute.protocol.core.entities.account.Role;
 import com.execute.protocol.core.repositories.AccountRepository;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -50,8 +51,13 @@ public class JwtTokenTests {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private AuthService authService;
+    @AfterAll
+    public void afterAll() {
+        // Удаляем все аккаунты
+        accountRepository.deleteAll();
+    }
     @BeforeAll
-    public void init() {
+    public void beforeAll() {
         // Сохраняем тестового пользователя в тестовую базу mysql (в H2)
         accountRepository.save(Account.builder()
                 .login(TEST_NAME)

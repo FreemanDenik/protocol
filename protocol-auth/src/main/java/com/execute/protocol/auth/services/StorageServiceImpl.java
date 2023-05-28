@@ -1,9 +1,8 @@
 package com.execute.protocol.auth.services;
 
-import com.execute.protocol.auth.models.StgToken;
-import com.execute.protocol.auth.repositories.TokenRepository;
+import com.execute.protocol.core.entities.redis.StgToken;
+import com.execute.protocol.core.repositories.TokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service

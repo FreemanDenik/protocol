@@ -5,6 +5,7 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Getter
@@ -15,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "TEMP_CATEGORIES")
 //@JsonIgnoreProperties({"event"})
-public class Category /*implements FastFiner*/ {
+public class Category  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

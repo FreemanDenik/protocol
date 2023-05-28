@@ -66,7 +66,7 @@ public class AuthController {
             JsonAnswer jsonAnswer) {
         if (bindResult.hasErrors()) {
             log.warn("Ошибка при регистрации (валидация регистрационных данных): " + bindResult.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(", ")));
-            jsonAnswer.addMessage(MODEL_BIND, bindResult.getAllErrors());
+            jsonAnswer.addErrors(MODEL_BIND, bindResult.getAllErrors());
         } else if (!userRepository.existsByEmail(jwtRegister.getEmail())) {
             try {
                 Random random = new Random();
@@ -108,10 +108,10 @@ public class AuthController {
                 return restTemplate.postForEntity("http://localhost:" + serverPort + "/api/auth/login", request, JwtLoginResponse.class);
             } catch (Exception e) {
                 log.warn("произошла ошибка при регестрайии: " + e.getMessage());
-                jsonAnswer.addMessage(REGISTRATION,"произошла ошибка в процессе регистрации");
+                jsonAnswer.addErrors(REGISTRATION,"произошла ошибка в процессе регистрации");
             }
         } else {
-            jsonAnswer.addMessage(MODEL_VALIDATION,"такой email уже используется");
+            jsonAnswer.addErrors(MODEL_VALIDATION,"такой email уже используется");
             log.warn("такой email уже используется: " + jwtRegister.getEmail());
         }
         return ResponseEntity.ok(jsonAnswer);
@@ -138,11 +138,11 @@ public class AuthController {
                 return ResponseEntity.ok(token);
             } catch (AuthException e) {
                 log.warn("Ошибка при входе: " + e.getMessage());
-                jsonAnswer.addMessage(LOGIN, e.getMessage());
+                jsonAnswer.addErrors(LOGIN, e.getMessage());
             }
         } else {
             log.warn("Ошибка при входе (валидация входных данных): " + bindResult.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(", ")));
-            jsonAnswer.addMessage(LOGIN_ENTER,bindResult.getAllErrors());
+            jsonAnswer.addErrors(LOGIN_ENTER,bindResult.getAllErrors());
         }
         return ResponseEntity.ok(jsonAnswer);
     }
@@ -160,14 +160,14 @@ public class AuthController {
             JsonAnswer jsonAnswer) {
         if (bindResult.hasErrors()) {
             log.warn("Ошибка валидации при получении токена: " + bindResult.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(", ")));
-            jsonAnswer.addMessage(MODEL_BIND, bindResult.getAllErrors());
+            jsonAnswer.addErrors(MODEL_BIND, bindResult.getAllErrors());
         } else {
             try {
                 final JwtResponse token = authService.getAccessToken(request.getRefreshToken());
                 return ResponseEntity.ok(token);
             }catch (Exception e){
                 log.warn("Ошибка при получении токена: " + e.getMessage());
-                jsonAnswer.addMessage(ACCESS_TOKEN,"Ошибка при получении токена");
+                jsonAnswer.addErrors(ACCESS_TOKEN,"Ошибка при получении токена");
             }
         }
         return ResponseEntity.ok(jsonAnswer);
@@ -187,14 +187,14 @@ public class AuthController {
             JsonAnswer jsonAnswer) {
         if (bindResult.hasErrors()) {
             log.warn("Ошибка валидации при обновлении рефреш токена: " + bindResult.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(", ")));
-            jsonAnswer.addMessage(MODEL_BIND, bindResult.getAllErrors());
+            jsonAnswer.addErrors(MODEL_BIND, bindResult.getAllErrors());
         } else{
             try {
                 final JwtResponse token = authService.refresh(request.getRefreshToken());
                 return ResponseEntity.ok(token);
             }catch (Exception e){
                 log.warn("Ошибка при обновлении рефреш токена: " + e.getMessage());
-                jsonAnswer.addMessage(REFRESH_TOKEN, "Ошибка при обновлении рефреш токена");
+                jsonAnswer.addErrors(REFRESH_TOKEN, "Ошибка при обновлении рефреш токена");
             }
         }
         return ResponseEntity.ok(jsonAnswer);

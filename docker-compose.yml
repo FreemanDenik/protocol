@@ -1,0 +1,87 @@
+version: '3.7'
+networks:
+  ext-network:
+volumes:
+  mysql_data:
+    driver: local
+services:
+  protocol-game:
+    container_name: protocol-game
+    image: protocol-game
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    depends_on:
+      - protocol-mysql
+      - protocol-redis
+    networks:
+      - ext-network
+  protocol-admin:
+    container_name: protocol-admin
+    image: protocol-admin
+    ports:
+      - "8090:8090"
+    restart: unless-stopped
+    depends_on:
+      - protocol-mysql
+    networks:
+      - ext-network
+    # links:
+      # - mysql
+  protocol-redis:
+    container_name: protocol-redis
+    image: 'bitnami/redis:latest'
+    restart: unless-stopped
+    environment:
+    # - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_PASSWORD=p123
+      - REDIS_PORT_NUMBER=6390
+    ports:
+      - "6390:6390"
+    networks:
+      - ext-network
+    deploy:
+      resources:
+        limits:
+          #cpus: '0.01'
+          memory: 100M
+        reservations:
+          #cpus: '0.001'
+          memory: 20M
+  protocol-mysql:
+    container_name: protocol-mysql
+    restart: unless-stopped
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: 2174
+      MYSQL_DATABASE: protocol_db
+      MYSQL_TCP_PORT: 3390
+    ports:
+      - "3390:3390"
+    networks:
+      - ext-network
+    volumes:
+      - mysql_data:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          memory: 1000M
+        reservations:
+          memory: 500M
+
+#  zookeeper:
+#    image: wurstmeister/zookeeper
+#    restart: unless-stopped
+#    ports:
+#      - "2222:2181"
+#  kafka:
+#    image: wurstmeister/kafka
+#    restart: unless-stopped
+#    ports:
+#      - "9999:9092"
+#    environment:
+#      DOCKER_API_VERSION: 1.22
+#      KAFKA_ADVERTISED_HOST_NAME: localhost
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2222
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
